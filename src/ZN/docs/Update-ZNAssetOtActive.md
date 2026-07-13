@@ -12,16 +12,15 @@ Returns and empty object.
 
 ## SYNTAX
 
-### SetExpanded1 (Default)
+### SetExpanded (Default)
 ```
-Update-ZNAssetOtActive -Items <String[]> [-AccountName <String>] [-Comment <String>] [-Confirm] [-WhatIf]
+Update-ZNAssetOtActive -AssetId <String> [-AccountName <String>] [-Comment <String>] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
 
-### SetExpanded
+### SetExpanded1
 ```
-Update-ZNAssetOtActive -AssetId <String> -DisplayName <String> -Fqdn <String> -Ipv4 <String> -Type <Single>
- [-AccountName <String>] [-InterfaceName <String>] [-SwitchId <String>] [-Confirm] [-WhatIf]
+Update-ZNAssetOtActive -Items <String[]> [-AccountName <String>] [-Comment <String>] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
 
@@ -74,70 +73,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: SetExpanded1
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DisplayName
-Display name of the asset
-
-```yaml
-Type: System.String
-Parameter Sets: SetExpanded
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Fqdn
-Fully Qualified Domain Name
-
-```yaml
-Type: System.String
-Parameter Sets: SetExpanded
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -InterfaceName
-.
-
-```yaml
-Type: System.String
-Parameter Sets: SetExpanded
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Ipv4
-IPv4 address of the asset
-
-```yaml
-Type: System.String
-Parameter Sets: SetExpanded
-Aliases:
-
-Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -150,36 +89,6 @@ Accept wildcard characters: False
 ```yaml
 Type: System.String[]
 Parameter Sets: SetExpanded1
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SwitchId
-.
-
-```yaml
-Type: System.String
-Parameter Sets: SetExpanded
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Type
-.
-
-```yaml
-Type: System.Single
-Parameter Sets: SetExpanded
 Aliases:
 
 Required: True

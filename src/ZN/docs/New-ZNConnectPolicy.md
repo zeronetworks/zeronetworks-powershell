@@ -13,14 +13,16 @@ Create a Connect Policy (User Access Configuration)
 ## SYNTAX
 
 ```
-New-ZNConnectPolicy [-AccountName <String>] [-AllowedRegions <String[]>]
- [-ConnectivityStateAfterReboot <Int32>] [-Description <String>] [-DstEntityIdsList <String[]>]
- [-ForceSsoAuthentication] [-LoginAuthorizedEntityAllowedAssetIdsList <String[]>]
+New-ZNConnectPolicy [-AccountName <String>] [-AllowedRegions <String[]>] [-AlwaysOn] [-AutoDisconnectInOffice]
+ [-ChangeTicket <String>] [-ConnectivityStateAfterReboot <Int32>] [-Description <String>]
+ [-DstEntityIdsList <String[]>] [-ForceSsoAuthentication]
+ [-LoginAuthorizedEntityAllowedAssetIdsList <String[]>]
  [-LoginAuthorizedEntityAllowedAssetsSourcesList <String[]>]
  [-LoginAuthorizedEntityAllowedUsersIdsList <String[]>]
  [-LoginAuthorizedEntityExcludedAssetIdsList <String[]>]
- [-LoginAuthorizedEntityExcludedUserIdsList <String[]>] [-Name <String>] [-SessionTtlHours <Int32>]
- [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-LoginAuthorizedEntityExcludedUserIdsList <String[]>] [-Name <String>] [-PostureProfileIds <String[]>]
+ [-PriorityDirection <String>] [-PriorityRoleId <String>] [-SessionTtlHours <Int32>] [-UseDefaultIdp]
+ [-UseExternalBrowserForSso] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -60,6 +62,51 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AlwaysOn
+.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AutoDisconnectInOffice
+.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ChangeTicket
+.
+
+```yaml
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -235,11 +282,87 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -PostureProfileIds
+.
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PriorityDirection
+Place the policy above or below the anchor role, or at the top or bottom of the list.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PriorityRoleId
+The ID of the anchor role.
+Required when direction is ABOVE or BELOW.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -SessionTtlHours
 .
 
 ```yaml
 Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseDefaultIdp
+.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseExternalBrowserForSso
+.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 

@@ -1,6 +1,7 @@
 cp -f src/openapi.yaml src/openapi.old.yaml
 
 python3 tools/flatten-anyof-schemas.py
+redocly bundle src/openapi.yaml -o src/openapi.yaml
 
 rm -rf src/ZN/obj/
 cd src/ZN

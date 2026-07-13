@@ -14,8 +14,8 @@ Get the Ansible settings in Asset Management
 
 ```
 Update-ZNSettingsAnsible [-AccountName <String>] [-ClientId <String>] [-ClientSecret <String>]
- [-CredentialsName <String>] [-DisableCertificateValidation] [-Password <String>] [-Url <String>]
- [-Username <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-CredentialsName <String>] [-DisableCertificateValidation] [-LinuxProfileId <String>] [-Password <String>]
+ [-Url <String>] [-Username <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -97,6 +97,21 @@ Control certificate validation
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LinuxProfileId
+ID of the Linux profile to associate with this Ansible configuration
+
+```yaml
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 

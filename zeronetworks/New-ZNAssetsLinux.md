@@ -13,8 +13,8 @@ Returns the assetId of the created Linux asset.
 ## SYNTAX
 
 ```
-New-ZNAssetsLinux -DisplayName <String> -Fqdn <String> [-AccountName <String>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+New-ZNAssetsLinux -DisplayName <String> -Fqdn <String> [-AccountName <String>] [-ProfileId <String>]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -70,6 +70,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProfileId
+ID of the Linux profile to associate with the asset
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

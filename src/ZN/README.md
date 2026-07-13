@@ -29,7 +29,7 @@ require:
 input-file:
   - $(this-folder)/../openapi.yaml
 
-module-version: 0.26.3-preview
+module-version: 0.26.6-preview
 title: Api
   
 inlining-threshold: 200
@@ -55,13 +55,14 @@ directive:
   - where:
       variant: ^Add$|^Update$
     hide: true
+  # Better in UX
   - where:
-      subject: SettingsAdOuConfig
+      subject: SettingsAdOuConfig|^AccessMatrix$
     hide: true
+  # Remove Update Recovery
   - where:
       subject: SettingsSegmentConnector
     hide: true
-  # Customize
   # Remove the export cmdlets
   - where:
       subject: (.*)Export$
@@ -69,23 +70,16 @@ directive:
   - where:
       verb: Export
     remove: true
-  # Remove Download cmdlets
+  #Remove External Maint Window and Temp
   - where:
-      subject: SettingsSiemDataStructure
-    remove: true
-  #Remove External Maint Window
-  - where:
-      subject: MaintenanceWindow
+      subject: ^MaintenanceWindow$|^SettingsVersionMaintenanceWindowTemp$
     remove: true
   #Remove Activity cmdlets
   - where:
-      subject: (.*)Activity$
+      subject: (.*)Activity$|(.*)Activities(.*)
     remove: true
   - where:
-      subject: (.*)ActivitiesDistinctValue$
-    remove: true
-  - where:
-      subject: (.*)ActivityMap$
+      subject: (.*)ActivityMap$|^K8sAccessMatrix$
     remove: true
   - where:
       subject: (.*)Analysis$
@@ -146,7 +140,7 @@ directive:
     remove: true
   # hide linux scripts (not useful)
   - where:
-      subject: ^AssetsLinuxScript$|^AssetsLinuxScriptAvailable$
+      subject: ^AssetsLinuxScript$|^AssetsLinuxScriptAvailable$|^AssetsLinuxScriptForProfile$
     hide: true
   # hide K8s cmdlets (not useful)
   - where:
@@ -160,7 +154,7 @@ directive:
   - where:
       subject: ^AssetOtAnalysis$|^AssetOtIdentityRule$|^AssetOtIdentityRulesAssetsCandidate$|^AssetOtIdentityRulesExcludedAssetsCandidate$|^AssetOtIdentityRulesUserCandidate$|^AssetOtInboundRule$|^AssetOtInboundRulesDestinationCandidate$|^AssetOtInboundRulesExcludedDestinationCandidate$|^AssetOtInboundRulesSourceCandidate$|^AssetOtmfaIdentityPoliciesDestinationCandidate$|^AssetOtmfaIdentityPoliciesExcludedSourceCandidate$|^AssetOtmfaIdentityPoliciesMfamethod$|^AssetOtmfaIdentityPoliciesSourceCandidate$|^AssetOtmfaIdentityPoliciesSourceUserCandidate$|^AssetOtmfaIdentityPolicy$|^AssetOtmfaInboundPoliciesDestinationCandidate$|^AssetOtmfaInboundPoliciesExcludedSourceCandidate$|^AssetOtmfaInboundPoliciesMfamethod$|^AssetOtmfaInboundPoliciesSourceCandidate$|^AssetOtmfaInboundPoliciesSourceUserCandidate$|^AssetOtmfaInboundPolicy$|^AssetOtOutboundRule$|^AssetOtmfaOutboundPoliciesDestinationCandidate$|^AssetOtmfaOutboundPoliciesExcludedSourceCandidate$|^AssetOtmfaOutboundPoliciesMfamethod$|^AssetOtmfaOutboundPoliciesSourceCandidate$|^AssetOtmfaOutboundPoliciesSourceUserCandidate$|^AssetOtmfaOutboundPolicy$|^AssetOtOutboundRulesDestinationCandidate$|^AssetOtOutboundRulesExcludedSourceCandidate$|^AssetOtOutboundRulesSourceCandidate$|^AssetOtOutboundRulesUserCandidate$|^AssetOtrpcRule$|^AssetOtrpcRulesDestinationCandidate$|^AssetOtrpcRulesExcludedDestinationCandidate$|^AssetOtrpcRulesSourceCandidate$|^AssetOtrpcRulesUserCandidate$|^AssetOtRulesDistribution$
     hide: true
-  # Hide notifications cmdlets
+  # Remove notifications cmdlets
   - where:
       subject: ^SettingsNotification$
     remove: true
@@ -387,6 +381,19 @@ directive:
       variant: SetExpanded
     set:
       subject: AssetOtActive
+  - where:
+      subject: ^SwitchActive$|^SwitchInactive$
+    remove: true
+  - where:
+      subject: SwitchesActive
+      variant: SetExpanded
+    set:
+      subject: SwitchActive
+  - where:
+      subject: SwitchesInactive
+      variant: SetExpanded
+    set:
+      subject: SwitchInactive
   #Combine Update Asset
   - where:
       subject: AssetsUpdate
@@ -611,7 +618,7 @@ directive:
   # Hide for Custom Wrappers
   - where:
       verb: Update
-      subject: ^AeExclusionsInbound$|^AeExclusionsOutbound$|^AssetExternalAccessPolicy$|^AssetIdentityRule$|^AssetInboundRule$|^AssetInboundOtRule$|^AssetMfaIdentityPolicy$|^AssetMFAInboundPolicy$|^AssetMFAOutboundPolicy$|^AssetOtInboundOtrule$|^AssetOtOutboundOtrule$|^AssetOutboundRule$|^ConnectPolicy$|^ConnectPostureProfile$|^AssetOutboundOtRule$|^AssetOtMFAOutboundPolicy$|^AssetRpcRule$|^CustomGroup$|^ExternalAccessPolicy$|^GroupsExternalAccessPolicy$|^GroupsIdentityRule$|^GroupsInboundRule$|^GroupsInboundOtRule$|^GroupsMfaIdentityPolicy$|^GroupsMFAInboundPolicy$|^GroupsMFAOutboundPolicy$|^GroupsOutboundRule$|^GroupsOutboundOtRule$|^GroupsRpcRule$|^IdentityRule$|^InboundRule$|^InboundOtRule$|^InternalAccessPolicy$|^MfaIdentityPolicy$|^MFAInboundPolicy$|^MFAOutboundPolicy$|^OutboundRule$|^OutboundOtRule$|^RpcRule$|^SettingsPushNotification$|^SwitchInboundOtRule$|^SwitchOutboundOtRule$|^UserExternalAccessPolicy$|^UserIdentityRule$|^UserMfaIdentityPolicy$|^UserMfaInboundPolicy$|^UserMfaOutboundPolicy$|^UserOutboundRule$
+      subject: ^AeExclusionsInbound$|^AeExclusionsOutbound$|^AssetExternalAccessPolicy$|^AssetIdentityRule$|^AssetInboundRule$|^AssetInboundOtRule$|^AssetMfaIdentityPolicy$|^AssetMFAInboundPolicy$|^AssetMFAOutboundPolicy$|^AssetOtInboundOtrule$|^AssetOtOutboundOtrule$|^AssetOutboundRule$|^ConnectPolicy$|^ConnectPostureProfile$|^AssetOutboundOtRule$|^AssetOtMFAOutboundPolicy$|^AssetRpcRule$|^CustomGroup$|^ExternalAccessPolicy$|^GroupsExternalAccessPolicy$|^GroupsIdentityRule$|^GroupsInboundRule$|^GroupsInboundOtRule$|^GroupsMfaIdentityPolicy$|^GroupsMFAInboundPolicy$|^GroupsMFAOutboundPolicy$|^GroupsOutboundRule$|^GroupsOutboundOtRule$|^GroupsRpcRule$|^IdentityRule$|^InboundRule$|^InboundOtRule$|^InternalAccessPolicy$|^K8SDesiredRule$|^MfaIdentityPolicy$|^MFAInboundPolicy$|^MFAOutboundPolicy$|^OutboundRule$|^OutboundOtRule$|^RpcRule$|^SettingsPushNotification$|^SwitchInboundOtRule$|^SwitchOutboundOtRule$|^UserExternalAccessPolicy$|^UserIdentityRule$|^UserMfaIdentityPolicy$|^UserMfaInboundPolicy$|^UserMfaOutboundPolicy$|^UserOutboundRule$
     hide: true
   - where:
       subject: ^AuthLogin$|^AuthChallenge$|^SettingsFirewallMode$|^SettingsFirewallModeAsset$
@@ -619,9 +626,42 @@ directive:
   - where:
       subject: (.*)RuleReview$|(.*)RulesReview$
     hide: true
+  # cloud
   - where:
-      subject: DownloadSegmentConnector
-    hide: true
+      subject: ^CloudAzureResource$|^CloudAzureResourceGroup$|^CloudAzureSubscription$|^SettingsCloudDeploymentsAzure$|^SettingsCloudDeploymentsAzureSync$|^CloudAzureSubscriptionSyncConfig$
+    remove: true
+  # Firewall
+  - where:
+      subject: Firewall
+    remove: true
+  # Hyerpvisor
+  - where:
+      subject: SettingsHypervisor(.*)|^ResyncHypervisor$
+    remove: true
+  # Health Center
+  - where:
+      subject: HealthCenter(.*)
+    remove: true
+  # Remove deployments cluster cmdlet
+  - where:
+      subject: AssetDeploymentsCluster
+      verb: Remove
+    remove: true
+  # not useful
+  - where:
+      subject: SettingsPostureChecksExcludedUser
+      verb: Update
+    remove: true
+  # Remove Download cmdlets
+  - where:
+      subject: ^SettingsSiemDataStructure$
+    remove: true
+  - where:
+      subject: Download(.*)
+    remove: true
+  - where:
+      subject: ^SettingsPilotGroupPilotRollout$|^SettingsPilotGroupActivePilotRollout$
+    remove: true
   # format Responses
   - where:
       model-name: Asset

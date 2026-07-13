@@ -14,8 +14,8 @@ Update the display name and FQDN for an asset
 
 ### UpdateExpanded (Default)
 ```
-Update-ZNAsset -AssetId <String> -DisplayName <String> -Fqdn <String> [-AccountName <String>] [-PassThru]
- [-Confirm] [-WhatIf] [<CommonParameters>]
+Update-ZNAsset -AssetId <String> -DisplayName <String> -Fqdn <String> [-AccountName <String>]
+ [-ProfileId <String>] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### Update1
@@ -128,6 +128,21 @@ Returns true when the command succeeds
 ```yaml
 Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProfileId
+ID of the Linux profile to associate with the asset
+
+```yaml
+Type: System.String
+Parameter Sets: UpdateExpanded
 Aliases:
 
 Required: False

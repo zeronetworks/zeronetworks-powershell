@@ -85,9 +85,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### ZeroNetworks.PowerShell.Cmdlets.Api.Models.ICustomGroupResponse
-
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
+
+### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IGroupEntity
 
 ## NOTES
 
