@@ -13,10 +13,10 @@ Updates a K8s desired rule.
 ## SYNTAX
 
 ```
-Update-ZNK8SDesiredRule -K8SClusterId <String> [-AccountName <String>] [-ChangeTicket <String>]
- [-Description <String>] [-PortsList <IPortsListItem[]>] [-RemotePeerSelectors <K8SPeerSelector[]>]
- [-RemotePeerSelectorsYaml <String>] [-RuleId <String>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+Update-ZNK8SDesiredRule -K8SClusterId <String> -RuleId <String> [-AccountName <String>]
+ [-ChangeTicket <String>] [-Description <String>] [-PortsList <IPortsListItem[]>]
+ [-RemotePeerSelectors <K8SPeerSelector[]>] [-RemotePeerSelectorsYaml <String>] [-AsJob] [-NoWait]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -176,7 +176,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

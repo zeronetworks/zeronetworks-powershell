@@ -23,8 +23,8 @@ function Update-ZNK8SDesiredRule {
         # k8s cluster Id
         ${K8SClusterId},
         
-        [Parameter(ParameterSetName = 'UpdateExpanded')]
-        [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
+        [Parameter(ParameterSetName = 'UpdateExpanded', Mandatory)]
+        [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Path')]
         [System.String]
         # Rule Id
         ${RuleId},
