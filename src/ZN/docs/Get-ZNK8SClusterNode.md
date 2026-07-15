@@ -8,17 +8,23 @@ schema: 2.0.0
 # Get-ZNK8SClusterNode
 
 ## SYNOPSIS
-Returns a list of nodes in the k8s cluster.
+Returns a single K8s node.
 
 ## SYNTAX
 
+### List (Default)
 ```
 Get-ZNK8SClusterNode -K8SClusterId <String> [-AccountName <String>] [-Filters <String>] [-Limit <Int32>]
  [-Offset <Int32>] [-Order <String>] [-OrderColumns <List<String>>] [-WithCount] [<CommonParameters>]
 ```
 
+### Get
+```
+Get-ZNK8SClusterNode -K8SClusterId <String> -K8SNodeId <String> [-AccountName <String>] [<CommonParameters>]
+```
+
 ## DESCRIPTION
-Returns a list of nodes in the k8s cluster.
+Returns a single K8s node.
 
 ## EXAMPLES
 
@@ -57,7 +63,7 @@ JSON string URI encoded set of filters
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
@@ -82,12 +88,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -K8SNodeId
+nodeId to filter on
+
+```yaml
+Type: System.String
+Parameter Sets: Get
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Limit
 Limit the return results
 
 ```yaml
 Type: System.Int32
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
@@ -102,7 +123,7 @@ Used to page through results
 
 ```yaml
 Type: System.Int32
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
@@ -117,7 +138,7 @@ What order to sort the results
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
@@ -132,7 +153,7 @@ what column to order on
 
 ```yaml
 Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
@@ -147,7 +168,7 @@ return count of objects
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
@@ -165,6 +186,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
+
+### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IK8SNodeEntity
 
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IK8SNodesList
 

@@ -14,8 +14,8 @@ Modify version maintenance window
 
 ```
 Update-ZNSettingsVersionMaintenanceWindow -Product <String> [-AccountName <String>]
- [-MaintenanceWindows <IVersionMaintenanceWindowBodyItem[]>] [-PassThru] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-MaintenanceWindows <IVersionMaintenanceWindowBodyMaintenanceWindowsItem[]>] [-PassThru] [-Confirm]
+ [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,7 +52,7 @@ Accept wildcard characters: False
 .
 
 ```yaml
-Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.IVersionMaintenanceWindowBodyItem[]
+Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.IVersionMaintenanceWindowBodyMaintenanceWindowsItem[]
 Parameter Sets: (All)
 Aliases:
 
@@ -140,10 +140,10 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-`MAINTENANCEWINDOWS <IVersionMaintenanceWindowBodyItem[]>`: .
-  - `[Description <String>]`: 
-  - `[StartTimeUtc <Int32?>]`: Start hour of maintenance window (0–24)
-  - `[Weekday <Int32?>]`: Day of week (1 = Sunday, 7 = Saturday)
+`MAINTENANCEWINDOWS <IVersionMaintenanceWindowBodyMaintenanceWindowsItem[]>`: .
+  - `StartTimeUtc <Int32>`: Start hour of maintenance window (0–24)
+  - `Weekday <Int32>`: Day of week (1 = Sunday, 7 = Saturday)
+  - `[Description <String>]`: Optional description of the version maintenance window
 
 ## RELATED LINKS
 

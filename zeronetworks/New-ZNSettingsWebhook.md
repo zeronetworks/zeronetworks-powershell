@@ -14,7 +14,7 @@ Create Webhooks settings
 
 ```
 New-ZNSettingsWebhook [-AccountName <String>] [-AuthType <Int32>] [-Description <String>] [-IsEnabled]
- [-Name <String>] [-Triggers <ISettingsWebhookTriggerBody[]>] [-Url <String>] [-ValidateCertificate]
+ [-Name <String>] [-Triggers <ISettingsWebhookTriggersBody[]>] [-Url <String>] [-ValidateCertificate]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
@@ -126,7 +126,7 @@ Accept wildcard characters: False
 .
 
 ```yaml
-Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsWebhookTriggerBody[]
+Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsWebhookTriggersBody[]
 Parameter Sets: (All)
 Aliases:
 
@@ -216,11 +216,12 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-`TRIGGERS <ISettingsWebhookTriggerBody[]>`: .
-  - `RuleEventConfigEnforcementSourcesList <List<Int32>>`: 
-  - `RuleEventConfigEventList <List<Int32>>`: 
-  - `RuleEventConfigResource <Int32>`: 
-  - `Topic <Int32>`: 
+`TRIGGERS <ISettingsWebhookTriggersBody[]>`: .
+  - `Triggers <List<ISettingsWebhookTriggersBodyTriggersItem>>`: 
+    - `RuleEventConfigEnforcementSourcesList <List<Int32>>`: 
+    - `RuleEventConfigEventList <List<Int32>>`: 
+    - `RuleEventConfigResource <Int32>`: 
+    - `Topic <Int32>`: 
 
 ## RELATED LINKS
 

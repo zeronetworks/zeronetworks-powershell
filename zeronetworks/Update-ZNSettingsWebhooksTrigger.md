@@ -14,7 +14,7 @@ Update Webhooks triggers settings
 
 ```
 Update-ZNSettingsWebhooksTrigger -WebhookId <String> [-AccountName <String>]
- [-Triggers <ISettingsWebhookTriggerBody[]>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-Triggers <ISettingsWebhookTriggersBodyTriggersItem[]>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -53,7 +53,7 @@ Accept wildcard characters: False
 .
 
 ```yaml
-Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsWebhookTriggerBody[]
+Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsWebhookTriggersBodyTriggersItem[]
 Parameter Sets: (All)
 Aliases:
 
@@ -119,7 +119,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
 
-### ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsWebhookTriggers
+### ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsWebhookItem
 
 ## NOTES
 
@@ -128,7 +128,7 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-`TRIGGERS <ISettingsWebhookTriggerBody[]>`: .
+`TRIGGERS <ISettingsWebhookTriggersBodyTriggersItem[]>`: .
   - `RuleEventConfigEnforcementSourcesList <List<Int32>>`: 
   - `RuleEventConfigEventList <List<Int32>>`: 
   - `RuleEventConfigResource <Int32>`: 

@@ -12,16 +12,22 @@ Returns a number of ot assets that are valid for network segmentation.
 
 ## SYNTAX
 
-### Validate (Default)
+### ValidateExpanded1 (Default)
 ```
-Test-ZNAssetOtNetworkSegmentUnprotect -AssetId <String> [-AccountName <String>] [-Confirm] [-WhatIf]
+Test-ZNAssetOtNetworkSegmentUnprotect -Items <String[]> [-AccountName <String>] [-Confirm] [-WhatIf]
  [<CommonParameters>]
+```
+
+### Validate
+```
+Test-ZNAssetOtNetworkSegmentUnprotect -AssetId <String> -Body <IAssetsProtectBody> [-AccountName <String>]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### ValidateExpanded
 ```
-Test-ZNAssetOtNetworkSegmentUnprotect -Items <String[]> [-AccountName <String>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+Test-ZNAssetOtNetworkSegmentUnprotect -AssetId <String> -Items <String[]> [-AccountName <String>] [-Confirm]
+ [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,7 +71,7 @@ assetId to filter on
 
 ```yaml
 Type: System.String
-Parameter Sets: Validate
+Parameter Sets: Validate, ValidateExpanded
 Aliases:
 
 Required: True
@@ -75,12 +81,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Body
+.
+
+```yaml
+Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.IAssetsProtectBody
+Parameter Sets: Validate
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
 ### -Items
 .
 
 ```yaml
 Type: System.String[]
-Parameter Sets: ValidateExpanded
+Parameter Sets: ValidateExpanded, ValidateExpanded1
 Aliases:
 
 Required: True
@@ -126,6 +147,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IAssetsProtectBody
+
 ## OUTPUTS
 
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
@@ -133,6 +156,14 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IValidateResponse
 
 ## NOTES
+
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+
+`BODY <IAssetsProtectBody>`: .
+  - `Items <List<String>>`: 
 
 ## RELATED LINKS
 

@@ -82,7 +82,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IAssetOtResponse
+### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IAssetResponse
 
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
 

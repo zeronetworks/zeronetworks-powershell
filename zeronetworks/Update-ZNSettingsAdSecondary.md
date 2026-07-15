@@ -14,7 +14,8 @@ Update a secondary AD settings in Asset Management
 
 ```
 Update-ZNSettingsAdSecondary -DomainId <String> -ForestId <String> [-AccountName <String>]
- [-SecondaryDomainConfigDomainControllerFqdn <String>] [-SecondaryDomainConfigDomainName <String>] [-Confirm]
+ [-SecondaryDomainConfigAssetsClusterId <String>] [-SecondaryDomainConfigDomainControllerFqdn <String>]
+ [-SecondaryDomainConfigDomainName <String>] [-SecondaryDomainConfigSyncingClusterId <String>] [-Confirm]
  [-WhatIf] [<CommonParameters>]
 ```
 
@@ -78,6 +79,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -SecondaryDomainConfigAssetsClusterId
+.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -SecondaryDomainConfigDomainControllerFqdn
 .
 
@@ -94,6 +110,21 @@ Accept wildcard characters: False
 ```
 
 ### -SecondaryDomainConfigDomainName
+.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SecondaryDomainConfigSyncingClusterId
 .
 
 ```yaml
