@@ -14,8 +14,9 @@ Create an push notifications settings
 
 ### CreateExpanded (Default)
 ```
-New-ZNSettingsPushNotification -PushIdentityProviderId <String> [-AccountName <String>] [-Host <String>]
- [-Id <String>] [-IdentityProvider <String>] [-SecretKey <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
+New-ZNSettingsPushNotification -PushIdentityProviderId <String> [-AccountName <String>]
+ [-ExtraConfigUnpairedAction <Int32>] [-Host <String>] [-Id <String>] [-IdentityProvider <String>]
+ [-SecretKey <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### CreateDuo
@@ -81,8 +82,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ExtraConfigUnpairedAction
+Silverfort unpaired action(1) default behavior(2) allow(3) deny
+
+```yaml
+Type: System.Int32
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Host
-empty for microsoftAuthentictor
+empty for Microsoft Authenticator
 
 ```yaml
 Type: System.String

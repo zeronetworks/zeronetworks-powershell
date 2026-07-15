@@ -14,8 +14,8 @@ Create a Connect region in Settings
 
 ```
 New-ZNSettingsConnectRegion [-AccountName <String>] [-DnsServersIPAddressList <String[]>]
- [-DnsSuffixesList <String[]>] [-IPAddress <String>] [-Name <String>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-DnsSuffixesList <String[]>] [-FailoverRegionIdsList <String[]>] [-IPAddress <String>] [-Name <String>]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -63,6 +63,21 @@ Accept wildcard characters: False
 ```
 
 ### -DnsSuffixesList
+.
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FailoverRegionIdsList
 .
 
 ```yaml

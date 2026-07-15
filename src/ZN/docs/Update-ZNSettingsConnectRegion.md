@@ -14,8 +14,8 @@ Update a Connect Region in Settings
 
 ```
 Update-ZNSettingsConnectRegion -RegionId <String> [-AccountName <String>]
- [-DnsServersIPAddressList <String[]>] [-DnsSuffixesList <String[]>] [-IPAddress <String>] [-Name <String>]
- [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-DnsServersIPAddressList <String[]>] [-DnsSuffixesList <String[]>] [-FailoverRegionIdsList <String[]>]
+ [-IPAddress <String>] [-Name <String>] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -64,6 +64,21 @@ Accept wildcard characters: False
 ```
 
 ### -DnsSuffixesList
+.
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FailoverRegionIdsList
 .
 
 ```yaml

@@ -14,7 +14,8 @@ Gets a switch
 
 ### List (Default)
 ```
-Get-ZNSwitch [-AccountName <String>] [<CommonParameters>]
+Get-ZNSwitch [-AccountName <String>] [-Filters <String>] [-Limit <Int32>] [-Offset <Int32>] [-WithCount]
+ [<CommonParameters>]
 ```
 
 ### Get
@@ -87,6 +88,51 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Filters
+JSON string URI encoded set of filters
+
+```yaml
+Type: System.String
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Limit the return results
+
+```yaml
+Type: System.Int32
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: 10
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Used to page through results
+
+```yaml
+Type: System.Int32
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -SwitchId
 switch to delete
 
@@ -98,6 +144,21 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WithCount
+return count of objects
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: $true
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

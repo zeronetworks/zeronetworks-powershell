@@ -35,6 +35,9 @@ Add an asset manager of a group
 ### [Add-ZNGroupsManagedAsset](Add-ZNGroupsManagedAsset.md)
 Add a managed assets for group
 
+### [Add-ZNSettingsPilotGroupAsset](Add-ZNSettingsPilotGroupAsset.md)
+Add assets to pilot group
+
 ### [Add-ZNTagGroupsMember](Add-ZNTagGroupsMember.md)
 Returns an empty object.
 
@@ -79,6 +82,9 @@ Approve deleting a rule AE suggested for cleanup
 
 ### [Approve-ZNUserOutboundRulesCleanup](Approve-ZNUserOutboundRulesCleanup.md)
 Approve deleting a rule AE suggested for cleanup
+
+### [Clear-ZNSettingsClusterPilotGroup](Clear-ZNSettingsClusterPilotGroup.md)
+Remove the current cluster pilot group assignment
 
 ### [Connect-ZN](Connect-ZN.md)
 Login to Zero Networks to get a token for cmdlet use
@@ -224,6 +230,9 @@ Returns a list of excluded destination candidates for Inbound rules.
 ### [Get-ZNAssetInboundRulesSourceCandidate](Get-ZNAssetInboundRulesSourceCandidate.md)
 Returns a list of source candidates for Inbound rules.
 
+### [Get-ZNAssetLabel](Get-ZNAssetLabel.md)
+Returns a list of labels for the asset.
+
 ### [Get-ZNAssetLabelsKeyCandidate](Get-ZNAssetLabelsKeyCandidate.md)
 Returns a list of key candidates for asset labels
 
@@ -329,6 +338,9 @@ Returns a list of source candidates for Inbound rules.
 ### [Get-ZNAssetOtInboundOtrulesUserCandidate](Get-ZNAssetOtInboundOtrulesUserCandidate.md)
 Returns a list of users candidates for Inbound rules.
 
+### [Get-ZNAssetOtLabel](Get-ZNAssetOtLabel.md)
+Returns a list of labels for the asset.
+
 ### [Get-ZNAssetOtLabelsKeyCandidate](Get-ZNAssetOtLabelsKeyCandidate.md)
 Returns a list of key candidates for asset labels
 
@@ -404,6 +416,9 @@ Returns a list of user candidates for RPC rules.
 ### [Get-ZNAssetRulesDistribution](Get-ZNAssetRulesDistribution.md)
 Returns an object with rules distribution.
 
+### [Get-ZNAssetsExposureMeterStatistics](Get-ZNAssetsExposureMeterStatistics.md)
+Returns exposure meter statistics for assets.
+
 ### [Get-ZNAssetsIdentityQueued](Get-ZNAssetsIdentityQueued.md)
 Returns a list of assets that are identity learning.
 
@@ -412,6 +427,12 @@ Returns a list of assets that are identity segmented.
 
 ### [Get-ZNAssetsInactive](Get-ZNAssetsInactive.md)
 Returns a list of assets that are inactive.
+
+### [Get-ZNAssetsIPAlias](Get-ZNAssetsIPAlias.md)
+Returns the properties of an IP Alias.
+
+### [Get-ZNAssetsLinuxProfile](Get-ZNAssetsLinuxProfile.md)
+Returns all Linux profiles.
 
 ### [Get-ZNAssetsMonitored](Get-ZNAssetsMonitored.md)
 Returns a list of assets that are monitored.
@@ -487,6 +508,9 @@ Returns a list of all members
 
 ### [Get-ZNCustomGroupsCandidate](Get-ZNCustomGroupsCandidate.md)
 Returns a list of candidates for custom group membership.
+
+### [Get-ZNDynamicLabel](Get-ZNDynamicLabel.md)
+Returns the details of a specific dynamic label.
 
 ### [Get-ZNExternalAccessPolicy](Get-ZNExternalAccessPolicy.md)
 Returns an external access policy.
@@ -786,6 +810,9 @@ Returns a list of namespaces for an label in the k8s cluster.
 ### [Get-ZNK8SClusterLabelOutboundRule](Get-ZNK8SClusterLabelOutboundRule.md)
 Returns a list of rules in the k8s cluster label.
 
+### [Get-ZNK8SClusterLabelRule](Get-ZNK8SClusterLabelRule.md)
+Returns a list of rules in the k8s cluster label.
+
 ### [Get-ZNK8SClusterLabelWorkload](Get-ZNK8SClusterLabelWorkload.md)
 Returns a list of workloads for a label in the k8s cluster.
 
@@ -804,17 +831,27 @@ Returns a list of labels for the K8s namespace.
 ### [Get-ZNK8SClusterNamespaceOutboundRule](Get-ZNK8SClusterNamespaceOutboundRule.md)
 Returns a list of rules in the k8s cluster namespace.
 
+### [Get-ZNK8SClusterNamespaceRule](Get-ZNK8SClusterNamespaceRule.md)
+Returns a list of rules in the k8s cluster namespace.
+
 ### [Get-ZNK8SClusterNamespaceWorkload](Get-ZNK8SClusterNamespaceWorkload.md)
 Returns a list of workloads for a namespaces in the k8s cluster.
 
 ### [Get-ZNK8SClusterNode](Get-ZNK8SClusterNode.md)
-Returns a list of nodes in the k8s cluster.
+Returns a single K8s node.
 
 ### [Get-ZNK8SClusterOutboundRule](Get-ZNK8SClusterOutboundRule.md)
 Returns a list of rules in the k8s cluster.
 
+### [Get-ZNK8SClusterRule](Get-ZNK8SClusterRule.md)
+Returns a list of rules in the k8s cluster.
+
 ### [Get-ZNK8SClusterWorkload](Get-ZNK8SClusterWorkload.md)
 Returns a workload for k8s cluster.
+
+### [Get-ZNK8SDesiredRule](Get-ZNK8SDesiredRule.md)
+Returns a desired-state rule by ID.
+Returns 412 if the rule is not a networkingV1 rule.
 
 ### [Get-ZNK8SNamespace](Get-ZNK8SNamespace.md)
 Returns a list of namespaces for the k8s.
@@ -831,6 +868,9 @@ Returns a list of labels for the K8s namespace.
 ### [Get-ZNK8SNamespaceOutboundRule](Get-ZNK8SNamespaceOutboundRule.md)
 Returns a list of rules in the k8s namespace.
 
+### [Get-ZNK8SNamespaceRule](Get-ZNK8SNamespaceRule.md)
+Returns a list of rules in the k8s namespace.
+
 ### [Get-ZNK8SNamespaceWorkload](Get-ZNK8SNamespaceWorkload.md)
 Returns a workload for k8s namespace.
 
@@ -838,7 +878,7 @@ Returns a workload for k8s namespace.
 Returns a list of labels for the K8s namespace workload.
 
 ### [Get-ZNK8SNode](Get-ZNK8SNode.md)
-Returns a list of K8s nodes.
+Returns a single K8s node.
 
 ### [Get-ZNK8SWorkload](Get-ZNK8SWorkload.md)
 Returns a workload for k8s.
@@ -911,12 +951,6 @@ Returns and object with MFA distribution.
 
 ### [Get-ZNMfaPoliciesStatistics](Get-ZNMfaPoliciesStatistics.md)
 Returns an object with MFA statistics.
-
-### [Get-ZNNetworkActivitiesInternetCategoriesCandidate](Get-ZNNetworkActivitiesInternetCategoriesCandidate.md)
-Returns a list of internet categories that can be used as filters for network activities.
-
-### [Get-ZNNetworkActivitiesInternetSubCategoriesCandidate](Get-ZNNetworkActivitiesInternetSubCategoriesCandidate.md)
-Returns a list of internet sub-categories that can be used as filters for network activities.
 
 ### [Get-ZNNetworkOnboardingPoliciesGroupCandidate](Get-ZNNetworkOnboardingPoliciesGroupCandidate.md)
 Returns a list of candidates for a network onboarding policy.
@@ -1044,11 +1078,20 @@ Get Clients Untrusted Internet settings in System
 ### [Get-ZNSettingsCloudConnectorFreezePeriod](Get-ZNSettingsCloudConnectorFreezePeriod.md)
 Get all cloud connector freeze periods
 
+### [Get-ZNSettingsCloudConnectorFreezePeriodMaxDuration](Get-ZNSettingsCloudConnectorFreezePeriodMaxDuration.md)
+Get the configured maximum freeze period duration in days
+
+### [Get-ZNSettingsClusterPilotGroup](Get-ZNSettingsClusterPilotGroup.md)
+Get the cluster currently assigned as pilot group
+
 ### [Get-ZNSettingsConnectClientAutoUpdate](Get-ZNSettingsConnectClientAutoUpdate.md)
 Get Connect client auto get in Settings
 
 ### [Get-ZNSettingsConnectClientFreezePeriod](Get-ZNSettingsConnectClientFreezePeriod.md)
 Get all connect client freeze periods
+
+### [Get-ZNSettingsConnectClientFreezePeriodMaxDuration](Get-ZNSettingsConnectClientFreezePeriodMaxDuration.md)
+Get the configured maximum freeze period duration in days
 
 ### [Get-ZNSettingsConnectRegion](Get-ZNSettingsConnectRegion.md)
 List Connect Regions in Settings
@@ -1062,6 +1105,9 @@ List Connect Servers in Settings
 ### [Get-ZNSettingsConnectServersFreezePeriod](Get-ZNSettingsConnectServersFreezePeriod.md)
 Get all connect servers freeze periods
 
+### [Get-ZNSettingsConnectServersFreezePeriodMaxDuration](Get-ZNSettingsConnectServersFreezePeriodMaxDuration.md)
+Get the configured maximum freeze period duration in days
+
 ### [Get-ZNSettingsDay2Automation](Get-ZNSettingsDay2Automation.md)
 Get day 2 settings automation
 
@@ -1070,6 +1116,9 @@ Get Default SSO Application settings in Identity Providers
 
 ### [Get-ZNSettingsDeploymentsCluster](Get-ZNSettingsDeploymentsCluster.md)
 Returns deployments Clusters.
+
+### [Get-ZNSettingsDesiredVersion](Get-ZNSettingsDesiredVersion.md)
+Get desired version
 
 ### [Get-ZNSettingsDomain](Get-ZNSettingsDomain.md)
 Get domains
@@ -1098,9 +1147,6 @@ Get inactive assets settings configuration
 ### [Get-ZNSettingsInternalSubnet](Get-ZNSettingsInternalSubnet.md)
 Get Internal Subnets settings in System
 
-### [Get-ZNSettingsIPAlias](Get-ZNSettingsIPAlias.md)
-Returns the properties of an IP Alias.
-
 ### [Get-ZNSettingsJamfCredentials](Get-ZNSettingsJamfCredentials.md)
 Returns the properties for JAMF Credentials Settings.
 
@@ -1118,6 +1164,9 @@ Get Subscription Licenses
 
 ### [Get-ZNSettingsLicensesInUse](Get-ZNSettingsLicensesInUse.md)
 Returns a list of licenses in use
+
+### [Get-ZNSettingsLinuxProfile](Get-ZNSettingsLinuxProfile.md)
+Returns a Linux profile by its ID.
 
 ### [Get-ZNSettingsLinuxSetup](Get-ZNSettingsLinuxSetup.md)
 Get the linux setup settings in Asset Management
@@ -1140,11 +1189,29 @@ Returns the properties of MFA detection settings.
 ### [Get-ZNSettingsPamCyberark](Get-ZNSettingsPamCyberark.md)
 Get CyberArk config
 
+### [Get-ZNSettingsPilotGroup](Get-ZNSettingsPilotGroup.md)
+Get all pilot group assets
+
+### [Get-ZNSettingsPilotGroupCandidate](Get-ZNSettingsPilotGroupCandidate.md)
+Returns a list of candidate assets for the pilot group
+
+### [Get-ZNSettingsPostureCheck](Get-ZNSettingsPostureCheck.md)
+Returns posture check settings for the environment, merging catalog defaults with per-environment overrides.
+
+### [Get-ZNSettingsPostureChecksExcludedUser](Get-ZNSettingsPostureChecksExcludedUser.md)
+Returns user IDs excluded from all posture checks in the environment.
+
+### [Get-ZNSettingsPostureChecksExcludedUsersUserCandidate](Get-ZNSettingsPostureChecksExcludedUsersUserCandidate.md)
+Returns users (excluding groups) that can be added to posture check exclusions.
+
 ### [Get-ZNSettingsPrivilegedPort](Get-ZNSettingsPrivilegedPort.md)
 Get Privileged Ports settings in Network segmentation
 
 ### [Get-ZNSettingsPushNotification](Get-ZNSettingsPushNotification.md)
 Get Push Notifications Settings
+
+### [Get-ZNSettingsSegmentServerFreezePeriodMaxDuration](Get-ZNSettingsSegmentServerFreezePeriodMaxDuration.md)
+Get the configured maximum freeze period duration in days
 
 ### [Get-ZNSettingsSegmentServersFreezePeriod](Get-ZNSettingsSegmentServersFreezePeriod.md)
 Get all segment server freeze periods
@@ -1396,21 +1463,6 @@ Returns an empty object.
 ### [Invoke-ZNAssetRpcQueue](Invoke-ZNAssetRpcQueue.md)
 Returns and empty object.
 
-### [Invoke-ZNDownloadCloudConnectorInstaller](Invoke-ZNDownloadCloudConnectorInstaller.md)
-Returns a temporary url to the Cloud Connector installer.
-
-### [Invoke-ZNDownloadConnectClient](Invoke-ZNDownloadConnectClient.md)
-Returns a temporary url to the Connect client zip.
-
-### [Invoke-ZNDownloadConnectServer](Invoke-ZNDownloadConnectServer.md)
-Returns a temporary url to the Connect server zip.
-
-### [Invoke-ZNDownloadSegmentConnector](Invoke-ZNDownloadSegmentConnector.md)
-Download the Segment connector
-
-### [Invoke-ZNDownloadSegmentServer](Invoke-ZNDownloadSegmentServer.md)
-Returns a temporary url to the Segment server zip.
-
 ### [Invoke-ZNEncodeEntityIP](Invoke-ZNEncodeEntityIP.md)
 Returns the assetId after encoding the IP address.
 
@@ -1483,6 +1535,9 @@ Returns the properties of the created Outbound rule.
 ### [New-ZNAssetRpcRule](New-ZNAssetRpcRule.md)
 Returns the properties of the create RPC rule.
 
+### [New-ZNAssetsIPAlias](New-ZNAssetsIPAlias.md)
+Returns an an Ip Alias.
+
 ### [New-ZNAssetsLinux](New-ZNAssetsLinux.md)
 Returns the assetId of the created Linux asset.
 
@@ -1497,6 +1552,9 @@ Create a Connect Posture Profile
 
 ### [New-ZNCustomGroup](New-ZNCustomGroup.md)
 Returns an empty object.
+
+### [New-ZNDynamicLabel](New-ZNDynamicLabel.md)
+Create a new dynamic label.
 
 ### [New-ZNExternalAccessPolicy](New-ZNExternalAccessPolicy.md)
 Returns a the external access policy
@@ -1549,6 +1607,22 @@ Returns a the internal access policy
 ### [New-ZNK8SCluster](New-ZNK8SCluster.md)
 Returns a list of k8s cluster.
 
+### [New-ZNK8SDesiredRule](New-ZNK8SDesiredRule.md)
+Create a desired-state rule on an existing network policy.
+networkPolicyUid is enriched server-side from the policy.
+
+### [New-ZNK8SIPBlock](New-ZNK8SIPBlock.md)
+Create a in-memory object for K8SIPBlock
+
+### [New-ZNK8SMatchExpression](New-ZNK8SMatchExpression.md)
+Create a in-memory object for K8SMatchExpression
+
+### [New-ZNK8SPeerSelector](New-ZNK8SPeerSelector.md)
+Create a in-memory object for K8SPeerSelector
+
+### [New-ZNK8SSelector](New-ZNK8SSelector.md)
+Create a in-memory object for K8SSelector
+
 ### [New-ZNMfaIdentityPolicy](New-ZNMfaIdentityPolicy.md)
 Returns the properties of the identity MFA policy after creation.
 
@@ -1600,8 +1674,8 @@ Create deployments Cluster.
 ### [New-ZNSettingsIdp](New-ZNSettingsIdp.md)
 Create an identity provider settings in Identity Providers
 
-### [New-ZNSettingsIPAlias](New-ZNSettingsIPAlias.md)
-Returns an an Ip Alias.
+### [New-ZNSettingsLinuxProfile](New-ZNSettingsLinuxProfile.md)
+Create a new Linux profile and returns its ID.
 
 ### [New-ZNSettingsMfaCache](New-ZNSettingsMfaCache.md)
 Create a MFA Cache Policy.
@@ -1729,6 +1803,9 @@ Returns an empty object.
 ### [Remove-ZNAssetRpcRule](Remove-ZNAssetRpcRule.md)
 Returns an empty object.
 
+### [Remove-ZNAssetsIPAlias](Remove-ZNAssetsIPAlias.md)
+Delete an IP Alias.
+
 ### [Remove-ZNConnectPolicy](Remove-ZNConnectPolicy.md)
 Delete a Connect Policy (User Access Configuration)
 
@@ -1740,6 +1817,9 @@ Returns an empty object.
 
 ### [Remove-ZNCustomGroupsMember](Remove-ZNCustomGroupsMember.md)
 Returns an empty object.
+
+### [Remove-ZNDynamicLabel](Remove-ZNDynamicLabel.md)
+Deletes a specific dynamic label.
 
 ### [Remove-ZNExternalAccessPolicy](Remove-ZNExternalAccessPolicy.md)
 Returns an empty object.
@@ -1801,6 +1881,11 @@ Returns an empty object.
 ### [Remove-ZNK8SCluster](Remove-ZNK8SCluster.md)
 Returns an empty object.
 
+### [Remove-ZNK8SDesiredRule](Remove-ZNK8SDesiredRule.md)
+Deletes desired-state rules.
+PENDING_DEPLOYMENT rules are hard-deleted; DEPLOYED rules transition to PENDING_DELETION.
+Returns 412 when the request would leave a policy with no active rules.
+
 ### [Remove-ZNMfaIdentityPolicy](Remove-ZNMfaIdentityPolicy.md)
 Returns an empty object.
 
@@ -1861,17 +1946,20 @@ Delete deployments Cluster.
 ### [Remove-ZNSettingsIdp](Remove-ZNSettingsIdp.md)
 Returns an empty response.
 
-### [Remove-ZNSettingsIPAlias](Remove-ZNSettingsIPAlias.md)
-Delete an IP Alias.
-
 ### [Remove-ZNSettingsJamfCredentials](Remove-ZNSettingsJamfCredentials.md)
 Returns an empty object.
+
+### [Remove-ZNSettingsLinuxProfile](Remove-ZNSettingsLinuxProfile.md)
+Deletes a Linux profile by its ID.
 
 ### [Remove-ZNSettingsMfaCache](Remove-ZNSettingsMfaCache.md)
 Deletes a MFA Cache Policy.
 
 ### [Remove-ZNSettingsPamCyberark](Remove-ZNSettingsPamCyberark.md)
 Delete CyberArk config
+
+### [Remove-ZNSettingsPilotGroupAsset](Remove-ZNSettingsPilotGroupAsset.md)
+Remove assets from pilot group
 
 ### [Remove-ZNSettingsPushNotification](Remove-ZNSettingsPushNotification.md)
 Returns an empty response.
@@ -2050,6 +2138,12 @@ Updates an outbound  rule.
 ### [Update-ZNAssetRpcRule](Update-ZNAssetRpcRule.md)
 Updates an RPC rule.
 
+### [Update-ZNAssetsIPAlias](Update-ZNAssetsIPAlias.md)
+Edit an IP Alias.
+
+### [Update-ZNAssetsLinuxProfile](Update-ZNAssetsLinuxProfile.md)
+Set the Linux profile for multiple manual Linux assets
+
 ### [Update-ZNAssetsPreferredSegmentServer](Update-ZNAssetsPreferredSegmentServer.md)
 Returns and empty object.
 
@@ -2064,6 +2158,9 @@ Updates a Connect posture profile.
 
 ### [Update-ZNCustomGroup](Update-ZNCustomGroup.md)
 Updates a custom group properties.
+
+### [Update-ZNDynamicLabel](Update-ZNDynamicLabel.md)
+Update the details of a specific dynamic label.
 
 ### [Update-ZNExternalAccessPolicy](Update-ZNExternalAccessPolicy.md)
 Updates an external access policy.
@@ -2127,6 +2224,21 @@ Updates an internal access policy.
 
 ### [Update-ZNK8SCluster](Update-ZNK8SCluster.md)
 Returns a k8s cluster.
+
+### [Update-ZNK8SDesiredPoliciesMarkAsDesired](Update-ZNK8SDesiredPoliciesMarkAsDesired.md)
+Marks a batch of deployed-but-not-desired policies as desired.
+All requested policies must be in (is_deployed=true, is_desired=false); if any is not, the whole batch fails with 412.
+Deployed-but-not-desired child rules are promoted in the same transaction.
+Max 100 IDs per request.
+
+### [Update-ZNK8SDesiredRule](Update-ZNK8SDesiredRule.md)
+Updates a K8s desired rule.
+
+### [Update-ZNK8SDesiredRulesMarkAsDesired](Update-ZNK8SDesiredRulesMarkAsDesired.md)
+Marks a batch of deployed-but-not-desired rules as desired.
+All requested rules must be in (is_deployed=true, is_desired=false); if any is not, the whole batch fails with 412.
+For rules whose parent network policy is also deployed-but-not-desired, the policy is promoted in the same transaction.
+Max 100 IDs per request.
 
 ### [Update-ZNMfaIdentityPolicy](Update-ZNMfaIdentityPolicy.md)
 Updates an identity MFA Policy.
@@ -2203,6 +2315,9 @@ Update the Client Subnets settings in System
 ### [Update-ZNSettingsCloudConnectorFreezePeriod](Update-ZNSettingsCloudConnectorFreezePeriod.md)
 Update cloud connector freeze period
 
+### [Update-ZNSettingsClusterPilotGroup](Update-ZNSettingsClusterPilotGroup.md)
+Assign a cluster as the pilot group
+
 ### [Update-ZNSettingsConnectClientAutoUpdate](Update-ZNSettingsConnectClientAutoUpdate.md)
 Set Connect client auto update settings
 
@@ -2251,9 +2366,6 @@ Update inactive assets settings configuration
 ### [Update-ZNSettingsInternalSubnet](Update-ZNSettingsInternalSubnet.md)
 Update the Internal Subnets settings in System
 
-### [Update-ZNSettingsIPAlias](Update-ZNSettingsIPAlias.md)
-Edit an IP Alias.
-
 ### [Update-ZNSettingsJamfCredentials](Update-ZNSettingsJamfCredentials.md)
 Returns the updated properties of JAMF Credentials settings.
 
@@ -2262,6 +2374,13 @@ Set K8s application label settings
 
 ### [Update-ZNSettingsLearningConfig](Update-ZNSettingsLearningConfig.md)
 Update Learning Config settings in Network Segmentation
+
+### [Update-ZNSettingsLinuxProfile](Update-ZNSettingsLinuxProfile.md)
+Update the general settings of a Linux profile.
+
+### [Update-ZNSettingsLinuxProfileSshCredentials](Update-ZNSettingsLinuxProfileSshCredentials.md)
+Update the SSH credentials of a Linux profile.
+Omit the body to clear them.
 
 ### [Update-ZNSettingsLinuxSetup](Update-ZNSettingsLinuxSetup.md)
 Update the linux setup settings in Asset Management
@@ -2277,6 +2396,10 @@ Returns the properties of the updated MFA detection settings.
 
 ### [Update-ZNSettingsPamCyberark](Update-ZNSettingsPamCyberark.md)
 Set CyberArk config
+
+### [Update-ZNSettingsPostureCheck](Update-ZNSettingsPostureCheck.md)
+Sets a single posture check override.
+If the setting matches the catalog default, the override is removed.
 
 ### [Update-ZNSettingsPrivilegedPort](Update-ZNSettingsPrivilegedPort.md)
 Set Privileged Ports settings in Network segmentation
@@ -2307,6 +2430,12 @@ Set ZTNA proxy settings in Integrations
 
 ### [Update-ZNSwitch](Update-ZNSwitch.md)
 Update a switch
+
+### [Update-ZNSwitchActive](Update-ZNSwitchActive.md)
+Returns and empty object.
+
+### [Update-ZNSwitchInactive](Update-ZNSwitchInactive.md)
+Returns and empty object.
 
 ### [Update-ZNSwitchInboundOtrule](Update-ZNSwitchInboundOtrule.md)
 Updates an inbound OT rule.

@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -ProfileId
-posture profile id
+The Linux profile id
 
 ```yaml
 Type: System.String

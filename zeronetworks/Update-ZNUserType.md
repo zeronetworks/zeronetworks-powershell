@@ -100,7 +100,7 @@ Accept wildcard characters: False
 ```
 
 ### -UserType
-.
+* '1' - Undetermined* '2' - Human* '3' - Service Account* '4' - Shared* '5' - System* '6' - Other* '7' - Privleged Human
 
 ```yaml
 Type: System.Int32

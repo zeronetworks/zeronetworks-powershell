@@ -413,7 +413,6 @@ To create the parameters described below, construct a hash table containing the 
   - `AllowNewer <Boolean>`: 
   - `OSName <String>`: macOS marketing name
   - `Version <String>`: 
-  - `[Patch <String>]`: 
 
 `WINDOWCHECKCERTIFICATEEXISTSLIST <IWindowsPostureChecksCertificateExistsListItem[]>`: .
   - `[SubjectNameList <List<String>>]`: 
@@ -422,7 +421,7 @@ To create the parameters described below, construct a hash table containing the 
   - `[DomainList <List<String>>]`: 
 
 `WINDOWCHECKFILEEXISTSLIST <IWindowsPostureChecksFileExistsListItem[]>`: .
-  - `[FilePathList <List<String>>]`: 
+  - `[FilesPathsList <List<String>>]`: 
 
 `WINDOWCHECKPROCESSRUNNINGLIST <IWindowsPostureChecksProcessRunningListItem[]>`: .
   - `[ProcessPathList <List<String>>]`: 

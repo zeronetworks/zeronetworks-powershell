@@ -14,7 +14,8 @@ Returns an empty object.
 
 ```
 New-ZNCustomGroup -Name <String> [-AccountName <String>] [-ConditionAssetTypes <Int32[]>]
- [-ConditionDomains <String[]>] [-ConditionIPBuiltins <String[]>] [-ConditionNamePatterns <String[]>]
+ [-ConditionDomains <String[]>] [-ConditionIPBuiltins <String[]>]
+ [-ConditionLabelConditionsList <ICondition[]>] [-ConditionNamePatterns <String[]>]
  [-ConditionOSNamePatterns <String[]>] [-ConditionOSTypes <Int32[]>] [-Description <String>]
  [-MembersId <String[]>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
@@ -84,6 +85,21 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ConditionLabelConditionsList
+.
+
+```yaml
+Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.ICondition[]
 Parameter Sets: (All)
 Aliases:
 
@@ -227,6 +243,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
 
 ## NOTES
+
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+
+`CONDITIONLABELCONDITIONSLIST <ICondition[]>`: .
+  - `[ExpressionsList <List<IExpression>>]`: 
+    - `[Key <String>]`: 
+    - `[Operator <Int32?>]`: * '0' - Unspecified         * '1' - In         * '2' - NotIn         * '3' - Exists         * '4' - NotExists         
+    - `[ValuesList <List<String>>]`: 
 
 ## RELATED LINKS
 
