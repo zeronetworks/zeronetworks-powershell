@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNSettingsIdp'))
 
 Describe 'Remove-ZNSettingsIdp' {
     It 'Delete' -skip {
-        
+        #No easy way to test
     }
 }

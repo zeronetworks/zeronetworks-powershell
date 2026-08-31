@@ -15,7 +15,9 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetsLinuxProfile')
 }
 
 Describe 'Update-ZNAssetsLinuxProfile' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        $linuxProfile = Get-ZNSettingsLinuxProfile | where {$_.Name -like "Default*"}
+        $asset = (Search-ZNAsset -Fqdn linux1.posh.local).AssetId
+        { Update-ZNAssetsLinuxProfile -AssetIds @($asset) -ProfileId $linuxProfile.Id } | Should -Not -Throw
     }
 }

@@ -11,10 +11,7 @@ while(-not $mockingPath) {
 }
 . ($mockingPath | Select-Object -First 1).FullName
 
-Describe 'Get-ZNSettingsPushNotification' {
-    It 'Get' {
-        # cant test
-        $a = 1
-        $a | Should -Be 1
+Describe 'Get-ZNSettingsPushNotification' -skip {
+        #No easy way to test
     }
 }

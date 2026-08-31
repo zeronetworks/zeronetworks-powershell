@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNSettingsJamfCredenti
 
 Describe 'Remove-ZNSettingsJamfCredentials' {
     It 'Delete' -skip {
-        
+        #No easy way to test
     }
 }

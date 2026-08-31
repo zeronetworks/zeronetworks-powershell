@@ -15,7 +15,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNAssetLabelsKeyCandidate
 }
 
 Describe 'Get-ZNAssetLabelsKeyCandidate' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        $asset= (Search-ZNAsset -Fqdn dc01.posh.local).AssetId
+        (Get-ZNAssetLabelsKeyCandidate -AssetId $asset).Count | Should -BeGreaterThan 0
     }
 }

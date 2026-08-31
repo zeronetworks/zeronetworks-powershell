@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNK8SSelector'))
 }
 
 Describe 'New-ZNK8SSelector' {
-    It '__AllParameterSets' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It '__AllParameterSets' {
+        (New-ZNK8SSelector -MatchLabels @{ name = "znk8s" }).MatchLabelsMap | Should -Match znk8s 
     }
 }

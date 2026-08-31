@@ -15,7 +15,10 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetsIPAlias'))
 }
 
 Describe 'Update-ZNAssetsIPAlias' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        $random = Get-Random -Minimum 1 -Maximum 100
+        $ipalias = (Get-ZNAssetsIPAlias).Items | Select-First 1
+        Update-ZNAssetsIPAlias -IPAliasId $ipalias.Id -Alias "updateName$random" -IPAddress $ipalias.IP
+        (Get-ZNAssetsIPAlias -IPAliasId $ipalias.id).ItemAlias | Should -Be "updateName$random"
     }
 }

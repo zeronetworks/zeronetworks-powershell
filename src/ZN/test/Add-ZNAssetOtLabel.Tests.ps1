@@ -15,7 +15,10 @@ if(($null -eq $TestName) -or ($TestName -contains 'Add-ZNAssetOtLabel'))
 }
 
 Describe 'Add-ZNAssetOtLabel' {
-    It 'AddExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'AddExpanded' {
+        $asset= (Search-ZNAsset -Fqdn poshOTv1.posh.local).AssetId
+        Add-ZNAssetOtLabel -AssetId $asset -Labels @(@{"key"="AddLabel";"value"="NewValue"})
+        (Get-ZNAssetOtLabel -AssetId $asset).Items.Key | Should -Contain AddLabel
+        Remove-ZNAssetOtLabel -AssetId $asset -Labels @(@{"key"="AddLabel";"value"="NewValue"})
     }
 }

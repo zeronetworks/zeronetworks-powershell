@@ -15,7 +15,9 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNK8SNamespaceRule'))
 }
 
 Describe 'Get-ZNK8SNamespaceRule' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        $k8scluster = (Get-ZNK8SCluster).Items | where {$_.Name -eq "rke"} |Select-Object -First 1
+        $k8sNamespace = (Get-ZNK8SClusterNamespace -K8SClusterId $k8scluster.id -Limit 400).Items | where {$_.Name -eq "powershell"}
+        (Get-ZNK8SNamespaceRule -K8sNamespace $k8sNamespace.Id).Items.Count | Should -BeGreaterThan 0
     }
 }

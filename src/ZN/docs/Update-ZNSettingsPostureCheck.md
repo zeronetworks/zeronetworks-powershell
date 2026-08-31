@@ -14,8 +14,8 @@ If the setting matches the catalog default, the override is removed.
 ## SYNTAX
 
 ```
-Update-ZNSettingsPostureCheck [-AccountName <String>] [-Enabled] [-ExcludedUserIdsList <String[]>]
- [-Severity <Int32>] [-Type <Int32>] [-Confirm] [-WhatIf] [<CommonParameters>]
+Update-ZNSettingsPostureCheck -Enabled -Severity <Int32> -Type <Int32> [-AccountName <String>]
+ [-ExcludedUserIdsList <String[]>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -68,7 +68,7 @@ Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -98,7 +98,7 @@ Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -113,7 +113,7 @@ Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

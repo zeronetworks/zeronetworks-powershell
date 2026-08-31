@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsSegmentServerFr
 }
 
 Describe 'Get-ZNSettingsSegmentServerFreezePeriodMaxDuration' {
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        (Get-ZNSettingsSegmentServerFreezePeriodMaxDuration).MaxFreezeWindowDays | Should -Not -BeNullOrEmpty
     }
 }

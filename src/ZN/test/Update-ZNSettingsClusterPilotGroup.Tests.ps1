@@ -15,7 +15,9 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsClusterPilot
 }
 
 Describe 'Update-ZNSettingsClusterPilotGroup' {
-    It 'SetExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'SetExpanded' {
+        $pilotCluster = Get-ZNSettingsDeploymentsCluster | where {$_.Name -eq "Pilot"}
+        { Update-ZNSettingsClusterPilotGroup -Product segment-server -ClusterId $pilotCluster.Id  } | Should -Not -Throw
+        Clear-ZNSettingsClusterPilotGroup -Product segment-server
     }
 }

@@ -15,7 +15,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsConnectRegionFa
 }
 
 Describe 'Get-ZNSettingsConnectRegionFailoverCandidate' {
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        $region = (Get-ZNSettingsConnectRegion).Items | Select-Object -First 1 
+        (Get-ZNSettingsConnectRegionFailoverCandidate -RegionId $region.id).Id | Should -Not -BeNullOrEmpty
     }
 }

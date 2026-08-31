@@ -15,7 +15,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNIdentityPostureUsers
 }
 
 Describe 'Update-ZNIdentityPostureUsersViolation' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        { Update-ZNIdentityPostureUsersViolation -PostureCheckType PASSWORD_NEVER_EXPIRE -UserIds u:a:2wl9Once -ViolationState 2 } | Should -Not -Throw
+        Update-ZNIdentityPostureUsersViolation -PostureCheckType PASSWORD_NEVER_EXPIRE -UserIds u:a:2wl9Once -ViolationState 1
     }
 }

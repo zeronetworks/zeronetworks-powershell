@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsClientsInter
 }
 
 Describe 'Update-ZNSettingsClientsInternetAccess' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        { Update-ZNSettingsClientsInternetAccess -Trusted (Get-ZNSettingsClientsTrustedInternet) -Untrusted (Get-ZNSettingsClientsUntrustedInternet) } | Should -Not -Throw
     }
 }

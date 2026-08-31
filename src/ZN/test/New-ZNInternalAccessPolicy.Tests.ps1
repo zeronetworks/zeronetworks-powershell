@@ -15,7 +15,12 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNInternalAccessPolicy'))
 }
 
 Describe 'New-ZNInternalAccessPolicy' {
-    It 'CreateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'CreateExpanded' {
+        $dest = (Get-ZNInternalAccessPolicyDestinationAssetsCandidate).Items | select -First 1
+        $portsList = New-ZNPortsList -Protocol TCP -Ports 22
+        $sourceuser = (Get-ZNInternalAccessPolicySourceUserCandidate -Search "any user").Items
+        $intPolicy = New-ZNInternalAccessPolicy -DstAssetId $dest.id -DstPortsList @($portsList) -DstProcessNamesList @(*) -Name ManLinux -RuleDuration 6 -SrcUserIdsList @($sourceUser.id) -State 1
+        $intPolicy.ItemId | Should -Not -BeNullOrEmpty
+        Remove-ZNInternalAccessPolicy -PolicyId $intPolicy.ItemId
     }
 }

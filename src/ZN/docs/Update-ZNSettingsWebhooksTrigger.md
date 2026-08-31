@@ -14,7 +14,7 @@ Update Webhooks triggers settings
 
 ```
 Update-ZNSettingsWebhooksTrigger -WebhookId <String> [-AccountName <String>]
- [-Triggers <ISettingsWebhookTriggersBodyTriggersItem[]>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-Triggers <ISettingsWebhookTriggerBody[]>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -53,7 +53,7 @@ Accept wildcard characters: False
 .
 
 ```yaml
-Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsWebhookTriggersBodyTriggersItem[]
+Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsWebhookTriggerBody[]
 Parameter Sets: (All)
 Aliases:
 
@@ -128,11 +128,17 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-`TRIGGERS <ISettingsWebhookTriggersBodyTriggersItem[]>`: .
-  - `RuleEventConfigEnforcementSourcesList <List<Int32>>`: 
-  - `RuleEventConfigEventList <List<Int32>>`: 
-  - `RuleEventConfigResource <Int32>`: 
+`TRIGGERS <ISettingsWebhookTriggerBody[]>`: .
   - `Topic <Int32>`: 
+  - `[ReactivePolicyEventConfigEnforcementSourcesList <List<Int32>>]`: List of enforcement source identifiers
+  - `[ReactivePolicyEventConfigEventList <List<Int32>>]`: List of event type identifiers
+  - `[ReactivePolicyEventConfigResource <Int32?>]`: Resource type identifier
+  - `[RuleEventConfigEnforcementSourcesList <List<Int32>>]`: List of enforcement source identifiers
+  - `[RuleEventConfigEventList <List<Int32>>]`: List of event type identifiers
+  - `[RuleEventConfigResource <Int32?>]`: Resource type identifier
+  - `[RuleReviewEventConfigEnforcementSourcesList <List<Int32>>]`: List of enforcement source identifiers
+  - `[RuleReviewEventConfigEventList <List<Int32>>]`: List of event type identifiers
+  - `[RuleReviewEventConfigResource <Int32?>]`: Resource type identifier
 
 ## RELATED LINKS
 

@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsPostureChecksEx
 }
 
 Describe 'Get-ZNSettingsPostureChecksExcludedUser' {
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        (Get-ZNSettingsPostureChecksExcludedUser).Count | Should -BeGreaterThan 0
     }
 }

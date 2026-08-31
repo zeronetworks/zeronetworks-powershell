@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsAuthAllowedI
 
 Describe 'Update-ZNSettingsAuthAllowedIP' {
     It 'UpdateExpanded' -skip {
-        
+        #No easy way to test
     }
 }

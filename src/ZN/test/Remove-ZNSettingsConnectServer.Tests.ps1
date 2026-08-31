@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNSettingsConnectServe
 
 Describe 'Remove-ZNSettingsConnectServer' {
     It 'Delete' -skip {
-        
+        #No easy way to test
     }
 }

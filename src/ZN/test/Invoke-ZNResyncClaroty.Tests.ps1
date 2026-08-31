@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Invoke-ZNResyncClaroty'))
 
 Describe 'Invoke-ZNResyncClaroty' {
     It 'Resync' -skip {
-        
+        #No easy way to test
     }
 }

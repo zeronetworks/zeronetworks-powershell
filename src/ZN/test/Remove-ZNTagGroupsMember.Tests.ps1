@@ -12,7 +12,10 @@ while(-not $mockingPath) {
 . ($mockingPath | Select-Object -First 1).FullName
 
 Describe 'Remove-ZNTagGroupsMember' {
-    It 'Delete' -skip {
-        
+    It 'Delete' {
+        $member= (Search-ZNAsset -Fqdn ml01.posh.local).AssetId
+        $group = (Get-ZNGroup -Search "Externally Facing ServerS").Items
+        Add-ZNTagGroupsMember -GroupId $group.id -MembersId @($member)
+        { Remove-ZNTagGroupsMember -GroupId $group.id -MembersId @($member) } | Should -Not -Throw
     }
 }

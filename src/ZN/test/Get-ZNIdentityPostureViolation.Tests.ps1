@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNIdentityPostureViolatio
 }
 
 Describe 'Get-ZNIdentityPostureViolation' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNIdentityPostureViolation).Items.Count | Should -BeGreaterThan 0
     }
 }

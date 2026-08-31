@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNConnectPolicy'))
 }
 
 Describe 'Get-ZNConnectPolicy' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNConnectPolicy).Count | Should -BeGreaterThan 0
     }
 }

@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNSettingsAad'))
 
 Describe 'Remove-ZNSettingsAad' {
     It 'Remove' -skip {
-        
+        #No easy way to test
     }
 }

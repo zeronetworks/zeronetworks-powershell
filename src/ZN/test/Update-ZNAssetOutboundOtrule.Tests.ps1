@@ -15,7 +15,13 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetOutboundOtrule'
 }
 
 Describe 'Update-ZNAssetOutboundOtrule' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        $assetId = (Search-ZNAsset -Fqdn dc01.posh.local).AssetId
+        $rules = Get-ZNAssetOutboundOtRule -AssetId $assetId
+        $rule = $rules.Items[0]
+        $description = $rule.Description + (Get-Random -Minimum 1 -Maximum 100)
+        Update-ZNAssetOutboundOtRule -AssetId $assetId -RuleId $rule.Id -Description $description
+        $updatedRule = Get-ZNAssetOutboundOtRule -AssetId $assetId -RuleId $rule.Id
+        $updatedRule.ItemDescription | Should -Be $description
     }
 }

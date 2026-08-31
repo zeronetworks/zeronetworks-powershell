@@ -15,19 +15,9 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNSettingsPilotGroupAs
 }
 
 Describe 'Remove-ZNSettingsPilotGroupAsset' {
-    It 'RemoveExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'Remove' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'RemoveViaIdentityExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'RemoveViaIdentity' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'RemoveExpanded' {
+        $asset= (Search-ZNAsset -Fqdn wc01.posh.local).AssetId
+        Add-ZNSettingsPilotGroupAsset -OSType Windows -Product cloud-connector -AssetIds @($asset)
+        { Remove-ZNSettingsPilotGroupAsset -OSType windows -Product cloud-connector -AssetIds @($asset) } | Should -Not -Throw
     }
 }

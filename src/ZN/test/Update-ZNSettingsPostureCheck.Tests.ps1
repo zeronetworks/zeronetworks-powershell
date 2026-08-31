@@ -15,7 +15,9 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsPostureCheck
 }
 
 Describe 'Update-ZNSettingsPostureCheck' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        $postureCheck = Update-ZNSettingsPostureCheck -Enabled:$false -Severity 1 -type 1
+        $postureCheck.DefinitionEnabled | Should -Be $false
+        Update-ZNSettingsPostureCheck -Enabled -Severity 1 -type 1
     }
 }

@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNK8SIPBlock'))
 }
 
 Describe 'New-ZNK8SIPBlock' {
-    It '__AllParameterSets' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It '__AllParameterSets' {
+        (New-ZNK8SIPBlock -Cidr 1.1.1.1/32).Cidr | Should -Be '1.1.1.1/32'
     }
 }

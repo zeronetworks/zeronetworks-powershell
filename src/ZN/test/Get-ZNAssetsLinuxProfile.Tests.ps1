@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNAssetsLinuxProfile'))
 }
 
 Describe 'Get-ZNAssetsLinuxProfile' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNAssetsLinuxProfile).Count | Should -BeGreaterThan 0
     }
 }

@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Connect-ZN'))
 
 Describe 'Connect-ZN' {
     It '__AllParameterSets' -skip {
-        
+        #No easy way to test
     }
 }

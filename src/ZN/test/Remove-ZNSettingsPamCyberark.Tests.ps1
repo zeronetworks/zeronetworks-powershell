@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNSettingsPamCyberark'
 
 Describe 'Remove-ZNSettingsPamCyberark' {
     It 'Delete' -skip {
-        
+        #No easy way to test
     }
 }

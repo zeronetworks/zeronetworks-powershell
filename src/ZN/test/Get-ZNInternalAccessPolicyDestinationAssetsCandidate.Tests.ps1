@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNInternalAccessPolicyDes
 }
 
 Describe 'Get-ZNInternalAccessPolicyDestinationAssetsCandidate' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNInternalAccessPolicyDestinationAssetsCandidate).Items.Count | Should -BeGreaterThan 0
     }
 }

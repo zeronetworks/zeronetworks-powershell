@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsWebhook'))
 }
 
 Describe 'Get-ZNSettingsWebhook' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNSettingsWebhook).Count | Should -BeGreaterThan 0
     }
 }

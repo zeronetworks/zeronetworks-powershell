@@ -15,15 +15,15 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNSettingsWebhooksTrigger
 }
 
 Describe 'New-ZNSettingsWebhooksTrigger' {
-    It 'RulesReview' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'RulesReview' {
+        (New-ZNSettingsWebhooksTrigger -RulesReview -RulesReviewResource Inbound -RulesReviewTriggerEvent Any).Topic | Should -Be 2
     }
 
-    It 'Rules' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Rules' {
+        (New-ZNSettingsWebhooksTrigger -Rules -RulesResource "INBOUNDIT" -RulesTriggerEvent "Created").Topic | Should -Be 1
     }
 
-    It 'MFAPolicies' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'MFAPolicies' {
+        (New-ZNSettingsWebhooksTrigger -MFAPolicies -MFAPoliciesResource inbound -MFAPoliciesTriggerEvent Any).Topic | Should -Be 3
     }
 }

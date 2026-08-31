@@ -13,6 +13,6 @@ while(-not $mockingPath) {
 
 Describe 'Update-ZNSettingsZpa' {
     It 'UpdateExpanded' -skip {
-        
+        #No easy way to test
     }
 }

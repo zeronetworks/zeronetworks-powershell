@@ -15,11 +15,12 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNDynamicLabel'))
 }
 
 Describe 'Get-ZNDynamicLabel' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNDynamicLabel).Items.Count | Should -BeGreaterThan 0
     }
 
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        $item = (Get-ZNDynamicLabel).Items[0]
+        (Get-ZNDynamicLabel -LabelId $item.Id).Id | Should -Not -BeNullOrEmpty
     }
 }

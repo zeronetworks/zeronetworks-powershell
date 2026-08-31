@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNConnectPostureCheck'))
 }
 
 Describe 'Get-ZNConnectPostureCheck' {
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        (Get-ZNConnectPostureCheck).Count | Should -BeGreaterThan 0
     }
 }

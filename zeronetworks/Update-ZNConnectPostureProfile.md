@@ -438,16 +438,16 @@ To create the parameters described below, construct a hash table containing the 
 
 
 `MACCHECKCERTIFICATEEXISTSLIST <MacPostureChecksCertificateExistsListItem[]>`: Mac certificate check
-  - `[SubjectNameList <List<String>>]`: 
+  - `SubjectNameList <List<String>>`: 
 
 `MACCHECKDOMAINJOINEDLIST <MacPostureChecksDomainJoinedListItem[]>`: Mac domain joined check
-  - `[DomainList <List<String>>]`: 
+  - `DomainList <List<String>>`: 
 
 `MACCHECKFILEEXISTSLIST <MacPostureChecksFileExistsListItem[]>`: Mac file check
-  - `[FilePathList <List<String>>]`: 
+  - `[FilesPathsList <List<String>>]`: 
 
 `MACCHECKPROCESSRUNNINGLIST <MacPostureChecksProcessRunningListItem[]>`: Mac process running check
-  - `[ProcessPathList <List<String>>]`: 
+  - `ProcessPathList <List<String>>`: 
 
 `MACCHECKSOSVERSIONBUILDOSVERSIONSLIST <MacPostureChecksOSVersionBuildOsversionsListItem[]>`: MAC OS version check
   - `AllowNewer <Boolean>`: 
@@ -455,19 +455,19 @@ To create the parameters described below, construct a hash table containing the 
   - `Version <String>`: 
 
 `WINDOWCHECKCERTIFICATEEXISTSLIST <WindowsPostureChecksCertificateExistsListItem[]>`: Windows certificate check
-  - `[SubjectNameList <List<String>>]`: 
+  - `SubjectNameList <List<String>>`: 
 
 `WINDOWCHECKDOMAINJOINEDLIST <WindowsPostureChecksDomainJoinedListItem[]>`: Windows domain joined check
-  - `[DomainList <List<String>>]`: 
+  - `DomainList <List<String>>`: 
 
 `WINDOWCHECKFILEEXISTSLIST <WindowsPostureChecksFileExistsListItem[]>`: Windows file check
-  - `[FilesPathsList <List<String>>]`: 
+  - `FilesPathsList <List<String>>`: 
 
 `WINDOWCHECKPROCESSRUNNINGLIST <WindowsPostureChecksProcessRunningListItem[]>`: Windows process running check
-  - `[ProcessPathList <List<String>>]`: 
+  - `ProcessPathList <List<String>>`: 
 
 `WINDOWCHECKREGISTRYKEYVALUEDATAEXISTSLIST <IWindowsPostureChecksRegistryKeyValueDataExistsListItem[]>`: Windows registry key value data exists check
-  - `[EntriesList <List<IWindowsPostureChecksRegistryKeyValueDataExistsListPropertiesItemsItem>>]`: 
+  - `EntriesList <List<IWindowsPostureChecksRegistryKeyValueDataExistsListPropertiesItemsItem>>`: 
     - `KeyPath <String>`: 
     - `[DataList <List<String>>]`: 
     - `[ValueName <String>]`: 

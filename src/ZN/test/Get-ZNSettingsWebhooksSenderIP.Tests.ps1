@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsWebhooksSenderI
 }
 
 Describe 'Get-ZNSettingsWebhooksSenderIP' {
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        (Get-ZNSettingsWebhooksSenderIP).SenderIP | Should -Not -BeNullOrEmpty
     }
 }

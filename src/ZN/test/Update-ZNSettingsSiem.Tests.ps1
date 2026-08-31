@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsSiem'))
 
 Describe 'Update-ZNSettingsSiem' {
     It 'UpdateExpanded' -skip {
-        
+        #No easy way to test
     }
 }

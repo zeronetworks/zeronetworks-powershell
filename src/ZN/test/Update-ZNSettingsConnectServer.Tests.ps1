@@ -12,7 +12,12 @@ while(-not $mockingPath) {
 . ($mockingPath | Select-Object -First 1).FullName
 
 Describe 'Update-ZNSettingsConnectServer' {
-    It 'UpdateExpanded' -skip {
-        
+    It 'UpdateExpanded' {
+        $connectServer = (Get-ZNSettingsConnectServer).Items | Select -First 1
+        $origPort = $connectServer.Port
+        Update-ZNSettingsConnectServer -ConnectServerId $connectServer.Id -PublicPort 12345 -Subnet $connectServer.SubnetName
+        $UpdatedconnectServer = (Get-ZNSettingsConnectServer).Items | Select -First 1
+        $updatedConnectServer.Port | Should -Be 12345
+        Update-ZNSettingsConnectServer -ConnectServerId $connectServer.Id -PublicPort $origPort -Subnet $connectServer.SubnetName
     }
 }

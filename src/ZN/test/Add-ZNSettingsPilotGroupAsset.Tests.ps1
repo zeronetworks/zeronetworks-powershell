@@ -15,7 +15,10 @@ if(($null -eq $TestName) -or ($TestName -contains 'Add-ZNSettingsPilotGroupAsset
 }
 
 Describe 'Add-ZNSettingsPilotGroupAsset' {
-    It 'AddExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'AddExpanded' {
+        $asset= (Search-ZNAsset -Fqdn wc01.posh.local).AssetId
+        Add-ZNSettingsPilotGroupAsset -OSType Windows -Product cloud-connector -AssetIds @($asset)
+        (Get-ZNSettingsPilotGroup -OSType windows -Product cloud-connector).Items.Name | Should -Contain WC01
+        Remove-ZNSettingsPilotGroupAsset -OSType windows -Product cloud-connector -AssetIds @($asset) 
     }
 }

@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNSettingsSiem'))
 
 Describe 'New-ZNSettingsSiem' {
     It 'CreateExpanded' -skip {
-        
+        #No easy way to test
     }
 }

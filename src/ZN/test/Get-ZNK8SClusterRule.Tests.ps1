@@ -15,7 +15,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNK8SClusterRule'))
 }
 
 Describe 'Get-ZNK8SClusterRule' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        $k8scluster = (Get-ZNK8SCluster).Items | where {$_.Name -eq "rke"} |Select-Object -First 1
+        (Get-ZNK8SClusterRule -K8SClusterId $k8sCluster.id).Items.Count | Should -BeGreaterThan 0
     }
 }

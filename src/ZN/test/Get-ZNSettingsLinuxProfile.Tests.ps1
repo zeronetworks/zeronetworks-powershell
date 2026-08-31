@@ -15,11 +15,12 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsLinuxProfile'))
 }
 
 Describe 'Get-ZNSettingsLinuxProfile' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNSettingsLinuxProfile).Count | Should -BeGreaterThan 0
     }
 
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        $linuxProfile = Get-ZNSettingsLinuxProfile | Select-Object -First 1
+        (Get-ZNSettingsLinuxProfile -ProfileId $linuxProfile.Id).Id | Should -Be $linuxProfile.Id
     }
 }

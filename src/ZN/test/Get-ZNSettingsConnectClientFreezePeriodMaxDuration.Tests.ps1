@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsConnectClientFr
 }
 
 Describe 'Get-ZNSettingsConnectClientFreezePeriodMaxDuration' {
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        (Get-ZNSettingsConnectClientFreezePeriodMaxDuration).MaxFreezeWindowDays | Should -Not -BeNullOrEmpty
     }
 }

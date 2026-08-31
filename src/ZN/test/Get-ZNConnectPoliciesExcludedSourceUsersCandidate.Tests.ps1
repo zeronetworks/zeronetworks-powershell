@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNConnectPoliciesExcluded
 }
 
 Describe 'Get-ZNConnectPoliciesExcludedSourceUsersCandidate' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNConnectPoliciesExcludedSourceUsersCandidate).Items.Count | Should -BeGreaterThan 0
     }
 }

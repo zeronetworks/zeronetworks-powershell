@@ -15,8 +15,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsAdWindowsAut
 }
 
 Describe 'Update-ZNSettingsAdWindowsAutomationGroup' {
-    It 'UpdateExpanded' {
-        $a = 1
-        $a | Should -Be 1
+    It 'UpdateExpanded' -skip {
+        #No easy way to test
     }
-}
