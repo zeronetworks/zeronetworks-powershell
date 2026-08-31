@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNSettingsSiem'))
 
 Describe 'Remove-ZNSettingsSiem' {
     It 'Delete' -skip {
-        
+        #No easy way to test
     }
 }

@@ -15,11 +15,12 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNAssetsIPAlias'))
 }
 
 Describe 'Get-ZNAssetsIPAlias' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNAssetsIPAlias).Items.Count | Should -BeGreaterThan 0
     }
 
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        $item = (Get-ZNAssetsIPAlias).Items[0]
+        (Get-ZNAssetsIPAlias -IPAliasId $item.Id).ItemId | Should -Be $item.Id
     }
 }

@@ -15,7 +15,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNAssetOtLabel'))
 }
 
 Describe 'Get-ZNAssetOtLabel' {
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        $asset= (Search-ZNAsset -Fqdn poshotv1.posh.local).AssetId
+        (Get-ZNAssetOtLabel -AssetId $asset).Items.Count | Should -BeGreaterThan 0
     }
 }

@@ -15,7 +15,10 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNSettingsWebhook'))
 }
 
 Describe 'New-ZNSettingsWebhook' {
-    It 'CreateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'CreateExpanded' {
+        $trigger = New-ZNSettingsWebhooksTrigger -MFAPolicies -MFAPoliciesResource inbound -MFAPoliciesTriggerEvent Any
+        $webhook = New-ZNSettingsWebhook -AuthType 1 -IsEnabled:$false -Name "NewWebhook" -Url "https://someurl.com" -ValidateCertificate:$false -Triggers @($trigger)
+        $webhook.WebhookServerId | Should -BeLike "e:w:R*"
+        Remove-ZNSettingsWebhook -WebhookId $webhook.WebhookServerId
     }
 }

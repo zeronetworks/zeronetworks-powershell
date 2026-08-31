@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNAssetsExposureMeterStat
 }
 
 Describe 'Get-ZNAssetsExposureMeterStatistics' {
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        (Get-ZNAssetsExposureMeterStatistics).Count | Should -BeGreaterThan 0
     }
 }

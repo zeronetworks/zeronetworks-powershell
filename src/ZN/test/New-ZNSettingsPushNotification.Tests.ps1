@@ -13,6 +13,6 @@ while(-not $mockingPath) {
 
 Describe 'New-ZNSettingsPushNotification' {
     It 'CreateExpanded' -skip {
-        
+        #No easy way to test
     }
 }

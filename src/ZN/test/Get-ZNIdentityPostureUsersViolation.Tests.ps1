@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNIdentityPostureUsersVio
 }
 
 Describe 'Get-ZNIdentityPostureUsersViolation' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNIdentityPostureUsersViolation -PostureCheckType  OLD_PASSWORD).Items.Count | Should -BeGreaterThan 0
     }
 }

@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNConnectPoliciesSourceUs
 }
 
 Describe 'Get-ZNConnectPoliciesSourceUsersCandidate' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNConnectPoliciesSourceUsersCandidate).Items.Count | Should -BeGreaterThan 0
     }
 }

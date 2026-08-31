@@ -792,6 +792,10 @@ Returns a list of audits for the K8s.
 ### [Get-ZNK8SClusterCommand](Get-ZNK8SClusterCommand.md)
 Returns the commands for a K8s cluster.
 
+### [Get-ZNK8SClusterDesiredRule](Get-ZNK8SClusterDesiredRule.md)
+Returns a desired-state rule by ID.
+Returns 412 if the rule is not a networkingV1 rule.
+
 ### [Get-ZNK8SClusterEgressIP](Get-ZNK8SClusterEgressIP.md)
 Returns the egress IPs for a K8s cluster.
 
@@ -808,9 +812,6 @@ Returns a list of rules in the k8s cluster label.
 Returns a list of namespaces for an label in the k8s cluster.
 
 ### [Get-ZNK8SClusterLabelOutboundRule](Get-ZNK8SClusterLabelOutboundRule.md)
-Returns a list of rules in the k8s cluster label.
-
-### [Get-ZNK8SClusterLabelRule](Get-ZNK8SClusterLabelRule.md)
 Returns a list of rules in the k8s cluster label.
 
 ### [Get-ZNK8SClusterLabelWorkload](Get-ZNK8SClusterLabelWorkload.md)
@@ -848,10 +849,6 @@ Returns a list of rules in the k8s cluster.
 
 ### [Get-ZNK8SClusterWorkload](Get-ZNK8SClusterWorkload.md)
 Returns a workload for k8s cluster.
-
-### [Get-ZNK8SDesiredRule](Get-ZNK8SDesiredRule.md)
-Returns a desired-state rule by ID.
-Returns 412 if the rule is not a networkingV1 rule.
 
 ### [Get-ZNK8SNamespace](Get-ZNK8SNamespace.md)
 Returns a list of namespaces for the k8s.
@@ -1607,7 +1604,7 @@ Returns a the internal access policy
 ### [New-ZNK8SCluster](New-ZNK8SCluster.md)
 Returns a list of k8s cluster.
 
-### [New-ZNK8SDesiredRule](New-ZNK8SDesiredRule.md)
+### [New-ZNK8SClusterDesiredRule](New-ZNK8SClusterDesiredRule.md)
 Create a desired-state rule on an existing network policy.
 networkPolicyUid is enriched server-side from the policy.
 
@@ -1689,8 +1686,8 @@ Create segment server freeze period
 ### [New-ZNSettingsSiem](New-ZNSettingsSiem.md)
 Create SIEM Configuration
 
-### [New-ZNSettingsVersionMaintenanceWindow](New-ZNSettingsVersionMaintenanceWindow.md)
-Create a in-memory object for VersionMaintenanceWindow
+### [New-ZNSettingsVersionMaintenanceWindowItem](New-ZNSettingsVersionMaintenanceWindowItem.md)
+Create a in-memory object for VersionMaintenanceWindowBodyMaintenanceWindowsItem
 
 ### [New-ZNSettingsWebhook](New-ZNSettingsWebhook.md)
 Create Webhooks settings
@@ -1881,7 +1878,7 @@ Returns an empty object.
 ### [Remove-ZNK8SCluster](Remove-ZNK8SCluster.md)
 Returns an empty object.
 
-### [Remove-ZNK8SDesiredRule](Remove-ZNK8SDesiredRule.md)
+### [Remove-ZNK8SClusterDesiredRule](Remove-ZNK8SClusterDesiredRule.md)
 Deletes desired-state rules.
 PENDING_DEPLOYMENT rules are hard-deleted; DEPLOYED rules transition to PENDING_DELETION.
 Returns 412 when the request would leave a policy with no active rules.
@@ -2021,9 +2018,6 @@ Returns a group.
 ### [Search-ZNUser](Search-ZNUser.md)
 Provided user SID - returns user entity id
 
-### [Send-ZNSettingsCustomUsersInvite](Send-ZNSettingsCustomUsersInvite.md)
-Returns empty object
-
 ### [Set-ZNApiKey](Set-ZNApiKey.md)
 Set the API key for use in all other cmdlets
 
@@ -2046,7 +2040,7 @@ Returns a number of ot assets that are valid for network segmentation.
 Test CyberArk connection
 
 ### [Test-ZNSettingsWebhook](Test-ZNSettingsWebhook.md)
-Test Webhooks settings
+Test Webhook settings
 
 ### [Unprotect-ZNAssetIdentitySegment](Unprotect-ZNAssetIdentitySegment.md)
 Returns an empty object.
@@ -2225,16 +2219,16 @@ Updates an internal access policy.
 ### [Update-ZNK8SCluster](Update-ZNK8SCluster.md)
 Returns a k8s cluster.
 
-### [Update-ZNK8SDesiredPoliciesMarkAsDesired](Update-ZNK8SDesiredPoliciesMarkAsDesired.md)
+### [Update-ZNK8SClusterDesiredPoliciesMarkAsDesired](Update-ZNK8SClusterDesiredPoliciesMarkAsDesired.md)
 Marks a batch of deployed-but-not-desired policies as desired.
 All requested policies must be in (is_deployed=true, is_desired=false); if any is not, the whole batch fails with 412.
 Deployed-but-not-desired child rules are promoted in the same transaction.
 Max 100 IDs per request.
 
-### [Update-ZNK8SDesiredRule](Update-ZNK8SDesiredRule.md)
+### [Update-ZNK8SClusterDesiredRule](Update-ZNK8SClusterDesiredRule.md)
 Updates a K8s desired rule.
 
-### [Update-ZNK8SDesiredRulesMarkAsDesired](Update-ZNK8SDesiredRulesMarkAsDesired.md)
+### [Update-ZNK8SClusterDesiredRulesMarkAsDesired](Update-ZNK8SClusterDesiredRulesMarkAsDesired.md)
 Marks a batch of deployed-but-not-desired rules as desired.
 All requested rules must be in (is_deployed=true, is_desired=false); if any is not, the whole batch fails with 412.
 For rules whose parent network policy is also deployed-but-not-desired, the policy is promoted in the same transaction.

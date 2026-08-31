@@ -15,11 +15,12 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNInternalAccessPolicy'))
 }
 
 Describe 'Get-ZNInternalAccessPolicy' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNInternalAccessPolicy).Items.Count | Should -BeGreaterThan 0
     }
 
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        $policy = (Get-ZNInternalAccessPolicy).Items[0]
+        (Get-ZNInternalAccessPolicy -PolicyId $policy.Id).ItemId | Should -Not -BeNullOrEmpty
     }
 }

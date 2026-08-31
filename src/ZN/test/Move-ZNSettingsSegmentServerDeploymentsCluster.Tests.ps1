@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Move-ZNSettingsSegmentServerD
 
 Describe 'Move-ZNSettingsSegmentServerDeploymentsCluster' {
     It 'MoveExpanded' -skip {
-        
+        #No easy way to test
     }
 }

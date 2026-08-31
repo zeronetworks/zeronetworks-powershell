@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsDesiredVersion'
 }
 
 Describe 'Get-ZNSettingsDesiredVersion' {
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        (Get-ZNSettingsDesiredVersion -Dvplatform WIN_X64 -Product segment-server).VersionInfoVersion | Should -Not -BeNullOrEmpty
     }
 }

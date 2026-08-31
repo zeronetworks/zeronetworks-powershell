@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsPilotGroupCandi
 }
 
 Describe 'Get-ZNSettingsPilotGroupCandidate' {
-    It 'Get' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Get' {
+        (Get-ZNSettingsPilotGroupCandidate -Product cloud-connector -OSType Windows).Count | Should -BeGreaterThan 0
     }
 }

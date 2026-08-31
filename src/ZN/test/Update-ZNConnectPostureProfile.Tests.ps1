@@ -15,7 +15,11 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNConnectPostureProfil
 }
 
 Describe 'Update-ZNConnectPostureProfile' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        $result = New-ZNConnectPostureProfile -Action BLOCK  -CheckIntervalSeconds 900 -Name "UpdatePostureCheckTest" -WindowsChecksAntivirusIsEnabled:$true
+        Update-ZNConnectPostureProfile -ProfileId $result.Replace('"',"") -WindowsChecksDiskEncryptedIsEncrypted:$true
+        $postureProfile = (Get-ZNConnectPostureProfile -Limit 400).Items | where {$_.id -eq $result.Replace('"',"")}
+        $postureProfile.WindowsChecksDiskEncryptedIsEncrypted | Should -Be $true
+        Remove-ZNConnectPostureProfile -ProfileId $result.Replace('"',"")
     }
 }

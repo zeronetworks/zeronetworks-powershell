@@ -13,16 +13,15 @@ Create a Connect Policy (User Access Configuration)
 ## SYNTAX
 
 ```
-New-ZNConnectPolicy [-AccountName <String>] [-AllowedRegions <String[]>] [-AlwaysOn] [-AutoDisconnectInOffice]
- [-ChangeTicket <String>] [-ConnectivityStateAfterReboot <Int32>] [-Description <String>]
- [-DstEntityIdsList <String[]>] [-ForceSsoAuthentication]
- [-LoginAuthorizedEntityAllowedAssetIdsList <String[]>]
- [-LoginAuthorizedEntityAllowedAssetsSourcesList <String[]>]
- [-LoginAuthorizedEntityAllowedUsersIdsList <String[]>]
+New-ZNConnectPolicy -AllowedRegions <String[]> -AlwaysOn -AutoDisconnectInOffice
+ -ConnectivityStateAfterReboot <Int32> -DstEntityIdsList <String[]> -ForceSsoAuthentication
+ -LoginAuthorizedEntityAllowedAssetIdsList <String[]>
+ -LoginAuthorizedEntityAllowedAssetsSourcesList <String[]>
+ -LoginAuthorizedEntityAllowedUsersIdsList <String[]> -Name <String> -SessionTtlHours <Int32> -UseDefaultIdp
+ -UseExternalBrowserForSso [-AccountName <String>] [-ChangeTicket <String>] [-Description <String>]
  [-LoginAuthorizedEntityExcludedAssetIdsList <String[]>]
- [-LoginAuthorizedEntityExcludedUserIdsList <String[]>] [-Name <String>] [-PostureProfileIds <String[]>]
- [-PriorityDirection <String>] [-PriorityRoleId <String>] [-SessionTtlHours <Int32>] [-UseDefaultIdp]
- [-UseExternalBrowserForSso] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-LoginAuthorizedEntityExcludedUserIdsList <String[]>] [-PostureProfileIds <String[]>]
+ [-PriorityDirection <String>] [-PriorityRoleId <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,7 +64,7 @@ Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -80,7 +79,7 @@ Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -95,7 +94,7 @@ Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -125,7 +124,7 @@ Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -155,7 +154,7 @@ Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -170,7 +169,7 @@ Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -185,7 +184,7 @@ Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -200,7 +199,7 @@ Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -215,7 +214,7 @@ Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -260,22 +259,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -PassThru
-Returns true when the command succeeds
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -336,7 +320,7 @@ Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -351,7 +335,7 @@ Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -366,7 +350,7 @@ Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -412,6 +396,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
+
+### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IPaths1Yz2Jj8ConnectPoliciesPostResponses200ContentApplicationJsonSchema
 
 ## NOTES
 

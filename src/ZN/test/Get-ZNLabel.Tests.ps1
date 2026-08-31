@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNLabel'))
 }
 
 Describe 'Get-ZNLabel' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNLabel).Items.Count | Should -BeGreaterThan 0
     }
 }

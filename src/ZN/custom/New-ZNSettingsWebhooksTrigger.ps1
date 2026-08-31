@@ -5,13 +5,13 @@
     Create a in-memory object for webhooks trigger
 
     .Outputs
-    ZeroNetworks.PowerShell.Cmdlets.Api.Models.SettingsWebhookTriggersBody
+    ZeroNetworks.PowerShell.Cmdlets.Api.Models.settingsWebhookTriggerBody
     
     .Link
     https://github.com/zeronetworks/zero-powershell/zeronetworks/new-znwebhookstrigger
     #>
 function New-ZNSettingsWebhooksTrigger {
-    [OutputType([ZeroNetworks.PowerShell.Cmdlets.Api.Models.SettingsWebhookTriggersBody])]
+    [OutputType([ZeroNetworks.PowerShell.Cmdlets.Api.Models.settingsWebhookTriggerBody])]
     [CmdletBinding(PositionalBinding = $false)]
     Param(
     
@@ -36,7 +36,7 @@ function New-ZNSettingsWebhooksTrigger {
         [string[]][ValidateSet("ANY", "CREATED", "EDITED", "EXPIRED", "APPROVED", "SUGGESTIONCREATED", "REJECTED")]
         $RulesTriggerEvent,
 
-        [Parameter(HelpMessage = "Enforcement Source", ParameterSetName = 'RulesReview')]
+        [Parameter(Mandatory, HelpMessage = "Enforcement Source", ParameterSetName = 'RulesReview')]
         [string][ValidateSet("INBOUND", "OUTBOUND", "DELETEDINBOUND", "DELETEDOUTBOUND")]
         $RulesReviewResource,
 
@@ -48,7 +48,7 @@ function New-ZNSettingsWebhooksTrigger {
         [string][ValidateSet("INBOUND", "OUTBOUND", "IDENTITY", "EXTERNAL")]
         $MFAPoliciesResource,
 
-        [Parameter(HelpMessage = "Event", ParameterSetName = 'RulesReview')]
+        [Parameter(HelpMessage = "Event", ParameterSetName = 'MFAPolicies')]
         [string[]][ValidateSet("ANY", "CREATED", "EDITED", "DELETED")]
         $MFAPoliciesTriggerEvent,
 
@@ -62,10 +62,38 @@ function New-ZNSettingsWebhooksTrigger {
     process {
         $Object = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.settingsWebhookTriggerBody]::New()
 
+        # Set Enforcement Source
+        if($PSBoundParameters['EnforcementSource']) {
+            $EnforcementSourceList = @()
+            foreach ($source in $EnforcementSource) {
+                switch ($source) {
+                    "ANY" { $EnforcementSourceList += 0 }
+                    "MFA" { $EnforcementSourceList += 1 }
+                    "AUTOMATED" { $EnforcementSourceList += 2 }
+                    "ACCESSPORTAL" { $EnforcementSourceList += 3 }
+                    "ADMINPORTAL" { $EnforcementSourceList += 4 }
+                    "AUTOMATAIONENGINE" { $EnforcementSourceList += 5 }
+                    "API" { $EnforcementSourceList += 6 }
+                    "SETUP" { $EnforcementSourceList += 7 }
+                    "CONNECT" { $EnforcementSourceList += 8 }
+                    "SYSTEM" { $EnforcementSourceList += 9 }
+                    "DOWNLOADPORTAL" { $EnforcementSourceList += 10 }
+                    "EXTERNALACCESSPORTAL" { $EnforcementSourceList += 11 }
+                    "DAY2AUTOMATION" { $EnforcementSourceList += 12 }
+                    "default" {
+                        $EnforcementSourceList += 0
+                    }
+                }
+            }
+        } else {
+            $EnforcementSourceList = @(0)
+        }
+
 
         if($PSCmdlet.ParameterSetName -eq 'Rules') {
             # Set Topic
             $Object.Topic = 1
+            $Object.RuleEventConfigEnforcementSourcesList = $EnforcementSourceList
             # Set Resource
             switch ($PSBoundParameters['RulesResource']) {
                 "INBOUNDIT" { $Object.RuleEventConfigResource = 1 }
@@ -110,12 +138,13 @@ function New-ZNSettingsWebhooksTrigger {
         } elseif ($PSCmdlet.ParameterSetName -eq 'RulesReview') {
             # Set Topic
             $Object.Topic = 2
+            $Object.RuleReviewEventConfigEnforcementSourcesList = $EnforcementSourceList
             #Set Resource
             switch ($PSBoundParameters['RulesReviewResource']) {
-                "INBOUND" { $Object.RuleEventConfigResource = 1 }
-                "OUTBOUND" { $Object.RuleEventConfigResource = 2 }
-                "DELETEDINBOUND" { $Object.RuleEventConfigResource = 3 }
-                "DELETEDOUTBOUND" { $Object.RuleEventConfigResource = 4 }
+                "INBOUND" { $Object.RuleReviewEventConfigResource = 1 }
+                "OUTBOUND" { $Object.RuleReviewEventConfigResource = 2 }
+                "DELETEDINBOUND" { $Object.RuleReviewEventConfigResource = 3 }
+                "DELETEDOUTBOUND" { $Object.RuleReviewEventConfigResource = 4 }
                 Default {
                     throw "Invalid Resource value. Allowed values are: INBOUND, OUTBOUND, DELETEDINBOUND, DELETEDOUTBOUND."
                 }
@@ -135,20 +164,21 @@ function New-ZNSettingsWebhooksTrigger {
                         }
                     }
                 }
-                $Object.RuleEventConfigEventList = $RulesReviewTriggerEventList
+                $Object.RuleReviewEventConfigEventList = $RulesReviewTriggerEventList
             } else {
                 # if not provided means any
-                $Object.RuleEventConfigEventList = @(1)
+                $Object.RuleReviewEventConfigEventList = @(1)
             }
         } elseif ($PSCmdlet.ParameterSetName -eq 'MFAPolicies') {
             # Set Topic
             $Object.Topic = 3
+            $Object.ReactivePolicyEventConfigEnforcementSourcesList = $EnforcementSourceList
             # Set Resource
             switch ($PSBoundParameters['MFAPoliciesResource']) {
-                "INBOUND" { Object.RuleEventConfigResource = 1 }
-                "OUTBOUND" { Object.RuleEventConfigResource = 2 }
-                "IDENTITY" { Object.RuleEventConfigResource = 3 }
-                "EXTERNAL" { Object.RuleEventConfigResource = 4 }
+                "INBOUND" { $Object.ReactivePolicyEventConfigResource = 1 }
+                "OUTBOUND" { $Object.ReactivePolicyEventConfigResource = 2 }
+                "IDENTITY" { $Object.ReactivePolicyEventConfigResource = 3 }
+                "EXTERNAL" { $Object.ReactivePolicyEventConfigResource = 4 }
                 Default {}
             }
             #Set Events
@@ -165,40 +195,14 @@ function New-ZNSettingsWebhooksTrigger {
                         }
                     }
                 }
-                $Object.RuleEventConfigEventList = $MFAPoliciesTriggerEventList
+                $Object.ReactivePolicyEventConfigEventList = $MFAPoliciesTriggerEventList
             } else {
                 # if not provided means any
-                $Object.RuleEventConfigEventList = @(1)
+                $Object.ReactivePolicyEventConfigEventList = @(1)
             }
         }
 
-        # Set Enforcement Source
-        if($PSBoundParameters['EnforcementSource']) {
-            $EnforcementSourceList = @()
-            foreach ($source in $EnforcementSource) {
-                switch ($source) {
-                    "ANY" { $EnforcementSourceList += 0 }
-                    "MFA" { $EnforcementSourceList += 1 }
-                    "AUTOMATED" { $EnforcementSourceList += 2 }
-                    "ACCESSPORTAL" { $EnforcementSourceList += 3 }
-                    "ADMINPORTAL" { $EnforcementSourceList += 4 }
-                    "AUTOMATAIONENGINE" { $EnforcementSourceList += 5 }
-                    "API" { $EnforcementSourceList += 6 }
-                    "SETUP" { $EnforcementSourceList += 7 }
-                    "CONNECT" { $EnforcementSourceList += 8 }
-                    "SYSTEM" { $EnforcementSourceList += 9 }
-                    "DOWNLOADPORTAL" { $EnforcementSourceList += 10 }
-                    "EXTERNALACCESSPORTAL" { $EnforcementSourceList += 11 }
-                    "DAY2AUTOMATION" { $EnforcementSourceList += 12 }
-                    "default" {
-                        $EnforcementSourceList += 0
-                    }
-                }
-            }
-            $Object.RuleEventConfigEnforcementSourcesList = $EnforcementSourceList
-        } else {
-            $Object.RuleEventConfigEnforcementSourcesList = @(0)
-        }
+        
 
         return $Object
     }

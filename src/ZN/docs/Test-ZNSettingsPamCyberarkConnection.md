@@ -12,16 +12,9 @@ Test CyberArk connection
 
 ## SYNTAX
 
-### TestExpanded (Default)
 ```
 Test-ZNSettingsPamCyberarkConnection [-AccountName <String>] [-Address <String>] [-CyberArkLogonType <Int32>]
  [-Password <String>] [-SecretsType <Int32>] [-UserName <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### Test
-```
-Test-ZNSettingsPamCyberarkConnection -Body <ISettingsCyberarkConfigBody> [-AccountName <String>] [-Confirm]
- [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,7 +58,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: TestExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -75,27 +68,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Body
-.
-
-```yaml
-Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsCyberarkConfigBody
-Parameter Sets: Test
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -CyberArkLogonType
 * 1 - CyberArk* 2 - LDAP* 3 - Radius* 4 - Windows
 
 ```yaml
 Type: System.Int32
-Parameter Sets: TestExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -110,7 +88,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: TestExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -125,7 +103,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.Int32
-Parameter Sets: TestExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -140,7 +118,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: TestExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -186,8 +164,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsCyberarkConfigBody
-
 ## OUTPUTS
 
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
@@ -195,18 +171,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISettingsCyberarkConfigTest
 
 ## NOTES
-
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-
-`BODY <ISettingsCyberarkConfigBody>`: .
-  - `Address <String>`: 
-  - `CyberArkLogonType <Int32>`: * 1 - CyberArk         * 2 - LDAP         * 3 - Radius         * 4 - Windows         
-  - `Password <String>`: 
-  - `SecretsType <Int32>`: * 1 - Plain         * 2 - RDP File         
-  - `UserName <String>`: 
 
 ## RELATED LINKS
 

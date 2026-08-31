@@ -15,7 +15,10 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNInternalAccessPolicy
 }
 
 Describe 'Update-ZNInternalAccessPolicy' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        $random = Get-Random -Minimum 1 -Maximum 100
+        $iap = (Get-ZNInternalAccessPolicy).Items | select -First 1
+        $updateIap = Update-ZNInternalAccessPolicy -PolicyId $iap.Id -Description "updated$random"
+        $updateIap.Description | Should -Be "updated$random"
     }
 }

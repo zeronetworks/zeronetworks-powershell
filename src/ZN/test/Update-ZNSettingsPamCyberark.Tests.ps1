@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsPamCyberark'
 
 Describe 'Update-ZNSettingsPamCyberark' {
     It 'UpdateExpanded' -skip {
-        
+        #No easy way to test
     }
 }

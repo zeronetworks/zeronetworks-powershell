@@ -12,23 +12,22 @@ Create a in-memory object for webhooks trigger
 
 ## SYNTAX
 
-### RulesReview (Default)
+### Rules (Default)
 ```
-New-ZNSettingsWebhooksTrigger -RulesReview [-EnforcementSource <String[]>]
- [-MFAPoliciesTriggerEvent <String[]>] [-RulesReviewResource <String>] [-RulesReviewTriggerEvent <String[]>]
- [<CommonParameters>]
+New-ZNSettingsWebhooksTrigger -Rules -RulesResource <String> [-EnforcementSource <String[]>]
+ [-RulesTriggerEvent <String[]>] [<CommonParameters>]
 ```
 
 ### MFAPolicies
 ```
 New-ZNSettingsWebhooksTrigger -MFAPolicies -MFAPoliciesResource <String> [-EnforcementSource <String[]>]
- [<CommonParameters>]
+ [-MFAPoliciesTriggerEvent <String[]>] [<CommonParameters>]
 ```
 
-### Rules
+### RulesReview
 ```
-New-ZNSettingsWebhooksTrigger -Rules -RulesResource <String> [-EnforcementSource <String[]>]
- [-RulesTriggerEvent <String[]>] [<CommonParameters>]
+New-ZNSettingsWebhooksTrigger -RulesReview -RulesReviewResource <String> [-EnforcementSource <String[]>]
+ [-RulesReviewTriggerEvent <String[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -96,7 +95,7 @@ Event
 
 ```yaml
 Type: System.String[]
-Parameter Sets: RulesReview
+Parameter Sets: MFAPolicies
 Aliases:
 
 Required: False
@@ -159,7 +158,7 @@ Type: System.String
 Parameter Sets: RulesReview
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -203,7 +202,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### ZeroNetworks.PowerShell.Cmdlets.Api.Models.SettingsWebhookTriggersBody
+### ZeroNetworks.PowerShell.Cmdlets.Api.Models.SettingsWebhookTriggerBody
 
 ## NOTES
 

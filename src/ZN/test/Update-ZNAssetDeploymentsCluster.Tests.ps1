@@ -15,7 +15,11 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetDeploymentsClus
 }
 
 Describe 'Update-ZNAssetDeploymentsCluster' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        $asset = (Search-ZNAsset -Fqdn "dc01.posh.local").AssetId
+        $deploymentCluster = Get-ZNSettingsDeploymentsCluster | where {$_.Name -eq "ZN deployments cluster"}
+        { Update-ZNAssetDeploymentsCluster -AssetIds @($asset) -DeploymentsClusterId $deploymentCluster.Id } | Should -Not -Throw
+        Update-ZNAssetDeploymentsCluster -AssetIds @($asset)
+                
     }
 }

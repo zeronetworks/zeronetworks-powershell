@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsLinuxUser'))
 
 Describe 'Update-ZNSettingsLinuxUser' {
     It 'UpdateExpanded' -skip {
-        
+        #No easy way to test
     }
 }

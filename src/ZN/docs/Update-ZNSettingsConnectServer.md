@@ -14,7 +14,7 @@ Update Connect Server in Settings
 
 ```
 Update-ZNSettingsConnectServer -ConnectServerId <String> [-AccountName <String>] [-PublicPort <String>]
- [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-Subnet <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -63,6 +63,21 @@ Accept wildcard characters: False
 ```
 
 ### -PublicPort
+.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Subnet
 .
 
 ```yaml

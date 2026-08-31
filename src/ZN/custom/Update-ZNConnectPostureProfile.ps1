@@ -193,7 +193,7 @@ function Update-ZNConnectPostureProfile {
         try {
             #Handle Get
             $profileId = $PSBoundParameters['ProfileId'].ToString()
-            $postureProfile = (ZeroNetworks\Get-ZNConnectPostureProfile  -Limit 400).Items | where {$_.id -eq "P:a:bCRDHJQF"}
+            $postureProfile = (ZeroNetworks\Get-ZNConnectPostureProfile  -Limit 400).Items | where {$_.id -eq $ProfileId}
 
             $updatedPostureProfile = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.PostureProfileBody]::new()
             

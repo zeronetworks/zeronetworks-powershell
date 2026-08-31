@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Set-ZNApiKey'))
 
 Describe 'Set-ZNApiKey' {
     It '__AllParameterSets' -skip {
-        
+        #No easy way to test
     }
 }

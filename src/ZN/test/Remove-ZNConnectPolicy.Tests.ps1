@@ -15,7 +15,12 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNConnectPolicy'))
 }
 
 Describe 'Remove-ZNConnectPolicy' {
-    It 'Delete' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Delete' {
+        $region = (Get-ZNConnectPoliciesAllowedRegionsCandidate).Items | Select-Object -First 1
+        $sourceAssets = (Get-ZNConnectPoliciesAssetsCandidate).Items | Select-Object -First 1
+        $destAssets = (Get-ZNConnectPoliciesDestinationsCandidate).Items | Select-Object -First 1
+        $sourceUsers = (Get-ZNConnectPoliciesSourceUsersCandidate).Items | Select-Object -First 1
+        $policy = New-ZNConnectPolicy -AllowedRegions $region.Id -AlwaysOn -AutoDisconnectInOffice:$false -ConnectivityStateAfterReboot 1 -DstEntityIdsList @($destAssets.Id) -ForceSsoAuthentication -Name "NewPolicyTest" -LoginAuthorizedEntityAllowedAssetIdsList @($sourceAssets.Id) -LoginAuthorizedEntityAllowedAssetsSourcesList @(1) -LoginAuthorizedEntityAllowedUsersIdsList @($sourceUsers.id) -SessionTtlHours 168 -UseDefaultIdp -UseExternalBrowserForSso:$false -PriorityDirection BOTTOM
+        { Remove-ZNConnectPolicy -UserAccessConfigId $policy.RoleId } | Should -Not -Throw
     }
 }

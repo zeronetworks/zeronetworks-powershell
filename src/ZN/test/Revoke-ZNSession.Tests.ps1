@@ -13,6 +13,6 @@ while(-not $mockingPath) {
 
 Describe 'Revoke-ZNSession' {
     It 'Revoke' -skip {
-        
+        #no easy way to test
     }
 }

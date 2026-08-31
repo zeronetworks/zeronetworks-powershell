@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsAnsible'))
 
 Describe 'Update-ZNSettingsAnsible' {
     It 'UpdateExpanded' -skip {
-        
+        #No easy way to test
     }
 }

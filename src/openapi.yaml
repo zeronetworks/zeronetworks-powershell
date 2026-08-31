@@ -55604,6 +55604,7 @@ paths:
       summary: Create a Connect Policy
       description: Create a Connect Policy (User Access Configuration)
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -55611,6 +55612,13 @@ paths:
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roleId:
+                    type: string
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -55633,6 +55641,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/userAccessConfigParameter'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -55898,6 +55907,7 @@ paths:
       summary: Create a Connect Posture Profile
       description: Create a Connect Posture Profile
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -55931,6 +55941,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/postureProfileIdParameter'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -56102,6 +56113,7 @@ paths:
       description: Sets a single posture check override. If the setting matches the catalog default, the override is removed.
       requestBody:
         description: Posture check setting to apply
+        required: true
         content:
           application/json:
             schema:
@@ -65260,7 +65272,7 @@ paths:
         - Users
   /k8s/clusters/{k8sClusterId}/desired-rules:
     post:
-      operationId: K8sDesiredRule_Create
+      operationId: K8sClusterDesiredRule_Create
       tags:
         - K8s rules
       summary: Create a desired K8s rule
@@ -65300,7 +65312,7 @@ paths:
       security:
         - api_key: []
     delete:
-      operationId: K8sDesiredRule_Delete
+      operationId: K8sClusterDesiredRule_Delete
       tags:
         - K8s rules
       summary: Delete desired K8s rules
@@ -65337,7 +65349,7 @@ paths:
         - api_key: []
   /k8s/clusters/{k8sClusterId}/desired-rules/{ruleId}:
     get:
-      operationId: K8sDesiredRule_Get
+      operationId: K8sClusterDesiredRule_Get
       tags:
         - K8s rules
       summary: Get a desired K8s rule
@@ -65369,7 +65381,7 @@ paths:
       security:
         - api_key: []
     put:
-      operationId: K8sDesiredRule_Update
+      operationId: K8sClusterDesiredRule_Update
       tags:
         - K8s rules
       summary: Update a desired K8s rule
@@ -65411,7 +65423,7 @@ paths:
         - api_key: []
   /k8s/clusters/{k8sClusterId}/desired-rules/mark-as-desired:
     post:
-      operationId: K8sDesiredRulesMarkAsDesired_Update
+      operationId: K8sClusterDesiredRulesMarkAsDesired_Update
       tags:
         - K8s rules
       summary: Mark multiple deployed K8s rules as desired
@@ -65447,7 +65459,7 @@ paths:
         - api_key: []
   /k8s/clusters/{k8sClusterId}/desired-rules/export/yaml:
     post:
-      operationId: K8sDesiredRulesYaml_Export
+      operationId: K8sClusterDesiredRulesYaml_Export
       tags:
         - K8s rules
       summary: Export desired K8s rules as YAML
@@ -65482,7 +65494,7 @@ paths:
         - api_key: []
   /k8s/clusters/{k8sClusterId}/desired-rules/export/yaml/{exportId}:
     get:
-      operationId: K8sDesiredRulesYamlExport_Get
+      operationId: K8sClusterDesiredRulesYamlExport_Get
       tags:
         - K8s rules
       summary: Download desired K8s rules YAML export
@@ -65504,7 +65516,7 @@ paths:
         - api_key: []
   /k8s/clusters/{k8sClusterId}/desired-network-policies/mark-as-desired:
     post:
-      operationId: K8sDesiredPoliciesMarkAsDesired_Update
+      operationId: K8sClusterDesiredPoliciesMarkAsDesired_Update
       tags:
         - K8s network policies
       summary: Mark multiple deployed K8s network policies as desired
@@ -69840,6 +69852,11 @@ components:
         - name
         - action
         - checkIntervalSeconds
+      anyOf:
+        - required:
+            - windowsChecks
+        - required:
+            - macChecks
     postureProfilesList:
       type: object
       properties:
@@ -69916,9 +69933,12 @@ components:
                 type: string
     windowsPostureChecks:
       type: object
+      minProperties: 1
       properties:
         antivirus:
           type: object
+          required:
+            - isEnabled
           properties:
             isEnabled:
               type: boolean
@@ -69926,6 +69946,8 @@ components:
           type: array
           items:
             type: object
+            required:
+              - subjectNameList
             properties:
               subjectNameList:
                 type: array
@@ -69933,6 +69955,8 @@ components:
                   type: string
         diskEncrypted:
           type: object
+          required:
+            - isEncrypted
           properties:
             isEncrypted:
               type: boolean
@@ -69940,6 +69964,8 @@ components:
           type: array
           items:
             type: object
+            required:
+              - filesPathsList
             properties:
               filesPathsList:
                 type: array
@@ -69949,6 +69975,8 @@ components:
           type: array
           items:
             type: object
+            required:
+              - processPathList
             properties:
               processPathList:
                 type: array
@@ -69982,6 +70010,8 @@ components:
           type: array
           items:
             type: object
+            required:
+              - domainList
             properties:
               domainList:
                 type: array
@@ -69991,6 +70021,8 @@ components:
           type: array
           items:
             type: object
+            required:
+              - entriesList
             properties:
               entriesList:
                 type: array
@@ -70009,9 +70041,12 @@ components:
                         type: string
     macPostureChecks:
       type: object
+      minProperties: 1
       properties:
         antivirus:
           type: object
+          required:
+            - isEnabled
           properties:
             isEnabled:
               type: boolean
@@ -70019,6 +70054,8 @@ components:
           type: array
           items:
             type: object
+            required:
+              - subjectNameList
             properties:
               subjectNameList:
                 type: array
@@ -70026,6 +70063,8 @@ components:
                   type: string
         diskEncrypted:
           type: object
+          required:
+            - isEncrypted
           properties:
             isEncrypted:
               type: boolean
@@ -70033,8 +70072,10 @@ components:
           type: array
           items:
             type: object
+            required:
+              - filePathList
             properties:
-              filePathList:
+              filesPathsList:
                 type: array
                 items:
                   type: string
@@ -70042,6 +70083,8 @@ components:
           type: array
           items:
             type: object
+            required:
+              - processPathList
             properties:
               processPathList:
                 type: array
@@ -70081,6 +70124,8 @@ components:
           type: array
           items:
             type: object
+            required:
+              - domainList
             properties:
               domainList:
                 type: array
@@ -70237,8 +70282,11 @@ components:
       properties:
         publicPort:
           type: string
+        subnet:
+          type: string
       required:
         - publicPort
+        - subnet
     connectServersList:
       type: object
       properties:
@@ -79135,53 +79183,58 @@ components:
     settingsPostureCheckDefinition:
       type: object
       properties:
-        type:
-          $ref: '#/components/schemas/identityPostureCheckType'
-        category:
-          type: integer
-          description: |
-            Posture check category:
-            * `1` - AUTHENTICATION
-            * `2` - OPERATIONAL
-            * `3` - PRIVILEGE
-            * `4` - LIFE_CYCLE
-          enum:
-            - 1
-            - 2
-            - 3
-            - 4
-        severity:
-          type: integer
-          description: |
-            Violation severity:
-            * `1` - CRITICAL
-            * `2` - HIGH
-            * `3` - MEDIUM
-            * `4` - LOW
-          enum:
-            - 1
-            - 2
-            - 3
-            - 4
-        enabled:
-          type: boolean
-        mitreTacticsList:
-          type: array
-          items:
-            type: string
-        mitreTechniquesList:
-          type: array
-          items:
-            type: string
-        remediation:
-          type: string
-        description:
-          type: string
+        definition:
+          type: object
+          properties:
+            category:
+              type: integer
+              description: |
+                Posture check category:
+                * `1` - AUTHENTICATION
+                * `2` - OPERATIONAL
+                * `3` - PRIVILEGE
+                * `4` - LIFE_CYCLE
+              enum:
+                - 1
+                - 2
+                - 3
+                - 4
+            description:
+              type: string
+            enabled:
+              type: boolean
+            mitreTacticsList:
+              type: array
+              items:
+                type: string
+            mitreTechniquesList:
+              type: array
+              items:
+                type: string
+            remediation:
+              type: string
+            severity:
+              type: integer
+              description: |
+                Violation severity:
+                * `1` - CRITICAL
+                * `2` - HIGH
+                * `3` - MEDIUM
+                * `4` - LOW
+              enum:
+                - 1
+                - 2
+                - 3
+                - 4
+            threshold:
+              type: integer
+            type:
+              $ref: '#/components/schemas/identityPostureCheckType'
         excludedUserIdsList:
           type: array
           items:
-            type: string
-          description: User IDs excluded from this specific posture check type
+            description: User IDs excluded from this specific posture check type
+            $ref: '#/components/schemas/idNamePair'
     settingsPostureCheckSettingInput:
       type: object
       properties:
@@ -80295,7 +80348,7 @@ components:
         triggers:
           type: array
           items:
-            $ref: '#/components/schemas/settingsWebhookTriggersBody'
+            $ref: '#/components/schemas/settingsWebhookTriggerBody'
         url:
           type: string
         validateCertificate:
@@ -80367,43 +80420,61 @@ components:
         - name
         - url
         - validateCertificate
+    settingsWebhookTriggerBody:
+      type: object
+      properties:
+        topic:
+          type: integer
+        eventsConfig:
+          $ref: '#/components/schemas/settingsWebhookTriggerEventsConfig'
+      required:
+        - topic
+        - eventsConfig
     settingsWebhookTriggersBody:
       type: object
       properties:
         triggers:
           type: array
           items:
-            type: object
-            properties:
-              topic:
-                type: integer
-              eventsConfig:
-                type: object
-                properties:
-                  ruleEventsConfigs:
-                    type: object
-                    properties:
-                      resource:
-                        type: integer
-                      eventList:
-                        type: array
-                        items:
-                          type: integer
-                      enforcementSourcesList:
-                        type: array
-                        items:
-                          type: integer
-                    required:
-                      - resource
-                      - eventList
-                      - enforcementSourcesList
-                required:
-                  - ruleEventsConfigs
-            required:
-              - topic
-              - eventsConfig
+            $ref: '#/components/schemas/settingsWebhookTriggerBody'
       required:
         - triggers
+    settingsWebhookTriggerEventsConfig:
+      type: object
+      properties:
+        ruleEventsConfigs:
+          $ref: '#/components/schemas/settingsWebhookTriggeRulerEventsConfig'
+        reactivePolicyEventsConfigs:
+          $ref: '#/components/schemas/settingsWebhookTriggeRulerEventsConfig'
+        ruleReviewEventsConfigs:
+          $ref: '#/components/schemas/settingsWebhookTriggeRulerEventsConfig'
+      oneOf:
+        - required:
+            - ruleEventsConfigs
+        - required:
+            - reactivePolicyEventsConfigs
+        - required:
+            - ruleReviewEventsConfigs
+    settingsWebhookTriggeRulerEventsConfig:
+      type: object
+      required:
+        - resource
+        - eventList
+        - enforcementSourcesList
+      properties:
+        resource:
+          type: integer
+          description: Resource type identifier
+        eventList:
+          type: array
+          items:
+            type: integer
+          description: List of event type identifiers
+        enforcementSourcesList:
+          type: array
+          items:
+            type: integer
+          description: List of enforcement source identifiers
     settingsWebhookTestResponse:
       type: object
       properties:

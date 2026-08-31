@@ -15,7 +15,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNAssetsIPAlias'))
 }
 
 Describe 'Remove-ZNAssetsIPAlias' {
-    It 'Delete' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Delete' {
+        $ipalias = New-ZNAssetsIPAlias -Alias RemoveIpAlias -IPAddress 2.2.2.4
+        { Remove-ZNAssetsIPAlias -IPAliasId $ipalias.ItemId } | Should -Not -Throw
     }
 }

@@ -15,7 +15,9 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNAssetsIPAlias'))
 }
 
 Describe 'New-ZNAssetsIPAlias' {
-    It 'CreateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'CreateExpanded' {
+        $ipalias = New-ZNAssetsIPAlias -Alias NewIpAlias -IPAddress 2.2.2.3
+        $ipalias.ItemId | Should -Not -BeNullOrEmpty
+        Remove-ZNAssetsIPAlias -IPAliasId $ipalias.ItemId
     }
 }

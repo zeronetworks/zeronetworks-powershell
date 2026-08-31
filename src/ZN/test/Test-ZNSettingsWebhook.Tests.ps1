@@ -15,27 +15,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Test-ZNSettingsWebhook'))
 }
 
 Describe 'Test-ZNSettingsWebhook' {
-    It 'TestExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'TestExpanded1' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'Test1' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'TestViaIdentityExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'TestViaIdentity' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'Test' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'TestExpanded' {
+        $webhook = Get-ZNSettingsWebhook | Select -First 1
+        (Test-ZNSettingsWebhook -WebhookId $webhook.Id).ConnectionStateStatusCode | Should -No -BeNulOrEmpty
     }
 }

@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNConnectPoliciesAllowedR
 }
 
 Describe 'Get-ZNConnectPoliciesAllowedRegionsCandidate' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNConnectPoliciesAllowedRegionsCandidate).Items.Count | Should -BeGreaterThan 0
     }
 }

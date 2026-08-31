@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsClaroty'))
 
 Describe 'Update-ZNSettingsClaroty' {
     It 'UpdateExpanded' -skip {
-        
+        #No easy way to test
     }
 }

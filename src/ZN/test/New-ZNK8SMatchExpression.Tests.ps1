@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNK8SMatchExpression'))
 }
 
 Describe 'New-ZNK8SMatchExpression' {
-    It '__AllParameterSets' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It '__AllParameterSets' {
+        (New-ZNK8SMatchExpression -Key key -Operator in -Values @("abc")).Key | Should -Be 'key'
     }
 }

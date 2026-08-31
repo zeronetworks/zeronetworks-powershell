@@ -15,7 +15,9 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNConnectPostureProfile')
 }
 
 Describe 'New-ZNConnectPostureProfile' {
-    It 'CreateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'CreateExpanded' {
+        $result = New-ZNConnectPostureProfile -Action BLOCK  -CheckIntervalSeconds 900 -Name "NewPostureCheckTest" -WindowsChecksAntivirusIsEnabled:$true
+        $result | should -not -BeNullOrEmpty
+        Remove-ZNConnectPostureProfile -ProfileId $result.Replace('"',"")
     }
 }

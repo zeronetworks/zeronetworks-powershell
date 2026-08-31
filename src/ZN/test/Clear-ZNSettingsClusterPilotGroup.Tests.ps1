@@ -15,11 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Clear-ZNSettingsClusterPilotG
 }
 
 Describe 'Clear-ZNSettingsClusterPilotGroup' {
-    It 'Unset' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'UnsetViaIdentity' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Unset' {
+        { Clear-ZNSettingsClusterPilotGroup -Product segment-server } | Should -Not -Throw
     }
 }

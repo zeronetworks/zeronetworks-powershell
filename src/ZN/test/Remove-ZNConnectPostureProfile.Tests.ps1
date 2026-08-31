@@ -15,7 +15,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNConnectPostureProfil
 }
 
 Describe 'Remove-ZNConnectPostureProfile' {
-    It 'Delete' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Delete' {
+        $result = New-ZNConnectPostureProfile -Action BLOCK  -CheckIntervalSeconds 900 -Name "NewPostureCheckTest" -WindowsChecksAntivirusIsEnabled:$true
+        { Remove-ZNConnectPostureProfile -ProfileId $result.Replace('"',"") } | Should -Not -Throw
     }
 }

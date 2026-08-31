@@ -15,7 +15,9 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNSettingsWebhook'))
 }
 
 Describe 'Remove-ZNSettingsWebhook' {
-    It 'Delete' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Delete' {
+        $trigger = New-ZNSettingsWebhooksTrigger -MFAPolicies -MFAPoliciesResource inbound -MFAPoliciesTriggerEvent Any
+        $webhook = New-ZNSettingsWebhook -AuthType 1 -IsEnabled:$false -Name "RemoveWebhook" -Url "https://someurl.com" -ValidateCertificate:$false -Triggers @($trigger)
+        { Remove-ZNSettingsWebhook -WebhookId $webhook.WebhookServerId } | Should -Not -Throw
     }
 }

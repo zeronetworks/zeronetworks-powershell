@@ -15,7 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsVersionMaintena
 }
 
 Describe 'Get-ZNSettingsVersionMaintenanceWindow' {
-    It 'List' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'List' {
+        (Get-ZNSettingsVersionMaintenanceWindow -Product segment-server).weekday | Should -Not -BeNullOrEmpty
     }
 }

@@ -15,7 +15,13 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNOutboundOtrule'))
 }
 
 Describe 'Update-ZNOutboundOtrule' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        $protocolsList = New-ZNProtocolsList -Protocol tcp -LocalPorts (Get-Random -Min 1 -Max 1024)
+        $destination = Invoke-ZNEncodeEntityip -IP 1.1.1.2
+        $source = (Get-ZNInboundOtRulesDestinationCandidate -Search "otv2").items
+        $rule = New-ZNOutboundOtRule -Action 1 -Direction 2 -localEntityId $source.Id -RemoteEntitiesIdList @($destination.id) -protocolsList $protocolsList -state 1 -LocalProcessesList @("*") -ExcludedLocalIdsList @() -ShouldBuildMirrorRules
+        $updatedRule = Update-ZNOutboundOtRule -RuleId $rule.ItemId -Description "Updated Description"
+        $updatedRule.ItemDescription | Should -Be "Updated Description"
+        Remove-ZNOutboundOtRule -RuleId $rule.ItemId
     }
 }

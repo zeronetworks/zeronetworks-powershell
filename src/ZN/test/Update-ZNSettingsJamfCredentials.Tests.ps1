@@ -15,9 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsJamfCredenti
 }
 
 Describe 'Update-ZNSettingsJamfCredentials' {
-    It 'UpdateExpanded' {
-       # cant test automatically
-       $a = 1
-       $a | Should -Be 1
+    It 'UpdateExpanded' -skip {
+        #No easy way to test
     }
 }

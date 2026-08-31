@@ -16,6 +16,6 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNSettingsIdp'))
 
 Describe 'New-ZNSettingsIdp' {
     It 'CreateExpanded' -skip {
-        
+        #No easy way to test
     }
 }

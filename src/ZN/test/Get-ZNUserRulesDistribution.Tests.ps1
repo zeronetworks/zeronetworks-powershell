@@ -15,9 +15,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNUserRulesDistribution')
 }
 
 Describe 'Get-ZNUserRulesDistribution' {
-    It 'Get' {
-        # Not implmented
-        $a = 1
-        $a | Should -Be 1
+    It 'Get' -skip {
+        #No easy way to test
     }
 }

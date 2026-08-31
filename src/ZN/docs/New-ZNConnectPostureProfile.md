@@ -13,14 +13,15 @@ Create a Connect Posture Profile
 ## SYNTAX
 
 ```
-New-ZNConnectPostureProfile [-AccountName <String>] [-Action <String>] [-CheckIntervalSeconds <Int32>]
- [-Description <String>] [-MacCheckCertificateExistsList <IMacPostureChecksCertificateExistsListItem[]>]
+New-ZNConnectPostureProfile -Action <String> -CheckIntervalSeconds <Int32> -Name <String>
+ [-AccountName <String>] [-Description <String>]
+ [-MacCheckCertificateExistsList <IMacPostureChecksCertificateExistsListItem[]>]
  [-MacCheckDomainJoinedList <IMacPostureChecksDomainJoinedListItem[]>]
  [-MacCheckFileExistsList <IMacPostureChecksFileExistsListItem[]>]
  [-MacCheckProcessRunningList <IMacPostureChecksProcessRunningListItem[]>] [-MacChecksAntivirusIsEnabled]
  [-MacChecksDiskEncryptedIsEncrypted]
  [-MacChecksOsVersionBuildOSVersionsList <IMacPostureChecksOSVersionBuildOsversionsListItem[]>]
- [-Name <String>] [-WindowCheckCertificateExistsList <IWindowsPostureChecksCertificateExistsListItem[]>]
+ [-WindowCheckCertificateExistsList <IWindowsPostureChecksCertificateExistsListItem[]>]
  [-WindowCheckDomainJoinedList <IWindowsPostureChecksDomainJoinedListItem[]>]
  [-WindowCheckFileExistsList <IWindowsPostureChecksFileExistsListItem[]>]
  [-WindowCheckProcessRunningList <IWindowsPostureChecksProcessRunningListItem[]>]
@@ -71,7 +72,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -86,7 +87,7 @@ Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -221,7 +222,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -398,16 +399,16 @@ To create the parameters described below, construct a hash table containing the 
 
 
 `MACCHECKCERTIFICATEEXISTSLIST <IMacPostureChecksCertificateExistsListItem[]>`: .
-  - `[SubjectNameList <List<String>>]`: 
+  - `SubjectNameList <List<String>>`: 
 
 `MACCHECKDOMAINJOINEDLIST <IMacPostureChecksDomainJoinedListItem[]>`: .
-  - `[DomainList <List<String>>]`: 
+  - `DomainList <List<String>>`: 
 
 `MACCHECKFILEEXISTSLIST <IMacPostureChecksFileExistsListItem[]>`: .
-  - `[FilePathList <List<String>>]`: 
+  - `[FilesPathsList <List<String>>]`: 
 
 `MACCHECKPROCESSRUNNINGLIST <IMacPostureChecksProcessRunningListItem[]>`: .
-  - `[ProcessPathList <List<String>>]`: 
+  - `ProcessPathList <List<String>>`: 
 
 `MACCHECKSOSVERSIONBUILDOSVERSIONSLIST <IMacPostureChecksOSVersionBuildOsversionsListItem[]>`: .
   - `AllowNewer <Boolean>`: 
@@ -415,19 +416,19 @@ To create the parameters described below, construct a hash table containing the 
   - `Version <String>`: 
 
 `WINDOWCHECKCERTIFICATEEXISTSLIST <IWindowsPostureChecksCertificateExistsListItem[]>`: .
-  - `[SubjectNameList <List<String>>]`: 
+  - `SubjectNameList <List<String>>`: 
 
 `WINDOWCHECKDOMAINJOINEDLIST <IWindowsPostureChecksDomainJoinedListItem[]>`: .
-  - `[DomainList <List<String>>]`: 
+  - `DomainList <List<String>>`: 
 
 `WINDOWCHECKFILEEXISTSLIST <IWindowsPostureChecksFileExistsListItem[]>`: .
-  - `[FilesPathsList <List<String>>]`: 
+  - `FilesPathsList <List<String>>`: 
 
 `WINDOWCHECKPROCESSRUNNINGLIST <IWindowsPostureChecksProcessRunningListItem[]>`: .
-  - `[ProcessPathList <List<String>>]`: 
+  - `ProcessPathList <List<String>>`: 
 
 `WINDOWCHECKREGISTRYKEYVALUEDATAEXISTSLIST <IWindowsPostureChecksRegistryKeyValueDataExistsListItem[]>`: .
-  - `[EntriesList <List<IWindowsPostureChecksRegistryKeyValueDataExistsListPropertiesItemsItem>>]`: 
+  - `EntriesList <List<IWindowsPostureChecksRegistryKeyValueDataExistsListPropertiesItemsItem>>`: 
     - `KeyPath <String>`: 
     - `[DataList <List<String>>]`: 
     - `[ValueName <String>]`: 

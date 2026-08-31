@@ -167,7 +167,7 @@ function Update-ZNOutboundOtrule {
                 $null = $PSBoundParameters.Remove('ProtocolsList')
             }
             else{
-                $protocolsList = New-ZNProtocolsList -Protocol $rule.ItemProtocolsList.ProtocolType -Ports $rule.ItemProtocolsList.LocalPorts -RemotePorts $rule.ItemProtocolsList.RemotePorts
+                $protocolsList = New-ZNProtocolsList -Protocol $rule.ItemProtocolsList.ProtocolType -LocalPorts $rule.ItemProtocolsList.LocalPorts -RemotePorts $rule.ItemProtocolsList.RemotePorts
                 $updatedRule.ProtocolsList = $protocolsList
                 $null = $PSBoundParameters.Remove('ProtocolsList')
             }

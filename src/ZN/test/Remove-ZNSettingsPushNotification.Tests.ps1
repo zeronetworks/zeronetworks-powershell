@@ -13,6 +13,6 @@ while(-not $mockingPath) {
 
 Describe 'Remove-ZNSettingsPushNotification' {
     It 'Delete' -skip {
-        
+        #No easy way to test
     }
 }
