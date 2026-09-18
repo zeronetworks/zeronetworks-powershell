@@ -15,8 +15,8 @@ Add a secondary AD settings in Asset Management
 ```
 New-ZNSettingsAdSecondary -ForestId <String> [-AccountName <String>]
  [-SecondaryDomainConfigAssetsClusterId <String>] [-SecondaryDomainConfigDomainControllerFqdn <String>]
- [-SecondaryDomainConfigDomainName <String>] [-SecondaryDomainConfigSyncingClusterId <String>] [-Confirm]
- [-WhatIf] [<CommonParameters>]
+ [-SecondaryDomainConfigDomainControllerFqdns <String[]>] [-SecondaryDomainConfigDomainName <String>]
+ [-SecondaryDomainConfigSyncingClusterId <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -84,6 +84,21 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SecondaryDomainConfigDomainControllerFqdns
+.
+
+```yaml
+Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 

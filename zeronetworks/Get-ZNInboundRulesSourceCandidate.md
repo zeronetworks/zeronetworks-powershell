@@ -13,8 +13,8 @@ Returns a list of source candidates for Inbound rules.
 ## SYNTAX
 
 ```
-Get-ZNInboundRulesSourceCandidate -RuleType <Int32> [-AccountName <String>] [-Cursor <Int64>] [-Limit <Int32>]
- [-Search <String>] [<CommonParameters>]
+Get-ZNInboundRulesSourceCandidate -RuleType <Int32> [-AccountName <String>] [-CloudProvider <Int32>]
+ [-Cursor <Int64>] [-Limit <Int32>] [-Search <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -66,6 +66,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Read-ZNJWTtoken $env:ZNApiKey).aud.split(".")[0]
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CloudProvider
+cloud provider of the rule's local entity, used to offer provider specific candidates such as Azure service tags
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

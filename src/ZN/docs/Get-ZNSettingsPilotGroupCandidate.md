@@ -13,7 +13,7 @@ Returns a list of candidate assets for the pilot group
 ## SYNTAX
 
 ```
-Get-ZNSettingsPilotGroupCandidate -OSType <String> -Product <String> [-AccountName <String>] [-Cursor <Int32>]
+Get-ZNSettingsPilotGroupCandidate -OSType <String> -Product <String> [-AccountName <String>] [-Cursor <Int64>]
  [-Limit <Int32>] [-Search <String>] [<CommonParameters>]
 ```
 
@@ -63,10 +63,10 @@ Accept wildcard characters: False
 ```
 
 ### -Cursor
-Cursor position (offset) to start at
+cursor position to start at
 
 ```yaml
-Type: System.Int32
+Type: System.Int64
 Parameter Sets: (All)
 Aliases:
 

@@ -16,8 +16,9 @@ Create SIEM Configuration
 New-ZNSettingsSiem -ReceiverType <String> [-AccountName <String>] [-AuditsEndpoint <String>]
  [-IdentityActivitiesEndpoint <String>] [-NetworkActivitiesEndpoint <String>] [-ReceiverConfigApiKey <String>]
  [-ReceiverConfigClientId <String>] [-ReceiverConfigClientSecret <String>] [-ReceiverConfigHecUri <String>]
- [-ReceiverConfigTenantId <String>] [-ReceiverConfigToken <String>] [-ReceiverConfigUrl <String>]
- [-RpcActivitiesEndpoint <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-ReceiverConfigIngestionEndpoint <String>] [-ReceiverConfigTenantId <String>]
+ [-ReceiverConfigToken <String>] [-ReceiverConfigUrl <String>] [-RpcActivitiesEndpoint <String>] [-Confirm]
+ [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -152,6 +153,21 @@ Accept wildcard characters: False
 ```
 
 ### -ReceiverConfigHecUri
+.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ReceiverConfigIngestionEndpoint
 .
 
 ```yaml

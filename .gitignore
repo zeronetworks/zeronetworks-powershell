@@ -1,3 +1,5 @@
 .devcontainer
 .DS_Store
 tools/constants.json
+openapi.yaml
+openapi.old.yaml

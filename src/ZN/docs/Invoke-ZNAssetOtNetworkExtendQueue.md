@@ -21,7 +21,7 @@ Invoke-ZNAssetOtNetworkExtendQueue -AssetId <String> -ExtendByDays <Int32> [-Acc
 ### QueueExpanded1
 ```
 Invoke-ZNAssetOtNetworkExtendQueue -ExtendByDays <Int32> -Items <String[]> [-AccountName <String>]
- [-RelearnReason <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-MaintenanceWindowId <String>] [-RelearnReason <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -100,6 +100,21 @@ Parameter Sets: QueueExpanded1
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MaintenanceWindowId
+.
+
+```yaml
+Type: System.String
+Parameter Sets: QueueExpanded1
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

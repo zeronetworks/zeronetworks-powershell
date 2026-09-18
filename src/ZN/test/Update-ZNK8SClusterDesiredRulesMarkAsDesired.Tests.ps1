@@ -15,7 +15,13 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNK8SClusterDesiredRul
 }
 
 Describe 'Update-ZNK8SClusterDesiredRulesMarkAsDesired' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        $k8scluster = (Get-ZNK8SCluster).Items | where {$_.Name -eq "rke"} |Select-Object -First 1
+        $rule = (Get-ZNK8SClusterRule -K8SClusterId $k8scluster.id).Items | where {$_.IsDesired -eq $false} | where {$_.NetworkPolicyName -eq "powershell-netpol"} | Select-Object -First 1
+        Update-ZNK8SClusterDesiredRulesMarkAsDesired -K8SClusterId $k8scluster.id -RuleIds @($rule.Id)
+        $updatedRule = (Get-ZNK8SClusterRule -K8SClusterId $k8scluster.id).Items | where {$_.Id -eq $rule.Id}
+        $updatedRule.IsDesired| Should -Be $true
+        $policy = (Get-ZNK8SClusterNetworkPolicy -K8SClusterId $k8scluster.id).Items | where {$_.isDesired -eq $true}
+        Remove-znK8SClusterDesiredPolicy -K8SClusterId $k8scluster.Id -PolicyId $policy.Id
     }
 }

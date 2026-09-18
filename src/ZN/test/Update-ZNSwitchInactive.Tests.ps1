@@ -15,7 +15,10 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSwitchInactive'))
 }
 
 Describe 'Update-ZNSwitchInactive' {
-    It 'SetExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'SetExpanded' {
+        $newswitch = New-ZNSwitch -ip 1.2.3.4 -MonitorInterfaceOnOtAdded:$false -MonitorOnInterfaceDiscovery:$false -Name "PoshTestSW" -Password "test123" -Username username -Type 1 
+        Update-ZNSwitchInactive -SwitchIds @($newswitch.SwitchId1)
+        $inactiveSwitch = Get-ZNSwitch -SwitchId $newswitch.SwitchId1
+        $inactiveSwitch.EntityInactiveReason | Should -Be 2
     }
 }

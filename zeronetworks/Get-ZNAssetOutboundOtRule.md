@@ -16,7 +16,7 @@ Get an Asset Rule
 ```
 Get-ZNAssetOutboundOtRule -AssetId <String> [-AccountName <String>] [-AddAncestors] [-AddBuiltins]
  [-Filters <String>] [-Limit <Int32>] [-Offset <Int32>] [-Order <String>] [-OrderColumns <List<String>>]
- [<CommonParameters>]
+ [-WithCount] [<CommonParameters>]
 ```
 
 ### Get
@@ -273,6 +273,21 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WithCount
+return count of objects
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: $true
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

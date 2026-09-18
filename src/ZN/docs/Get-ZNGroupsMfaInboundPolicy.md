@@ -15,7 +15,7 @@ Returns a inbound MFA policy object.
 ### List (Default)
 ```
 Get-ZNGroupsMfaInboundPolicy -GroupId <String> -GroupType <String> [-AccountName <String>] [-AddAncestors]
- [-AddBuiltins] [-EntityId <String>] [-Filters <String>] [-Limit <Int32>] [-Offset <Int32>]
+ [-AddBuiltins] [-EntityId <String>] [-Filters <String>] [-Limit <Int32>] [-Offset <Int32>] [-WithCount]
  [<CommonParameters>]
 ```
 
@@ -239,6 +239,21 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WithCount
+return count of objects
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: $true
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

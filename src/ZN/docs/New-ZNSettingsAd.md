@@ -15,10 +15,10 @@ Set the AD settings in Asset Management
 ```
 New-ZNSettingsAd [-AccountName <String>] [-AllowNtlmFallback] [-PrimaryDomainConfigAssetsClusterId <String>]
  [-PrimaryDomainConfigDeploymentsClusterId <String>] [-PrimaryDomainConfigDomainControllerFqdn <String>]
- [-PrimaryDomainConfigDomainName <String>] [-PrimaryDomainConfigPassword <String>]
- [-PrimaryDomainConfigSyncingClusterId <String>] [-PrimaryDomainConfigUseLdaps]
- [-PrimaryDomainConfigUserFqdn <String>] [-UsePrimaryUserForAllDomains] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-PrimaryDomainConfigDomainControllerFqdns <String[]>] [-PrimaryDomainConfigDomainName <String>]
+ [-PrimaryDomainConfigPassword <String>] [-PrimaryDomainConfigSyncingClusterId <String>]
+ [-PrimaryDomainConfigUseLdaps] [-PrimaryDomainConfigUserFqdn <String>] [-UsePrimaryUserForAllDomains]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -100,6 +100,21 @@ Domain Controller from AD Domain
 
 ```yaml
 Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PrimaryDomainConfigDomainControllerFqdns
+Domain Controllers from AD Domain
+
+```yaml
+Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
