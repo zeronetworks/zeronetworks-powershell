@@ -13,7 +13,8 @@ Returns a list of groups the user is a member of.
 ## SYNTAX
 
 ```
-Get-ZNUserMemberOf -UserId <String> [-AccountName <String>] [<CommonParameters>]
+Get-ZNUserMemberOf -UserId <String> [-AccountName <String>] [-Filters <String>] [-Limit <Int32>]
+ [-Offset <Int32>] [-Order <String>] [-OrderColumns <List<String>>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -50,6 +51,81 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Read-ZNJWTtoken $env:ZNApiKey).aud.split(".")[0]
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Filters
+JSON string URI encoded set of filters
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Limit the return results
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 10
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Used to page through results
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Order
+What order to sort the results
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OrderColumns
+what column to order on
+
+```yaml
+Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

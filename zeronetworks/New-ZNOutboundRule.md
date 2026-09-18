@@ -16,8 +16,9 @@ Returns the properties of the created Outbound rule.
 New-ZNOutboundRule -Action <Int32> -LocalEntityId <String> -LocalProcessesList <String[]>
  -PortsList <IPortsListItem[]> -RemoteEntityIdsList <String[]> -State <Int32> [-AccountName <String>]
  [-ChangeTicket <String>] [-Context <Int32>] [-Description <String>] [-ExcludedLocalIdsList <String[]>]
- [-ExpiresAt <Int64>] [-IPSecOpt <Int32>] [-Name <String>] [-ReviewMode <Int32>] [-ServicesList <String[]>]
- [-SrcUsersList <ISrcUsersListItem[]>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-ExpiresAt <Int64>] [-IPSecOpt <Int32>] [-Name <String>] [-NetworkProtectionScope <Int32>]
+ [-ReviewMode <Int32>] [-ServicesList <String[]>] [-SrcUsersList <ISrcUsersListItem[]>] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -216,6 +217,21 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NetworkProtectionScope
+* '0' - Unspecified* '1' - Private* '2' - Public
+
+```yaml
+Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 

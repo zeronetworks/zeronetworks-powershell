@@ -29,7 +29,7 @@ require:
 input-file:
   - $(this-folder)/../openapi.yaml
 
-module-version: 0.26.7-preview
+module-version: 0.26.8-preview
 title: Api
   
 inlining-threshold: 200
@@ -65,7 +65,7 @@ directive:
     hide: true
   # Remove the export cmdlets
   - where:
-      subject: (.*)Export$
+      subject: (.*)Export$|(.)ExportYaml$
     remove: true
   - where:
       verb: Export
@@ -121,7 +121,7 @@ directive:
       verb: Invoke
     hide: true
   - where:
-      subject: ^AssetsScriptsPowerShellTestUdpNetConnection$|^AssetsScriptsPythonTestUdpNetConnection$|^FixAssetScriptWmi$|^FixAssetsScriptWmi$
+      subject: ^AssetsScriptsPowerShellTestUdpNetConnection$|^AssetsScriptsPythonTestUdpNetConnection$|^FixAssetScriptWmi$|^FixAssetsScriptWmi$|^AssetsLinuxScriptForAdUser$
     remove: true
   # Hide Rule History (not useful)
   - where:
@@ -148,7 +148,7 @@ directive:
     hide: true
   # hide K8s cmdlets (not useful)
   - where:
-      subject: ^K8sClusterLabelNode$|^K8sClusterWorkloadApplication$|^K8sClusterWorkloadLabel$|^K8sWorkloadApplication$|^K8s(.*)NetworkPolicy$|^K8SClusterLabelRule$
+      subject: ^K8sClusterLabelNode$|^K8sClusterWorkloadApplication$|^K8sClusterWorkloadLabel$|^K8sWorkloadApplication$|^K8SClusterLabelRule$|^K8s(.*)InboundNetworkPolicy$|^K8s(.*)OutboundNetworkPolicy$|^K8sClsuterLabelService$
     hide: true
   # Hide profile cmdlets
   - where:
@@ -303,14 +303,6 @@ directive:
       subject: AssetsOSType
     set:
       subject: AssetOSType
-  - where:
-      subject: AssetsOutboundRestriction
-    set:
-      subject: AssetOutboundRestriction
-  - where:
-      subject: AssetsOutboundRestriction
-    set:
-      subject: AssetOutboundRestriction
   # combine assets/asset
   - where:
       subject: AssetsMirror
@@ -323,6 +315,17 @@ directive:
       subject: AssetsDeploymentsCluster
     set:
       subject: AssetDeploymentsCluster
+  - where:
+      subject: AssetLinuxProfile
+    remove: true
+  - where:
+      subject: AssetsLinuxProfile
+    set:
+      subject: AssetsLinuxProfile
+  - where:
+      subject: AssetsFilterAllowedConnection
+    set:
+      subject: AssetFilterAllowedConnection
   # combine user search
   - where:
       subject: ^UsersByPrincipalName$|^UsersBySid$
@@ -613,16 +616,16 @@ directive:
     remove: true
   # Remove commands not useful
   - where:
-      subject: ^SimulateSegmentation$|^activitiesAnalysisWidget$|^SwitchBindingDirection$
+      subject: ^SimulateSegmentation$|^activitiesAnalysisWidget$|^SwitchBindingDirection$|^MaintenanceWindowExternal$|^SeLinuxPolicyInstallTimeout$|^SettingsAssetManagersAssetCandidate$|^SettingsAssetManagersManagerCandidate$|^SwitchInterfacesLegacy$|^SwitchVlansLegacy$|^QueueSwitchOtExtendNetwork$|^QueueSwitchOtNetwork$|^NlpQuery$|^SwitchOt$|^SwitchOtNetworkSegment$|^SegmentServerDeploymentPreferred$|^SwitchOtNetworkSegmentUnprotect$|^AssetOtOverrideLocation$|^AssetOtRevive$|^SwitchOtActive$|^SwitchOtInactive$|^SwitchOtOverrideLocation$|^Label$|^NetworkAlertsAssetCandidate$|^NetworkAlertsIPCandidate$|^K8sClusterLabelService$|^AssetsOutboundRestrict$|^AssetOutboundRestrict$|^AssetsOutboundUnrestrict$|^AssetOutboundUnrestrict$|^AssetOutboundRestriction$
     remove: true
   - where:
-      subject: SettingsLicense
+      subject: SettingsLicense$
       verb: Update
     remove: true
   # Hide for Custom Wrappers
   - where:
       verb: Update
-      subject: ^AeExclusionsInbound$|^AeExclusionsOutbound$|^AssetExternalAccessPolicy$|^AssetIdentityRule$|^AssetInboundRule$|^AssetInboundOtRule$|^AssetMfaIdentityPolicy$|^AssetMFAInboundPolicy$|^AssetMFAOutboundPolicy$|^AssetOtInboundOtrule$|^AssetOtOutboundOtrule$|^AssetOutboundRule$|^ConnectPolicy$|^ConnectPostureProfile$|^AssetOutboundOtRule$|^AssetOtMFAOutboundPolicy$|^AssetRpcRule$|^CustomGroup$|^ExternalAccessPolicy$|^GroupsExternalAccessPolicy$|^GroupsIdentityRule$|^GroupsInboundRule$|^GroupsInboundOtRule$|^GroupsMfaIdentityPolicy$|^GroupsMFAInboundPolicy$|^GroupsMFAOutboundPolicy$|^GroupsOutboundRule$|^GroupsOutboundOtRule$|^GroupsRpcRule$|^IdentityRule$|^InboundRule$|^InboundOtRule$|^InternalAccessPolicy$|^K8SClusterDesiredRule$|^MfaIdentityPolicy$|^MFAInboundPolicy$|^MFAOutboundPolicy$|^OutboundRule$|^OutboundOtRule$|^RpcRule$|^SettingsPushNotification$|^SwitchInboundOtRule$|^SwitchOutboundOtRule$|^UserExternalAccessPolicy$|^UserIdentityRule$|^UserMfaIdentityPolicy$|^UserMfaInboundPolicy$|^UserMfaOutboundPolicy$|^UserOutboundRule$
+      subject: ^AeExclusionsInbound$|^AeExclusionsOutbound$|^AssetExternalAccessPolicy$|^AssetIdentityRule$|^AssetInboundRule$|^AssetInboundOtRule$|^AssetMfaIdentityPolicy$|^AssetMFAInboundPolicy$|^AssetMFAOutboundPolicy$|^AssetOtInboundOtrule$|^AssetOtOutboundOtrule$|^AssetOutboundRule$|^ConnectPolicy$|^ConnectPostureProfile$|^AssetOutboundOtRule$|^AssetOtMFAOutboundPolicy$|^AssetRpcRule$|^CustomGroup$|^ExternalAccessPolicy$|^GroupsExternalAccessPolicy$|^GroupsIdentityRule$|^GroupsInboundRule$|^GroupsInboundOtRule$|^GroupsMfaIdentityPolicy$|^GroupsMFAInboundPolicy$|^GroupsMFAOutboundPolicy$|^GroupsOutboundRule$|^GroupsOutboundOtRule$|^GroupsRpcRule$|^IdentityRule$|^InboundRule$|^InboundOtRule$|^InternalAccessPolicy$|^K8SClusterDesiredPolicy$|^K8SClusterDesiredRule$|^MfaIdentityPolicy$|^MFAInboundPolicy$|^MFAOutboundPolicy$|^OutboundRule$|^OutboundOtRule$|^RpcRule$|^SettingsPushNotification$|^SwitchInboundOtRule$|^SwitchOutboundOtRule$|^UserExternalAccessPolicy$|^UserIdentityRule$|^UserMfaIdentityPolicy$|^UserMfaInboundPolicy$|^UserMfaOutboundPolicy$|^UserOutboundRule$
     hide: true
   - where:
       subject: ^AuthLogin$|^AuthChallenge$|^SettingsFirewallMode$|^SettingsFirewallModeAsset$
@@ -632,7 +635,7 @@ directive:
     hide: true
   # cloud
   - where:
-      subject: ^CloudAzureResource$|^CloudAzureResourceGroup$|^CloudAzureSubscription$|^SettingsCloudDeploymentsAzure$|^SettingsCloudDeploymentsAzureSync$|^CloudAzureSubscriptionSyncConfig$
+      subject: ^CloudAzureResource$|^CloudAzureResourceGroup$|^CloudAzureSubscription$|^SettingsCloudDeployments(.*)$|^SettingsCloudDeploymentsAzureSync$|^CloudAzureSubscriptionSyncConfig$|SettingsAzureConnector(.*)$|CloudAzureEntity(.*)$
     remove: true
   # Firewall
   - where:
@@ -658,13 +661,13 @@ directive:
     remove: true
   # Remove Download cmdlets
   - where:
-      subject: ^SettingsSiemDataStructure$
+      subject: ^SettingsSiemDataStructure$|^SettingsWebhooksExportDataStructure$
     remove: true
   - where:
       subject: Download(.*)
     remove: true
   - where:
-      subject: ^SettingsPilotGroupPilotRollout$|^SettingsPilotGroupActivePilotRollout$
+      subject: ^SettingsPilotGroupPilotRollout$|^SettingsPilotGroupActivePilotRollout$|^SettingsWindowsPerfSensitiveProcess$
     remove: true
   # format Responses
   - where:
@@ -875,4 +878,12 @@ directive:
           - Id
           - Name
           - Domain
+  - where:
+      model-name: NetworkAlertAssigneeCount
+    set:
+      format-table:
+        properties:
+          - AssigneeId
+          - AssigneeName
+          - Count
 ```

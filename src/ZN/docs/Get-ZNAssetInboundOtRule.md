@@ -16,7 +16,7 @@ Get an Asset Rule
 ```
 Get-ZNAssetInboundOtRule -AssetId <String> [-AccountName <String>] [-AddAncestors] [-AddBuiltins]
  [-Filters <String>] [-Limit <Int32>] [-Offset <Int32>] [-Order <String>] [-OrderColumns <List<String>>]
- [<CommonParameters>]
+ [-WithCount] [<CommonParameters>]
 ```
 
 ### Get
@@ -251,7 +251,7 @@ Accept wildcard characters: False
 what column to order on
 
 ```yaml
-Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
+Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
 Parameter Sets: List
 Aliases:
 
@@ -273,6 +273,21 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WithCount
+return count of objects
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: $true
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

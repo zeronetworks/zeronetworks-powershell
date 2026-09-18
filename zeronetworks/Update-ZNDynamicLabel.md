@@ -13,9 +13,11 @@ Update the details of a specific dynamic label.
 ## SYNTAX
 
 ```
-Update-ZNDynamicLabel -LabelId <String> [-AccountName <String>] [-ConditionAssetTypes <Int32[]>]
- [-ConditionDomains <String[]>] [-ConditionIPBuiltins <String[]>] [-ConditionNamePatterns <String[]>]
- [-ConditionOSNamePatterns <String[]>] [-ConditionOSTypes <Int32[]>] [-LabelKey <String>]
+Update-ZNDynamicLabel -LabelId <String> [-AccountName <String>] [-ExcludeValueAssetTypes <Int32[]>]
+ [-ExcludeValueDomains <String[]>] [-ExcludeValueIPBuiltins <String[]>] [-ExcludeValueNamePatterns <String[]>]
+ [-ExcludeValueOSNamePatterns <String[]>] [-ExcludeValueOSTypes <Int32[]>] [-IncludeValueAssetTypes <Int32[]>]
+ [-IncludeValueDomains <String[]>] [-IncludeValueIPBuiltins <String[]>] [-IncludeValueNamePatterns <String[]>]
+ [-IncludeValueOSNamePatterns <String[]>] [-IncludeValueOSTypes <Int32[]>] [-LabelKey <String>]
  [-LabelValue <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
@@ -64,7 +66,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ConditionAssetTypes
+### -ExcludeValueAssetTypes
 .
 
 ```yaml
@@ -79,7 +81,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ConditionDomains
+### -ExcludeValueDomains
 .
 
 ```yaml
@@ -94,7 +96,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ConditionIPBuiltins
+### -ExcludeValueIPBuiltins
 .
 
 ```yaml
@@ -109,7 +111,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ConditionNamePatterns
+### -ExcludeValueNamePatterns
 .
 
 ```yaml
@@ -124,7 +126,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ConditionOSNamePatterns
+### -ExcludeValueOSNamePatterns
 .
 
 ```yaml
@@ -139,7 +141,97 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ConditionOSTypes
+### -ExcludeValueOSTypes
+.
+
+```yaml
+Type: System.Int32[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeValueAssetTypes
+.
+
+```yaml
+Type: System.Int32[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeValueDomains
+.
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeValueIPBuiltins
+.
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeValueNamePatterns
+.
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeValueOSNamePatterns
+.
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeValueOSTypes
 .
 
 ```yaml

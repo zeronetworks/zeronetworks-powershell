@@ -13,8 +13,8 @@ Returns and empty object.
 ## SYNTAX
 
 ```
-Invoke-ZNAssetRpcQueue -Items <String[]> -QueueDays <Int32> [-AccountName <String>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+Invoke-ZNAssetRpcQueue -Items <String[]> -QueueDays <Int32> [-AccountName <String>]
+ [-MaintenanceWindowId <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -56,6 +56,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MaintenanceWindowId
+.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

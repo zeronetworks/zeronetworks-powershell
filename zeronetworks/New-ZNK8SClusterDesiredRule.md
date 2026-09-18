@@ -14,11 +14,11 @@ networkPolicyUid is enriched server-side from the policy.
 ## SYNTAX
 
 ```
-New-ZNK8SClusterDesiredRule -K8SClusterId <String> -Action <Int32> -Direction <Int32>
+New-ZNK8SClusterDesiredRule -K8SClusterId <String> -Action <Int32> -ClusterId <String> -Direction <Int32>
  -NetworkPolicyId <String> -NetworkPolicyName <String> [-AccountName <String>] [-ChangeTicket <String>]
- [-ClusterId <String>] [-Description <String>] [-Id <String>] [-NamespaceName <String>]
- [-Ports <IPortsListItem[]>] [-RemotePeerSelectors <IK8SPeerSelector[]>] [-RemotePeerSelectorsYaml <String>]
- [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-Description <String>] [-Id <String>] [-NamespaceName <String>] [-Ports <IPortsListItem[]>]
+ [-RemotePeerSelectors <IK8SPeerSelector[]>] [-RemotePeerSelectorsYaml <String>] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -132,7 +132,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

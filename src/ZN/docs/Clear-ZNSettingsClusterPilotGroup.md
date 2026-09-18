@@ -135,16 +135,21 @@ To create the parameters described below, construct a hash table containing the 
 
 
 `INPUTOBJECT <IApiIdentity>`: Identity Parameter
+  - `[AccountId <String>]`: AWS Account ID
   - `[ActivityType <String>]`: the activity type
+  - `[AlertId <String>]`: The id of the network alert
   - `[ApplicationName <String>]`: application name to filter on
   - `[AssetId <String>]`: assetId to filter on
   - `[ClientId <String>]`: clientId to filter on
   - `[ConnectServerId <String>]`: connect server id
   - `[CustomUserId <String>]`: id of the customer user
+  - `[DeploymentId <String>]`: id of the deployment
   - `[DeploymentsClusterId <String>]`: 
+  - `[Direction <String>]`: Rules direction
   - `[DomainId <String>]`: The fqdn of the domain
+  - `[DomainName <String>]`: The AD domain name
   - `[Dvplatform <String>]`: platform
-  - `[EntityId <String>]`: The id of the user or group
+  - `[EntityId <String>]`: Azure cloud entity ID
   - `[ExportId <String>]`: exportId to download
   - `[ExternalId <String>]`: The external id of the group
   - `[FieldName <String>]`: The field name to filter on
@@ -158,16 +163,17 @@ To create the parameters described below, construct a hash table containing the 
   - `[GroupType <String>]`: group type to filter on
   - `[HypervisorId <String>]`: 
   - `[IPAliasId <String>]`: IP Alias ID
+  - `[Id <String>]`: 
   - `[IdentityProviderId <String>]`: Identity provider Id
   - `[K8SClusterId <String>]`: cluserId to filter on
   - `[K8SNamespaceId <String>]`: id of the K8s namespace
   - `[K8SNodeId <String>]`: nodeId to filter on
+  - `[K8SServiceId <String>]`: id of the K8s service
   - `[K8SWorkloadId <String>]`: id of the K8s workload
   - `[Label <String>]`: id of the K8s namespace
   - `[LabelId <String>]`: The label id
   - `[LicenseType <String>]`: The license type
   - `[MaintenanceWindowId <String>]`: id of the maintence window
-  - `[NamespaceId <String>]`: K8s namespace id identifying the namespace.
   - `[OSType <String>]`: OS type for pilot group
   - `[PolicyId <String>]`: id of the external acess policy
   - `[PostureCheckType <String>]`: posture check type

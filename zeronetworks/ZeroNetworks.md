@@ -188,6 +188,9 @@ Returns a list of source user candidates for external access policies.
 ### [Get-ZNAssetExternalAccessPolicyStatistics](Get-ZNAssetExternalAccessPolicyStatistics.md)
 Returns statistics for an external access policy.
 
+### [Get-ZNAssetFilterAllowedConnection](Get-ZNAssetFilterAllowedConnection.md)
+Returns the filter allowed connections config for an asset.
+
 ### [Get-ZNAssetHealthState](Get-ZNAssetHealthState.md)
 Get asset health state
 
@@ -829,14 +832,23 @@ Returns a list of rules in the k8s cluster namespace.
 ### [Get-ZNK8SClusterNamespaceLabel](Get-ZNK8SClusterNamespaceLabel.md)
 Returns a list of labels for the K8s namespace.
 
+### [Get-ZNK8SClusterNamespaceNetworkPolicy](Get-ZNK8SClusterNamespaceNetworkPolicy.md)
+Returns a list of network policies for a namespaces in the k8s cluster.
+
 ### [Get-ZNK8SClusterNamespaceOutboundRule](Get-ZNK8SClusterNamespaceOutboundRule.md)
 Returns a list of rules in the k8s cluster namespace.
 
 ### [Get-ZNK8SClusterNamespaceRule](Get-ZNK8SClusterNamespaceRule.md)
 Returns a list of rules in the k8s cluster namespace.
 
+### [Get-ZNK8SClusterNamespaceService](Get-ZNK8SClusterNamespaceService.md)
+Returns a service for a k8s cluster namespace.
+
 ### [Get-ZNK8SClusterNamespaceWorkload](Get-ZNK8SClusterNamespaceWorkload.md)
 Returns a list of workloads for a namespaces in the k8s cluster.
+
+### [Get-ZNK8SClusterNetworkPolicy](Get-ZNK8SClusterNetworkPolicy.md)
+Returns a list of network policies for a k8s cluster.
 
 ### [Get-ZNK8SClusterNode](Get-ZNK8SClusterNode.md)
 Returns a single K8s node.
@@ -846,6 +858,9 @@ Returns a list of rules in the k8s cluster.
 
 ### [Get-ZNK8SClusterRule](Get-ZNK8SClusterRule.md)
 Returns a list of rules in the k8s cluster.
+
+### [Get-ZNK8SClusterService](Get-ZNK8SClusterService.md)
+Returns a service for k8s cluster.
 
 ### [Get-ZNK8SClusterWorkload](Get-ZNK8SClusterWorkload.md)
 Returns a workload for k8s cluster.
@@ -862,11 +877,17 @@ Returns a list of rules in the k8s namespace.
 ### [Get-ZNK8SNamespaceLabel](Get-ZNK8SNamespaceLabel.md)
 Returns a list of labels for the K8s namespace.
 
+### [Get-ZNK8SNamespaceNetworkPolicy](Get-ZNK8SNamespaceNetworkPolicy.md)
+Returns a list of network policies for a k8s namespace.
+
 ### [Get-ZNK8SNamespaceOutboundRule](Get-ZNK8SNamespaceOutboundRule.md)
 Returns a list of rules in the k8s namespace.
 
 ### [Get-ZNK8SNamespaceRule](Get-ZNK8SNamespaceRule.md)
 Returns a list of rules in the k8s namespace.
+
+### [Get-ZNK8SNamespaceService](Get-ZNK8SNamespaceService.md)
+Returns a service for k8s namespace.
 
 ### [Get-ZNK8SNamespaceWorkload](Get-ZNK8SNamespaceWorkload.md)
 Returns a workload for k8s namespace.
@@ -883,8 +904,11 @@ Returns a workload for k8s.
 ### [Get-ZNK8SWorkloadLabel](Get-ZNK8SWorkloadLabel.md)
 Returns a list of labels for the K8s workload.
 
-### [Get-ZNLabel](Get-ZNLabel.md)
-Returns the labels.
+### [Get-ZNLabelsKeyCandidate](Get-ZNLabelsKeyCandidate.md)
+Returns a list of key candidates for labels
+
+### [Get-ZNLabelsValueCandidate](Get-ZNLabelsValueCandidate.md)
+Returns a list of value candidates for labels
 
 ### [Get-ZNLearningConfig](Get-ZNLearningConfig.md)
 Get Learning Config
@@ -948,6 +972,24 @@ Returns and object with MFA distribution.
 
 ### [Get-ZNMfaPoliciesStatistics](Get-ZNMfaPoliciesStatistics.md)
 Returns an object with MFA statistics.
+
+### [Get-ZNNetworkAlert](Get-ZNNetworkAlert.md)
+Returns a single network alert.
+
+### [Get-ZNNetworkAlertsAssigneeCandidate](Get-ZNNetworkAlertsAssigneeCandidate.md)
+Returns a list of assignee candidates for the assignee filter, including an \"Unassigned\" pseudo-candidate.
+
+### [Get-ZNNetworkAlertsStatsByAssignee](Get-ZNNetworkAlertsStatsByAssignee.md)
+Returns the count of network alerts grouped by assignee.
+
+### [Get-ZNNetworkAlertsStatsByCategory](Get-ZNNetworkAlertsStatsByCategory.md)
+Returns the count of network alerts grouped by alert-type category.
+
+### [Get-ZNNetworkAlertsStatsByThreatLevel](Get-ZNNetworkAlertsStatsByThreatLevel.md)
+Returns the count of network alerts grouped by threat level, plus the total count.
+
+### [Get-ZNNetworkAlertsStatsOverTime](Get-ZNNetworkAlertsStatsOverTime.md)
+Returns a daily count of network alerts by threat level over the requested time frame.
 
 ### [Get-ZNNetworkOnboardingPoliciesGroupCandidate](Get-ZNNetworkOnboardingPoliciesGroupCandidate.md)
 Returns a list of candidates for a network onboarding policy.
@@ -1132,6 +1174,9 @@ Returns the properties of ignored rules for anti-tampering Firewall settings.
 ### [Get-ZNSettingsFirewallProfile](Get-ZNSettingsFirewallProfile.md)
 Returns the properties of firewall profiles in Firewall settings.
 
+### [Get-ZNSettingsGlobalMapPreset](Get-ZNSettingsGlobalMapPreset.md)
+Returns the configured global map layer presets.
+
 ### [Get-ZNSettingsIdentityLogoff](Get-ZNSettingsIdentityLogoff.md)
 Get identity logoff settings
 
@@ -1146,6 +1191,9 @@ Get Internal Subnets settings in System
 
 ### [Get-ZNSettingsJamfCredentials](Get-ZNSettingsJamfCredentials.md)
 Returns the properties for JAMF Credentials Settings.
+
+### [Get-ZNSettingsK8SAntiTamperingConfig](Get-ZNSettingsK8SAntiTamperingConfig.md)
+Get K8s anti-tampering audit cooldown settings
 
 ### [Get-ZNSettingsK8SApplicationsLabel](Get-ZNSettingsK8SApplicationsLabel.md)
 Get K8s application label settings
@@ -1266,9 +1314,6 @@ Returns a list of users candidates for Inbound rules.
 
 ### [Get-ZNSwitchInterface](Get-ZNSwitchInterface.md)
 List interfaces for a switch
-
-### [Get-ZNSwitchOt](Get-ZNSwitchOt.md)
-Gets OT assets for a swtich
 
 ### [Get-ZNSwitchOutboundOtRule](Get-ZNSwitchOutboundOtRule.md)
 Get an OT/IoT Rule
@@ -1604,9 +1649,15 @@ Returns a the internal access policy
 ### [New-ZNK8SCluster](New-ZNK8SCluster.md)
 Returns a list of k8s cluster.
 
+### [New-ZNK8SClusterDesiredPolicy](New-ZNK8SClusterDesiredPolicy.md)
+Create a desired-state network policy, optionally with an initial set of desired rules.
+
 ### [New-ZNK8SClusterDesiredRule](New-ZNK8SClusterDesiredRule.md)
 Create a desired-state rule on an existing network policy.
 networkPolicyUid is enriched server-side from the policy.
+
+### [New-ZNK8SDesiredRuleBody](New-ZNK8SDesiredRuleBody.md)
+Create a in-memory object for K8s desired rule for a new policy
 
 ### [New-ZNK8SIPBlock](New-ZNK8SIPBlock.md)
 Create a in-memory object for K8SIPBlock
@@ -1733,6 +1784,11 @@ Returns an empty object.
 
 ### [Protect-ZNAssetRpcSegment](Protect-ZNAssetRpcSegment.md)
 Returns and empty object.
+
+### [Protect-ZNK8SNamespacesNetworkSegment](Protect-ZNK8SNamespacesNetworkSegment.md)
+Sets the desired protection state of the given namespaces to protected, routing each change through the enforcement engine.
+Namespaces that are not valid for protection are skipped.
+Returns an empty object.
 
 ### [Protect-ZNUserIdentitySegment](Protect-ZNUserIdentitySegment.md)
 Returns and empty object.
@@ -1877,6 +1933,9 @@ Returns an empty object.
 
 ### [Remove-ZNK8SCluster](Remove-ZNK8SCluster.md)
 Returns an empty object.
+
+### [Remove-ZNK8SClusterDesiredPolicy](Remove-ZNK8SClusterDesiredPolicy.md)
+Deletes desired-state network policies by ID.
 
 ### [Remove-ZNK8SClusterDesiredRule](Remove-ZNK8SClusterDesiredRule.md)
 Deletes desired-state rules.
@@ -2054,6 +2113,11 @@ Returns an empty object.
 ### [Unprotect-ZNAssetRpcSegment](Unprotect-ZNAssetRpcSegment.md)
 Returns and empty object.
 
+### [Unprotect-ZNK8SNamespacesNetworkSegment](Unprotect-ZNK8SNamespacesNetworkSegment.md)
+Sets the desired protection state of the given namespaces to unprotected, routing each change through the enforcement engine.
+Namespaces that are not valid for unprotection are skipped.
+Returns an empty object.
+
 ### [Unprotect-ZNUserIdentitySegment](Unprotect-ZNUserIdentitySegment.md)
 Returns an empty object.
 
@@ -2075,6 +2139,9 @@ Pin deployments cluster
 ### [Update-ZNAssetExternalAccessPolicy](Update-ZNAssetExternalAccessPolicy.md)
 Updates an external access policy.
 
+### [Update-ZNAssetFilterAllowedConnection](Update-ZNAssetFilterAllowedConnection.md)
+Returns an empty object.
+
 ### [Update-ZNAssetIdentityRule](Update-ZNAssetIdentityRule.md)
 Updates an identity rule.
 
@@ -2086,6 +2153,9 @@ Updates an inbound OT rule.
 
 ### [Update-ZNAssetInboundRule](Update-ZNAssetInboundRule.md)
 Updates an inbound  rule.
+
+### [Update-ZNAssetLabel](Update-ZNAssetLabel.md)
+Replace the manual labels on the asset.
 
 ### [Update-ZNAssetManager](Update-ZNAssetManager.md)
 Update an asset manager of asset
@@ -2117,14 +2187,14 @@ Returns and empty object.
 ### [Update-ZNAssetOtInboundOtrule](Update-ZNAssetOtInboundOtrule.md)
 Updates an inbound OT rule.
 
+### [Update-ZNAssetOtLabel](Update-ZNAssetOtLabel.md)
+Replace the manual labels on the asset.
+
 ### [Update-ZNAssetOtOutboundOtrule](Update-ZNAssetOtOutboundOtrule.md)
 Updates an outbound OT rule.
 
 ### [Update-ZNAssetOutboundOtrule](Update-ZNAssetOutboundOtrule.md)
 Updates an outbound OT rule.
-
-### [Update-ZNAssetOutboundRestriction](Update-ZNAssetOutboundRestriction.md)
-Set the outbound restriction (Enable Internal, Enable External, Enable Both, Disable) for multiple assets
 
 ### [Update-ZNAssetOutboundRule](Update-ZNAssetOutboundRule.md)
 Updates an outbound  rule.
@@ -2137,6 +2207,9 @@ Edit an IP Alias.
 
 ### [Update-ZNAssetsLinuxProfile](Update-ZNAssetsLinuxProfile.md)
 Set the Linux profile for multiple manual Linux assets
+
+### [Update-ZNAssetsOutboundRestriction](Update-ZNAssetsOutboundRestriction.md)
+Set the outbound restriction for multiple assets
 
 ### [Update-ZNAssetsPreferredSegmentServer](Update-ZNAssetsPreferredSegmentServer.md)
 Returns and empty object.
@@ -2225,6 +2298,9 @@ All requested policies must be in (is_deployed=true, is_desired=false); if any i
 Deployed-but-not-desired child rules are promoted in the same transaction.
 Max 100 IDs per request.
 
+### [Update-ZNK8SClusterDesiredPolicy](Update-ZNK8SClusterDesiredPolicy.md)
+Updates a K8s desired policy.
+
 ### [Update-ZNK8SClusterDesiredRule](Update-ZNK8SClusterDesiredRule.md)
 Updates a K8s desired rule.
 
@@ -2242,6 +2318,10 @@ Updates an inbound MFA Policy.
 
 ### [Update-ZNMfaOutboundPolicy](Update-ZNMfaOutboundPolicy.md)
 Updates an outbound MFA Policy.
+
+### [Update-ZNNetworkAlert](Update-ZNNetworkAlert.md)
+Partially update a network alert (state, classification, assignee, comment, change ticket).
+Requires a privileged role.
 
 ### [Update-ZNNetworkOnboardingPolicy](Update-ZNNetworkOnboardingPolicy.md)
 Returns the updated settings for the network onboarding policy.
@@ -2348,6 +2428,9 @@ Returns he properties of ignored rules for anti-tampering Firewall settings.
 ### [Update-ZNSettingsFirewallProfile](Update-ZNSettingsFirewallProfile.md)
 Returns the properties of firewall profiles in Firewall settings.
 
+### [Update-ZNSettingsGlobalMapPreset](Update-ZNSettingsGlobalMapPreset.md)
+Sets the global map layer presets.
+
 ### [Update-ZNSettingsIdentityLogoff](Update-ZNSettingsIdentityLogoff.md)
 Set Identity Logoff settings
 
@@ -2362,6 +2445,9 @@ Update the Internal Subnets settings in System
 
 ### [Update-ZNSettingsJamfCredentials](Update-ZNSettingsJamfCredentials.md)
 Returns the updated properties of JAMF Credentials settings.
+
+### [Update-ZNSettingsK8SAntiTamperingConfig](Update-ZNSettingsK8SAntiTamperingConfig.md)
+Set K8s anti-tampering audit cooldown settings
 
 ### [Update-ZNSettingsK8SApplicationsLabel](Update-ZNSettingsK8SApplicationsLabel.md)
 Set K8s application label settings

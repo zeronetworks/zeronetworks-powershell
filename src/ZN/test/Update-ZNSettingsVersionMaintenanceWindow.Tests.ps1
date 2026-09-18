@@ -15,7 +15,10 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsVersionMaint
 }
 
 Describe 'Update-ZNSettingsVersionMaintenanceWindow' {
-    It 'UpdateExpanded' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'UpdateExpanded' {
+        $maintwindow = New-ZNSettingsVersionMaintenanceWindow -StartTime 0 -WeekDay Sunday
+        Update-ZNSettingsVersionMaintenanceWindow -Product segment-server -MaintenanceWindows @($maintwindow)
+        $updateResult = Get-ZNSettingsVersionMaintenanceWindow -Product segment-server
+        $updateResult.Weekday | Should -Be 1
     }
 }

@@ -20,8 +20,8 @@ Invoke-ZNAssetNetworkQueue -AssetId <String> -QueueDays <Int32> [-AccountName <S
 
 ### QueueExpanded1
 ```
-Invoke-ZNAssetNetworkQueue -Items <String[]> -QueueDays <Int32> [-AccountName <String>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+Invoke-ZNAssetNetworkQueue -Items <String[]> -QueueDays <Int32> [-AccountName <String>]
+ [-MaintenanceWindowId <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -85,6 +85,21 @@ Parameter Sets: QueueExpanded1
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MaintenanceWindowId
+.
+
+```yaml
+Type: System.String
+Parameter Sets: QueueExpanded1
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
