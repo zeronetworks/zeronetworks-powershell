@@ -91,8 +91,6 @@ function Deny-ZNOutboundRuleReview {
         try {
             #Handle Get
 
-            $ruleReview = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.RuleReviewReason]::new()
-
             if ($PSBoundParameters['Reason']) {
                 if ($PSBoundParameters['Reason'] -eq 'Other') {
                     if (!$PSBoundParameters['Details']) {
@@ -108,16 +106,9 @@ function Deny-ZNOutboundRuleReview {
                     'TrafficShouldBeBlocked' { $intReason = 6 }
                     "Other" { $intReason = 7 }
                 }
-                $ruleReview.Reason = $intReason
-                $null = $PSBoundParameters.Remove('Reason')
+                $PSBoundParameters['Reason'] = $intReason
             }
 
-            if ($PSBoundParameters['Details']) {
-                $ruleReview.Details = $PSBoundParameters['Details']
-                $null = $PSBoundParameters.Remove('Details')
-            }
-
-            $null = $PSBoundParameters.Add('Body', $ruleReview)
             ZeroNetworks.internal\Deny-ZNOutboundRulesReview @PSBoundParameters
         }
         catch {
