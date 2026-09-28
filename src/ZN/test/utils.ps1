@@ -258,7 +258,7 @@ function setupEnv() {
 
 
     write-Host "Pending Deletes Rule Ids: "+$pendingDeletes
-    write-Host "You will need to mark these Ids to approve/deny the rules."
+    write-Host "You will need to mark these Ids as proposed deletes."
     start-sleep -Seconds (60*10) # Sleep for 10 minutes to allow time for manual review
     
 

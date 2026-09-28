@@ -9453,7 +9453,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ruleReviewReason'
+              $ref: '#/components/schemas/ruleReviewAReject'
       responses:
         '200':
           description: OK
@@ -86857,15 +86857,18 @@ components:
         item:
           $ref: '#/components/schemas/rule'
     ruleReviewApproveWithChanges:
-      description: Mandatory object for rule review approve_with_changes / reject.
+      description: Body for rule review approve_with_changes.
       type: object
       properties:
+        forceReview:
+          description: When true (default), review is mandatory.
+          type: boolean
+          default: true
         review:
           $ref: '#/components/schemas/ruleReviewReason'
         ruleInfo:
           $ref: '#/components/schemas/ruleReviewBody'
       required:
-        - review
         - ruleInfo
       x-examples:
         example-1:
@@ -86896,6 +86899,8 @@ components:
       properties:
         action:
           $ref: '#/components/schemas/ruleAction'
+        changeTicket:
+          type: string
         description:
           type: string
         direction:
@@ -86906,21 +86911,31 @@ components:
             type: string
         expiresAt:
           $ref: '#/components/schemas/epochMillis'
+        firewallId:
+          type: string
         ipSecOpt:
           $ref: '#/components/schemas/ipSecOpt'
+        isRejectOnLinux:
+          type: boolean
         localEntityId:
           type: string
         localProcessesList:
           type: array
           items:
             type: string
-        servicesList:
-          type: array
-          items:
-            type: string
+        name:
+          type: string
         portsList:
           $ref: '#/components/schemas/portsList'
         remoteEntityIdsList:
+          type: array
+          items:
+            type: string
+        ruleCategory:
+          description: 1=IT, 2=CLOUD_NSG, 3=CLOUD_RANGE, 4=CLOUD_FQDN, 5=CLOUD_S2S
+          type: integer
+          format: int32
+        servicesList:
           type: array
           items:
             type: string
@@ -86934,10 +86949,7 @@ components:
             - 2
       required:
         - action
-        - direction
-        - expiresAt
         - localEntityId
-        - localProcessesList
         - portsList
         - remoteEntityIdsList
         - state
@@ -86952,6 +86964,14 @@ components:
         - 3
       format: int32
       type: integer
+    ruleReviewAReject:
+      description: Mandatory object for rule review reject.
+      type: object
+      properties:
+        review:
+          $ref: '#/components/schemas/ruleReviewReason'
+      required:
+        - review
     ruleReviewReason:
       description: |-
         Mandatory object for rule review approve_with_changes / reject.

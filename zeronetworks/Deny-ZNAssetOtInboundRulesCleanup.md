@@ -12,9 +12,16 @@ Deny deleting a rule AE suggested for cleanup
 
 ## SYNTAX
 
+### DenyExpanded (Default)
 ```
 Deny-ZNAssetOtInboundRulesCleanup -AssetId <String> -RuleId <String> [-AccountName <String>]
  [-Details <String>] [-Reason <Int32>] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
+```
+
+### Deny
+```
+Deny-ZNAssetOtInboundRulesCleanup -AssetId <String> -RuleId <String> -Body <IRuleReviewReason>
+ [-AccountName <String>] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -61,12 +68,37 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Body
+Mandatory object for rule review approve_with_changes / reject.
+
+reason: {
+ HUMAN_TRAFFIC_COVERED_BY_MFA = 1,
+ TIGHTEN_RULE_SCOPE = 2,
+ MISSING_PORT_OR_PROCESS = 3,
+ AFFECTED_ENTITIES_CONTAINED_IN_AN_EXISTING_GROUP = 4,
+ REDUNDANT_RULE = 5,
+ TRAFFIC_SHOULD_BE_BLOCKED = 6,
+ OTHER = 7
+}
+
+```yaml
+Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.IRuleReviewReason
+Parameter Sets: Deny
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
 ### -Details
 Optional if reason != OTHER(7), mandatory if reason == OTHER(7)
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: DenyExpanded
 Aliases:
 
 Required: False
@@ -96,7 +128,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.Int32
-Parameter Sets: (All)
+Parameter Sets: DenyExpanded
 Aliases:
 
 Required: False
@@ -157,11 +189,22 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IRuleReviewReason
+
 ## OUTPUTS
 
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
 
 ## NOTES
+
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+
+`BODY <IRuleReviewReason>`: Mandatory object for rule review approve_with_changes / reject.          reason: {          HUMAN_TRAFFIC_COVERED_BY_MFA = 1,          TIGHTEN_RULE_SCOPE = 2,          MISSING_PORT_OR_PROCESS = 3,          AFFECTED_ENTITIES_CONTAINED_IN_AN_EXISTING_GROUP = 4,          REDUNDANT_RULE = 5,          TRAFFIC_SHOULD_BE_BLOCKED = 6,          OTHER = 7         }
+  - `Reason <Int32>`: 
+  - `[Details <String>]`: Optional if reason != OTHER(7), mandatory if reason == OTHER(7)
 
 ## RELATED LINKS
 

@@ -1,7 +1,7 @@
 @{
   GUID = 'e1524bd8-23dd-43fa-bcc0-196b3c1ef81c'
   RootModule = './ZeroNetworks.psm1'
-  ModuleVersion = '0.26.8'
+  ModuleVersion = '0.26.81'
   CompatiblePSEditions = 'Core', 'Desktop'
   Author = 'Zero Networks'
   CompanyName = 'Zero Networks'

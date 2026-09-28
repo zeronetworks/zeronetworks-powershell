@@ -1,18 +1,18 @@
 {
-  "RuleReviewSuggestDeleteUser": "posh\\zero",
-  "RuleReviewSuggestDeleteUserId": "u:a:2wl9Once",
-  "RuleReviewSuggestDeleteGroupId": "g:t:02da83cd",
+  "RuleReviewSuggestDeleteGroup": "DHCP",
+  "K8sNameSpace": "tcp-demo",
   "RuleReviewSuggestDeleteAssetOt": "poshotv2.posh.local",
   "K8sWorkloadOutbound": "tcp-client",
   "RuleReviewAsset": "linux0.posh.local",
-  "K8sWorkloadInbound": "tcp-echo",
-  "K8sCluster": "okd",
-  "RandomP)": "Y`dkNI\"SEkU&5BFl",
-  "K8sNameSpace": "tcp-demo",
-  "baseUri": "https://portal-staging.zeronetworks.com/api/v1",
-  "RuleReviewAssetId": "a:l:EFZfNAxm",
   "RuleReviewSuggestDeleteAsset": "linux0.posh.local",
+  "K8sCluster": "okd",
   "RuleReviewSuggestDeleteAssetId": "a:l:EFZfNAxm",
+  "RuleReviewSuggestDeleteUserId": "u:a:2wl9Once",
+  "baseUri": "https://portal-staging.zeronetworks.com/api/v1",
+  "K8sWorkloadInbound": "tcp-echo",
   "RuleReviewSuggestDeleteAssetOtId": "a:t:9nde5hLU",
-  "RuleReviewSuggestDeleteGroup": "DHCP"
+  "RandomP)": "lm82\\=R^Zy9rR_5K",
+  "RuleReviewSuggestDeleteUser": "posh\\zero",
+  "RuleReviewAssetId": "a:l:EFZfNAxm",
+  "RuleReviewSuggestDeleteGroupId": "g:t:02da83cd"
 }

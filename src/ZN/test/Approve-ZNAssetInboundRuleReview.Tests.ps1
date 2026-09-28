@@ -26,7 +26,7 @@ Describe 'Approve-ZNAssetInboundRuleReview' {
 
     It 'ApproveWithChangesExpanded' {
         $asset= (Search-ZNAsset -Fqdn linux0.posh.local).AssetId
-        $rule = (Get-ZNAssetInboundRule -AssetId $asset).Items | where {$_.SuggestionType -eq 4} | Select-Object -First 1
+        $rule = (Get-ZNAssetInboundRule -AssetId $asset).Items | where {$_.SuggestionType -eq 1} | Select-Object -First 1
         Approve-ZNAssetInboundRuleReview -AssetId $asset -RuleId $rule.id -Description "updatedapproval" -Reason MissingPortOrProcess
         $updatedRule = (Get-ZNAssetInboundRule -AssetId $asset).Items | where {$_.Id -eq $rule.id}
         $updatedRule.SuggestionType | Should -Be 0
