@@ -17,7 +17,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'Approve-ZNAssetInboundRulesCl
 Describe 'Approve-ZNAssetInboundRulesCleanup' {
     It 'Approve' {
         $asset = Search-ZNAsset -Fqdn linux0.posh.local
-        $rule = (Get-ZNAssetInboundRule -AssetId $asset.AssetId -AddAncestors -AddBuiltins).Items | where {$_.SuggestionType -eq 1} | Select-Object -First 1
+        $rule = (Get-ZNAssetInboundRule -AssetId $asset.AssetId -AddAncestors -AddBuiltins).Items | where {$_.SuggestionType -eq 2} | Select-Object -First 1
         { Approve-ZNAssetInboundRulesCleanup -AssetId $asset.assetId -RuleId $rule.id } | Should -Not -Throw
     }
 }

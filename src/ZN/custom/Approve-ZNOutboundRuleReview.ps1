@@ -17,7 +17,7 @@ function Approve-ZNOutboundRuleReview {
         [System.String]
         # Account Name
         ${AccountName},
-        
+
         [Parameter(ParameterSetName = 'ApproveExpanded', Mandatory)]
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded', Mandatory)]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Path')]
@@ -28,41 +28,59 @@ function Approve-ZNOutboundRuleReview {
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
         [System.String]
-        # Comments
+        # Comments. Required (3-200 characters) when Reason is Other.
         ${Details},
-        
-        [Parameter(ParameterSetName = 'ApproveWithChangesExpanded', Mandatory)]
+
+        [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
-        [ValidateSet('HumanTrafficCoveredByMFA', 'TightenRuleScope', 'MissingPortOrProcess', 'AffectedEntitiesContainedInAnExisitingGroup', 'RedundantRule', 'TrafficShouldBeBlocked', 'Other')]
-        # Review Reason int32
+        [ValidateSet('HumanTrafficCoveredByMFA', 'TightenRuleScope', 'MissingPortOrProcess', 'AffectedEntitiesContainedInAnExisitingGroup', 'AffectedEntitiesContainedInAnExistingGroup', 'RedundantRule', 'TrafficShouldBeBlocked', 'Other', 'WidenRuleScope')]
+        # Review Reason. Required unless ForceReview is $false.
         ${Reason},
-        
+
+        [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
+        [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
+        [bool]
+        # When true (default), a review Reason is mandatory.
+        ${ForceReview},
+
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
         [int32]
         # Action
         ${Action},
-        
+
+        [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
+        [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
+        [System.String]
+        # the rule change ticket.
+        ${ChangeTicket},
+
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
         [System.String]
         # the rule description.
         ${Description},
-        #[-RuleInfoDescription <String>] 
-        
+        #[-RuleInfoDescription <String>]
+
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
         [string[]]
         # excluded destination asset(s).
         ${ExcludedLocalIdsList},
-        #[-RuleInfoExcludedLocalIdsList <String[]>] 
-        
+        #[-RuleInfoExcludedLocalIdsList <String[]>]
+
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
         [Int64]
         # when the rule should expiry.
         ${ExpiresAt},
-        #[-RuleInfoExpiresAt <Int64>] 
+        #[-RuleInfoExpiresAt <Int64>]
+
+        [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
+        [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
+        [System.String]
+        # the firewall id.
+        ${FirewallId},
 
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
@@ -72,36 +90,68 @@ function Approve-ZNOutboundRuleReview {
 
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
+        [bool]
+        # reject (instead of drop) on linux.
+        ${IsRejectOnLinux},
+
+        [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
+        [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
         [System.String]
         # The Destination asset(s).
         ${LocalEntityId},
-        #[-RuleInfoLocalEntityId <String>] 
+        #[-RuleInfoLocalEntityId <String>]
 
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
         [System.String[]]
-        # the destination process paths.
+        # the destination process paths. Cannot be used with ServicesList.
         ${LocalProcessesList},
         #[-RuleInfoLocalProcessesList <String[]>]
-        
+
+        [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
+        [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
+        [System.String]
+        # the rule name.
+        ${Name},
+
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Models.IPortsListItem[]]
         # the destination ports and protocols.
         ${PortsList},
-        #[-RuleInfoPortsList <IPortsListItem[]>] 
-         
+        #[-RuleInfoPortsList <IPortsListItem[]>]
+
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
         [string[]]
         # the source asset(s).
         ${RemoteEntityIdsList},
-        #[-RuleInfoRemoteEntityIdsList <String[]>] 
-         
+        #[-RuleInfoRemoteEntityIdsList <String[]>]
+
         [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
+        [ValidateRange(1, 5)]
         [int32]
-        # the rule state.
+        # the rule category. 1=IT, 2=CLOUD_NSG, 3=CLOUD_RANGE, 4=CLOUD_FQDN, 5=CLOUD_S2S
+        ${RuleCategory},
+
+        [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
+        [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
+        [string[]]
+        # the destination services. Cannot be used with LocalProcessesList.
+        ${ServicesList},
+
+        [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
+        [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
+        [ZeroNetworks.PowerShell.Cmdlets.Api.Models.ISrcUsersListItem[]]
+        # the source users. Cannot be used with ServicesList.
+        ${SrcUsersList},
+
+        [Parameter(ParameterSetName = 'ApproveWithChangesExpanded')]
+        [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
+        [ValidateSet(1, 2)]
+        [int32]
+        # the rule state. 1=Enabled, 2=Disabled
         ${State},
 
         [Parameter()]
@@ -164,126 +214,172 @@ function Approve-ZNOutboundRuleReview {
                     ZeroNetworks.internal\Approve-ZNOutboundRulesReview @PSBoundParameters
                 }
                 "ApproveWithChangesExpanded" {
+                    #Validate review
+                    $forceReview = -not $PSBoundParameters.ContainsKey('ForceReview') -or $PSBoundParameters['ForceReview']
+                    if ($forceReview -and -not $PSBoundParameters.ContainsKey('Reason')) {
+                        throw "You must provide Reason unless ForceReview is `$false"
+                    }
+                    if ($PSBoundParameters['Reason'] -eq 'Other') {
+                        $detailsLength = "$($PSBoundParameters['Details'])".Length
+                        if ($detailsLength -lt 3 -or $detailsLength -gt 200) {
+                            throw "You must provide Details (3-200 characters) if Reason is Other"
+                        }
+                    }
+
                     #Handle Get
                     $ruleId = $PSBoundParameters['RuleId'].ToString()
                     $rule = ZeroNetworks\Get-ZNOutboundRule -RuleId $ruleId
-                    
+
                     $ruleReview = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.RuleReviewApproveWithChanges]::new()
 
-                    if ($PSBoundParameters['Reason']) {
-                        if ($PSBoundParameters['Reason'] -eq 'Other') {
-                            if (!$PSBoundParameters['Details']) {
-                                Write-Error "You must provide Details if Reason is Other"
-                            }
-                        }
+                    if ($PSBoundParameters.ContainsKey('ForceReview')) {
+                        $ruleReview.ForceReview = $PSBoundParameters['ForceReview']
+                    }
+
+                    if ($PSBoundParameters.ContainsKey('Reason')) {
                         switch ($PSBoundParameters['Reason']) {
                             'HumanTrafficCoveredByMFA' { $intReason = 1 }
                             'TightenRuleScope' { $intReason = 2 }
                             'MissingPortOrProcess' { $intReason = 3 }
                             'AffectedEntitiesContainedInAnExisitingGroup' { $intReason = 4 }
+                            'AffectedEntitiesContainedInAnExistingGroup' { $intReason = 4 }
                             'RedundantRule' { $intReason = 5 }
                             'TrafficShouldBeBlocked' { $intReason = 6 }
-                            "Other" { $intReason = 7 }
+                            'Other' { $intReason = 7 }
+                            'WidenRuleScope' { $intReason = 8 }
                         }
                         $ruleReview.ReviewReason = $intReason
-                        $null = $PSBoundParameters.Remove('Reason')
                     }
 
-                    if ($PSBoundParameters['Details']) {
+                    if ($PSBoundParameters.ContainsKey('Details')) {
                         $ruleReview.ReviewDetails = $PSBoundParameters['Details']
-                        $null = $PSBoundParameters.Remove('Details')
                     }
 
-                    $ruleReview.RuleInfoDirection = 2
+                    # direction is set by the server from the route
 
-                    if ($PSBoundParameters['Action']) {
+                    if ($PSBoundParameters.ContainsKey('Action')) {
                         $ruleReview.RuleInfoAction = $PSBoundParameters['Action']
-                        $null = $PSBoundParameters.Remove('Action')
                     }
                     else {
                         $ruleReview.RuleInfoAction = $rule.ItemAction
-                        $null = $PSBoundParameters.Remove('Action')
                     }
 
-                    if ($PSBoundParameters['Description']) {
+                    if ($PSBoundParameters.ContainsKey('ChangeTicket')) {
+                        $ruleReview.RuleInfoChangeTicket = $PSBoundParameters['ChangeTicket']
+                    }
+                    else {
+                        $ruleReview.RuleInfoChangeTicket = $rule.ItemChangeTicket
+                    }
+
+                    if ($PSBoundParameters.ContainsKey('Description')) {
                         $ruleReview.RuleInfoDescription = $PSBoundParameters['Description']
-                        $null = $PSBoundParameters.Remove('Description')
                     }
                     else {
                         $ruleReview.RuleInfoDescription = $rule.ItemDescription
-                        $null = $PSBoundParameters.Remove('Description')
                     }
 
-                    if ($PSBoundParameters['ExcludedLocalIdsList']) {
+                    if ($PSBoundParameters.ContainsKey('ExcludedLocalIdsList')) {
                         $ruleReview.RuleInfoExcludedLocalIdsList = $PSBoundParameters['ExcludedLocalIdsList']
-                        $null = $PSBoundParameters.Remove('ExcludedLocalIdsList')
                     }
                     else {
                         $ruleReview.RuleInfoExcludedLocalIdsList = $rule.ItemExcludedLocalIdsList
-                        $null = $PSBoundParameters.Remove('ExcludedLocalIdsList')
                     }
 
-                    if ($PSBoundParameters['ExpiresAt']) {
+                    # leave expiresAt unset (omitted from the body) when the rule has no expiry
+                    if ($PSBoundParameters.ContainsKey('ExpiresAt')) {
                         $ruleReview.RuleInfoExpiresAt = $PSBoundParameters['ExpiresAt']
-                        $null = $PSBoundParameters.Remove('ExpiresAt')
                     }
-                    else {
+                    elseif ($rule.ItemExpiresAt -gt 0) {
                         $ruleReview.RuleInfoExpiresAt = $rule.ItemExpiresAt
-                        $null = $PSBoundParameters.Remove('ExpiresAt')
                     }
-                    
-                    if ($PSBoundParameters['IpSecOpt']) {
+
+                    if ($PSBoundParameters.ContainsKey('FirewallId')) {
+                        $ruleReview.RuleInfoFirewallId = $PSBoundParameters['FirewallId']
+                    }
+                    elseif ($rule.ItemFirewallId) {
+                        $ruleReview.RuleInfoFirewallId = $rule.ItemFirewallId
+                    }
+
+                    if ($PSBoundParameters.ContainsKey('IpSecOpt')) {
                         $ruleReview.RuleInfoIpSecOpt = $PSBoundParameters['IpSecOpt']
-                        $null = $PSBoundParameters.Remove('IpSecOpt')
                     }
                     else {
                         $ruleReview.RuleInfoIpSecOpt = $rule.ItemIpSecOpt
-                        $null = $PSBoundParameters.Remove('IpSecOpt')
                     }
-                    
-                    if ($PSBoundParameters['LocalEntityId']) {
+
+                    if ($PSBoundParameters.ContainsKey('IsRejectOnLinux')) {
+                        $ruleReview.RuleInfoIsRejectOnLinux = $PSBoundParameters['IsRejectOnLinux']
+                    }
+                    else {
+                        $ruleReview.RuleInfoIsRejectOnLinux = $rule.ItemIsRejectOnLinux
+                    }
+
+                    if ($PSBoundParameters.ContainsKey('LocalEntityId')) {
                         $ruleReview.RuleInfoLocalEntityId = $PSBoundParameters['LocalEntityId']
-                        $null = $PSBoundParameters.Remove('LocalEntityId')
                     }
                     else {
                         $ruleReview.RuleInfoLocalEntityId = $rule.ItemLocalEntityId
-                        $null = $PSBoundParameters.Remove('LocalEntityId')
                     }
-                    
-                    if ($PSBoundParameters['LocalProcessesList']) {
-                        $ruleReview.RuleInfoLocalProcessesList = $PSBoundParameters['LocalProcessesList']
-                        $null = $PSBoundParameters.Remove('LocalProcessesList')
+
+                    # processes and services are mutually exclusive, only fall back to the rule when neither is provided
+                    if ($PSBoundParameters.ContainsKey('LocalProcessesList') -or $PSBoundParameters.ContainsKey('ServicesList')) {
+                        if ($PSBoundParameters.ContainsKey('LocalProcessesList')) {
+                            $ruleReview.RuleInfoLocalProcessesList = $PSBoundParameters['LocalProcessesList']
+                        }
+                        if ($PSBoundParameters.ContainsKey('ServicesList')) {
+                            $ruleReview.RuleInfoServicesList = $PSBoundParameters['ServicesList']
+                        }
                     }
                     else {
                         $ruleReview.RuleInfoLocalProcessesList = $rule.ItemLocalProcessesList
-                        $null = $PSBoundParameters.Remove('LocalProcessesList')
+                        $ruleReview.RuleInfoServicesList = $rule.ItemServicesList
                     }
 
-                    if ($PSBoundParameters['PortsList']) {
+                    if ($PSBoundParameters.ContainsKey('Name')) {
+                        $ruleReview.RuleInfoName = $PSBoundParameters['Name']
+                    }
+                    else {
+                        $ruleReview.RuleInfoName = $rule.ItemName
+                    }
+
+                    if ($PSBoundParameters.ContainsKey('PortsList')) {
                         $ruleReview.RuleInfoPortsList = $PSBoundParameters['PortsList']
-                        $null = $PSBoundParameters.Remove('PortsList')
                     }
                     else {
                         $ruleReview.RuleInfoPortsList = $rule.ItemPortsList
-                        $null = $PSBoundParameters.Remove('PortsList')
                     }
-                    
-                    if ($PSBoundParameters['RemoteEntityIdsList']) {
+
+                    if ($PSBoundParameters.ContainsKey('RemoteEntityIdsList')) {
                         $ruleReview.RuleInfoRemoteEntityIdsList = $PSBoundParameters['RemoteEntityIdsList']
-                        $null = $PSBoundParameters.Remove('RemoteEntityIdsList')
                     }
                     else {
                         $ruleReview.RuleInfoRemoteEntityIdsList = $rule.ItemRemoteEntityIdsList
-                        $null = $PSBoundParameters.Remove('RemoteEntityIdsList')
                     }
-                    
-                    if ($PSBoundParameters['State']) {
+
+                    # rule category is not returned on the rule, only send when provided (server defaults to IT)
+                    if ($PSBoundParameters.ContainsKey('RuleCategory')) {
+                        $ruleReview.RuleInfoRuleCategory = $PSBoundParameters['RuleCategory']
+                    }
+
+                    if ($PSBoundParameters.ContainsKey('SrcUsersList')) {
+                        $ruleReview.RuleInfoSrcUsersList = $PSBoundParameters['SrcUsersList']
+                    }
+                    else {
+                        $ruleReview.RuleInfoSrcUsersList = $rule.ItemSrcUsersList
+                    }
+
+                    if ($PSBoundParameters.ContainsKey('State')) {
                         $ruleReview.RuleInfoState = $PSBoundParameters['State']
-                        $null = $PSBoundParameters.Remove('State')
+                    }
+                    elseif ($rule.ItemState -in 1, 2) {
+                        $ruleReview.RuleInfoState = $rule.ItemState
                     }
                     else {
                         $ruleReview.RuleInfoState = 1
-                        $null = $PSBoundParameters.Remove('State')
+                    }
+
+                    foreach ($bodyParam in 'Reason', 'Details', 'ForceReview', 'Action', 'ChangeTicket', 'Description', 'ExcludedLocalIdsList', 'ExpiresAt', 'FirewallId', 'IpSecOpt', 'IsRejectOnLinux', 'LocalEntityId', 'LocalProcessesList', 'Name', 'PortsList', 'RemoteEntityIdsList', 'RuleCategory', 'ServicesList', 'SrcUsersList', 'State') {
+                        $null = $PSBoundParameters.Remove($bodyParam)
                     }
 
                     $null = $PSBoundParameters.Add('Body', $ruleReview)
