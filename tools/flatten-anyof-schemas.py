@@ -277,7 +277,8 @@ def main():
     script_dir = Path(__file__).parent
     src_dir = script_dir.parent / 'src'
     input_file = src_dir / 'openapi.yaml'
-    
+    output_file = src_dir / 'openapi-flattened.yaml'
+
     if not input_file.exists():
         print(f"Error: File not found: {input_file}")
         sys.exit(1)
@@ -296,15 +297,15 @@ def main():
     print("\nFlattening anyOf and oneOf references...\n")
     flattened_spec = flatten_anyof_oneof_schemas(openapi_spec)
     
-    # Write back to the same file
-    print(f"\nWriting flattened spec to: {input_file}")
+    # Write to a separate file, leaving the original spec untouched
+    print(f"\nWriting flattened spec to: {output_file}")
     try:
         # Use a custom dumper that doesn't use anchors/aliases
         class NoAliasDumper(yaml.SafeDumper):
             def ignore_aliases(self, data):
                 return True
         
-        with open(input_file, 'w', encoding='utf-8') as f:
+        with open(output_file, 'w', encoding='utf-8') as f:
             yaml.dump(
                 flattened_spec, 
                 f, 

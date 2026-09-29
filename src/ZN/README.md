@@ -27,7 +27,7 @@ require:
   - $(this-folder)/../readme.noprofile.md
 
 input-file:
-  - $(this-folder)/../openapi.yaml
+  - $(this-folder)/../openapi-flattened.yaml
 
 module-version: 0.26.81-preview
 title: Api
