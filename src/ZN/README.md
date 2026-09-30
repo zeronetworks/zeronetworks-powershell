@@ -29,7 +29,7 @@ require:
 input-file:
   - $(this-folder)/../openapi-flattened.yaml
 
-module-version: 0.26.81-preview
+module-version: 0.26.82-preview
 title: Api
   
 inlining-threshold: 200
@@ -596,6 +596,16 @@ directive:
         name: Action Default
         description: Sets the Action parmaeter to 1.
         script: '1'
+  # set default for candidates apis
+  - where:
+      verb: Get
+      subject: (.*)Candidate
+      parameter-name: RuleCategory
+    set:
+      default:
+        name: Rule Category Default
+        description: sets the ruleCategory parameter to 1.
+        script: '1'
   # combine User Inactive
   - where:
       subject: UsersActive
@@ -669,6 +679,9 @@ directive:
   - where:
       subject: ^SettingsPilotGroupPilotRollout$|^SettingsPilotGroupActivePilotRollout$|^SettingsWindowsPerfSensitiveProcess$
     remove: true
+  - where:
+      subject: ^ConnectPoliciesExcludedDestinationsCandidate$|(.*)OutboundQueue$|(.*)OutboundExtendQueue$
+    hide: true
   # format Responses
   - where:
       model-name: Asset

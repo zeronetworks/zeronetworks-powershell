@@ -14,7 +14,7 @@ Returns an empty object.
 
 ```
 Remove-ZNGroupsExternalAccessPolicy -GroupId <String> -GroupType <String> -PolicyId <String>
- [-AccountName <String>] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-AccountName <String>] [-ZnExpectedUpdatedAt <Int64>] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -106,6 +106,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ZnExpectedUpdatedAt
+Optional optimistic-concurrency guard.
+Set it to the updatedAt value (epoch milliseconds) of the object as last read.
+The request is rejected with 409 and a stale conflict body when the object was modified or deleted since; when the header is absent no check is performed.
+
+```yaml
+Type: System.Int64
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
 
@@ -145,6 +162,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
+
+### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IStaleConflictError
 
 ## NOTES
 

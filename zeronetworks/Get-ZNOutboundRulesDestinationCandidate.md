@@ -13,8 +13,8 @@ Returns a list of destination candidates for Outbound rules.
 ## SYNTAX
 
 ```
-Get-ZNOutboundRulesDestinationCandidate -RuleType <Int32> [-AccountName <String>] [-CloudProvider <Int32>]
- [-Cursor <Int64>] [-Limit <Int32>] [-Search <String>] [<CommonParameters>]
+Get-ZNOutboundRulesDestinationCandidate -RuleType <Int32> [-AccountName <String>] [-Cursor <Int64>]
+ [-Limit <Int32>] [-RuleCategory <Int32>] [-Search <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -83,21 +83,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -CloudProvider
-cloud provider of the rule's local entity, used to offer provider specific candidates such as Azure service tags
-
-```yaml
-Type: System.Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Cursor
 cursor position to start at
 
@@ -124,6 +109,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: 10
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RuleCategory
+rule category, used to offer only the candidates relevant to that category
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 1
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

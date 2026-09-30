@@ -16,13 +16,12 @@ Updates a Connect posture profile.
 Update-ZNConnectPostureProfile -ProfileId <String> [-AccountName <String>] [-Action <String>]
  [-CheckIntervalSeconds <Int32>] [-Description <String>]
  [-MacCheckCertificateExistsList <MacPostureChecksCertificateExistsListItem[]>]
- [-MacCheckDomainJoinedList <MacPostureChecksDomainJoinedListItem[]>]
- [-MacCheckFileExistsList <MacPostureChecksFileExistsListItem[]>]
+ [-MacCheckDomainJoinedDomainList <String[]>] [-MacCheckFileExistsList <MacPostureChecksFileExistsListItem[]>]
  [-MacCheckProcessRunningList <MacPostureChecksProcessRunningListItem[]>] [-MacChecksAntivirusIsEnabled]
  [-MacChecksDiskEncryptedIsEncrypted]
  [-MacChecksOsVersionBuildOSVersionsList <MacPostureChecksOSVersionBuildOsversionsListItem[]>]
  [-Name <String>] [-WindowCheckCertificateExistsList <WindowsPostureChecksCertificateExistsListItem[]>]
- [-WindowCheckDomainJoinedList <WindowsPostureChecksDomainJoinedListItem[]>]
+ [-WindowCheckDomainJoinedDomainsList <String[]>]
  [-WindowCheckFileExistsList <WindowsPostureChecksFileExistsListItem[]>]
  [-WindowCheckProcessRunningList <WindowsPostureChecksProcessRunningListItem[]>]
  [-WindowCheckRegistryKeyValueDataExistsList <IWindowsPostureChecksRegistryKeyValueDataExistsListItem[]>]
@@ -135,11 +134,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -MacCheckDomainJoinedList
-Mac domain joined check
+### -MacCheckDomainJoinedDomainList
+Mac domain joined check - list of domains
 
 ```yaml
-Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.MacPostureChecksDomainJoinedListItem[]
+Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -285,11 +284,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WindowCheckDomainJoinedList
-Windows domain joined check
+### -WindowCheckDomainJoinedDomainsList
+Windows domain joined check - list of domains
 
 ```yaml
-Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.WindowsPostureChecksDomainJoinedListItem[]
+Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -438,16 +437,13 @@ To create the parameters described below, construct a hash table containing the 
 
 
 `MACCHECKCERTIFICATEEXISTSLIST <MacPostureChecksCertificateExistsListItem[]>`: Mac certificate check
-  - `SubjectNameList <List<String>>`: 
-
-`MACCHECKDOMAINJOINEDLIST <MacPostureChecksDomainJoinedListItem[]>`: Mac domain joined check
-  - `DomainList <List<String>>`: 
+  - `SubjectsNamesList <List<String>>`: 
 
 `MACCHECKFILEEXISTSLIST <MacPostureChecksFileExistsListItem[]>`: Mac file check
-  - `[FilesPathsList <List<String>>]`: 
+  - `FilesPathsList <List<String>>`: 
 
 `MACCHECKPROCESSRUNNINGLIST <MacPostureChecksProcessRunningListItem[]>`: Mac process running check
-  - `ProcessPathList <List<String>>`: 
+  - `ProcessesPathsList <List<String>>`: 
 
 `MACCHECKSOSVERSIONBUILDOSVERSIONSLIST <MacPostureChecksOSVersionBuildOsversionsListItem[]>`: MAC OS version check
   - `AllowNewer <Boolean>`: 
@@ -455,16 +451,13 @@ To create the parameters described below, construct a hash table containing the 
   - `Version <String>`: 
 
 `WINDOWCHECKCERTIFICATEEXISTSLIST <WindowsPostureChecksCertificateExistsListItem[]>`: Windows certificate check
-  - `SubjectNameList <List<String>>`: 
-
-`WINDOWCHECKDOMAINJOINEDLIST <WindowsPostureChecksDomainJoinedListItem[]>`: Windows domain joined check
-  - `DomainList <List<String>>`: 
+  - `SubjectsNamesList <List<String>>`: 
 
 `WINDOWCHECKFILEEXISTSLIST <WindowsPostureChecksFileExistsListItem[]>`: Windows file check
   - `FilesPathsList <List<String>>`: 
 
 `WINDOWCHECKPROCESSRUNNINGLIST <WindowsPostureChecksProcessRunningListItem[]>`: Windows process running check
-  - `ProcessPathList <List<String>>`: 
+  - `ProcessesPathsList <List<String>>`: 
 
 `WINDOWCHECKREGISTRYKEYVALUEDATAEXISTSLIST <IWindowsPostureChecksRegistryKeyValueDataExistsListItem[]>`: Windows registry key value data exists check
   - `EntriesList <List<IWindowsPostureChecksRegistryKeyValueDataExistsListPropertiesItemsItem>>`: 

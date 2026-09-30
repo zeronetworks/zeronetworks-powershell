@@ -19,7 +19,7 @@ New-ZNConnectPolicy -AllowedRegions <String[]> -AlwaysOn -AutoDisconnectInOffice
  -LoginAuthorizedEntityAllowedAssetsSourcesList <String[]>
  -LoginAuthorizedEntityAllowedUsersIdsList <String[]> -Name <String> -SessionTtlHours <Int32> -UseDefaultIdp
  -UseExternalBrowserForSso [-AccountName <String>] [-ChangeTicket <String>] [-Description <String>]
- [-LoginAuthorizedEntityExcludedAssetIdsList <String[]>]
+ [-ExcludedDstEntityIdsList <String[]>] [-LoginAuthorizedEntityExcludedAssetIdsList <String[]>]
  [-LoginAuthorizedEntityExcludedUserIdsList <String[]>] [-PostureProfileIds <String[]>]
  [-PriorityDirection <String>] [-PriorityRoleId <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
@@ -155,6 +155,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExcludedDstEntityIdsList
+IPv4 subnet builtin IDs excluded from the tunnel.
+Only allowed when dstEntityIdsList contains the 0.0.0.0/0 full tunnel destination.
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

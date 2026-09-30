@@ -14,7 +14,7 @@ Returns a list of source candidates for Outbound rules.
 
 ```
 Get-ZNUserOutboundRulesSourceCandidate -UserId <String> [-AccountName <String>] [-Cursor <Int64>]
- [-Limit <Int32>] [-Search <String>] [<CommonParameters>]
+ [-Limit <Int32>] [-RuleCategory <Int32>] [-Search <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -91,6 +91,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: 10
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RuleCategory
+rule category, used to offer only the candidates relevant to that category
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 1
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

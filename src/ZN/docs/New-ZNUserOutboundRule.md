@@ -16,9 +16,8 @@ Returns the properties of the created Outbound rule.
 New-ZNUserOutboundRule -UserId <String> -Action <Int32> -LocalEntityId <String> -LocalProcessesList <String[]>
  -PortsList <IPortsListItem[]> -RemoteEntityIdsList <String[]> -State <Int32> [-AccountName <String>]
  [-ChangeTicket <String>] [-Context <Int32>] [-Description <String>] [-ExcludedLocalIdsList <String[]>]
- [-ExpiresAt <Int64>] [-IPSecOpt <Int32>] [-Name <String>] [-NetworkProtectionScope <Int32>]
- [-ReviewMode <Int32>] [-ServicesList <String[]>] [-SrcUsersList <ISrcUsersListItem[]>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-ExpiresAt <Int64>] [-IPSecOpt <Int32>] [-Name <String>] [-ReviewMode <Int32>] [-RuleCategory <Int32>]
+ [-ServicesList <String[]>] [-SrcUsersList <ISrcUsersListItem[]>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -245,21 +244,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -NetworkProtectionScope
-* '0' - Unspecified* '1' - Private* '2' - Public
-
-```yaml
-Type: System.Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -PortsList
 .
 
@@ -292,6 +276,21 @@ Accept wildcard characters: False
 
 ### -ReviewMode
 * 1 - Apply Immediately* 2 - Review* 3 - Conditional Review
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RuleCategory
+* '0' - Unspecified* '1' - IT* '2' - NSG* '3' - PaaS public* '4' - FQDN* '5' - Service-to-service
 
 ```yaml
 Type: System.Int32

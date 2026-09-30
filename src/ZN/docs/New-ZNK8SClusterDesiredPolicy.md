@@ -197,7 +197,7 @@ Accept wildcard characters: False
 Array of [key, value] tuples.
 
 ```yaml
-Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]][]
+Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]][]
 Parameter Sets: (All)
 Aliases:
 
