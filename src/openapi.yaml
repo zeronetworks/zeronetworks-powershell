@@ -72767,7 +72767,7 @@ components:
         pattern: ^a:[a-zA-Z]:[a-zA-Z0-9]{8}$
       example: a:a:JF2xro6g
     assetIdQueryParameter:
-      name: assetId
+      name: assetIdQuery
       in: query
       description: assetId to filter on
       required: true
@@ -78637,24 +78637,26 @@ components:
         message:
           type: string
     staleConflictError:
-      allOf:
-        - $ref: '#/components/schemas/error'
-        - type: object
-          properties:
-            code:
-              type: string
-              enum:
-                - stale
-            updatedAt:
-              $ref: '#/components/schemas/epochMillis'
-            updatedBy:
-              $ref: '#/components/schemas/idNamePair'
-            isDeleted:
-              type: boolean
-            deletedAt:
-              $ref: '#/components/schemas/epochMillis'
-            deletedBy:
-              $ref: '#/components/schemas/idNamePair'
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: string
+          enum:
+            - stale
+        updatedAt:
+          $ref: '#/components/schemas/epochMillis'
+        updatedBy:
+          $ref: '#/components/schemas/idNamePair'
+        isDeleted:
+          type: boolean
+        deletedAt:
+          $ref: '#/components/schemas/epochMillis'
+        deletedBy:
+          $ref: '#/components/schemas/idNamePair'
     exportBody:
       type: object
       properties:

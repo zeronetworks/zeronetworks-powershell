@@ -219,14 +219,14 @@ To create the parameters described below, construct a hash table containing the 
 `TRIGGERS <ISettingsWebhookTriggerBody[]>`: .
   - `Topic <Int32>`: 
   - `[ReactivePolicyEventConfigEnforcementSourcesList <List<Int32>>]`: List of enforcement source identifiers
-  - `[ReactivePolicyEventConfigEventList <List<Int32>>]`: List of event type identifiers
-  - `[ReactivePolicyEventConfigResource <Int32?>]`: Resource type identifier
+  - `[ReactivePolicyEventConfigEventList <List<Int32>>]`: Event identifiers: 1 ANY, 2 CREATED, 3 EDITED, 4 DELETED, 5 EXPIRED, 6 APPROVED, 7 SUGGESTION_CREATED, 8 REJECTED, 9 SUGGESTION_EDITED
+  - `[ReactivePolicyEventConfigResource <Int32?>]`: ReactivePolicyResource identifier: 1 REACTIVE_POLICY_INBOUND, 2 REACTIVE_POLICY_OUTBOUND, 3 REACTIVE_POLICY_IDENTITY, 4 REACTIVE_POLICY_EXTERNAL
   - `[RuleEventConfigEnforcementSourcesList <List<Int32>>]`: List of enforcement source identifiers
-  - `[RuleEventConfigEventList <List<Int32>>]`: List of event type identifiers
-  - `[RuleEventConfigResource <Int32?>]`: Resource type identifier
+  - `[RuleEventConfigEventList <List<Int32>>]`: Event identifiers: 1 ANY, 2 CREATED, 3 EDITED, 4 DELETED, 5 EXPIRED, 6 APPROVED, 7 SUGGESTION_CREATED, 8 REJECTED, 9 SUGGESTION_EDITED. EXPIRED is accepted only for resources 1, 2, 5, 7, 12 and 13.
+  - `[RuleEventConfigResource <Int32?>]`: RuleResource identifier: 1 INBOUND_IT, 2 OUTBOUND_IT, 3 INBOUND_MFA, 4 OUTBOUND_MFA, 5 IDENTITY, 6 IDENTITY_MFA, 7 RPC, 8 RPC_MFA, 9 EXTERNAL_MFA, 10 INBOUND_AE, 11 OUTBOUND_AE, 12 INBOUND_OT, 13 OUTBOUND_OT
   - `[RuleReviewEventConfigEnforcementSourcesList <List<Int32>>]`: List of enforcement source identifiers
-  - `[RuleReviewEventConfigEventList <List<Int32>>]`: List of event type identifiers
-  - `[RuleReviewEventConfigResource <Int32?>]`: Resource type identifier
+  - `[RuleReviewEventConfigEventList <List<Int32>>]`: Event identifiers: 1 ANY, 3 EDITED, 4 DELETED, 5 EXPIRED, 6 APPROVED, 7 SUGGESTION_CREATED, 8 REJECTED, 9 SUGGESTION_EDITED. CREATED is not accepted for this topic.
+  - `[RuleReviewEventConfigResource <Int32?>]`: RuleReviewResource identifier: 1 INBOUND, 2 OUTBOUND, 3 DELETED_INBOUND, 4 DELETED_OUTBOUND
 
 ## RELATED LINKS
 

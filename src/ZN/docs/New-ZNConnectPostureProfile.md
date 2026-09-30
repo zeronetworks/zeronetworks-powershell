@@ -14,15 +14,14 @@ Create a Connect Posture Profile
 
 ```
 New-ZNConnectPostureProfile -Action <String> -CheckIntervalSeconds <Int32> -Name <String>
- [-AccountName <String>] [-Description <String>]
+ [-AccountName <String>] [-Description <String>] [-DomainJoinedDomainList <String[]>]
+ [-DomainJoinedDomainsList <String[]>]
  [-MacCheckCertificateExistsList <IMacPostureChecksCertificateExistsListItem[]>]
- [-MacCheckDomainJoinedList <IMacPostureChecksDomainJoinedListItem[]>]
  [-MacCheckFileExistsList <IMacPostureChecksFileExistsListItem[]>]
  [-MacCheckProcessRunningList <IMacPostureChecksProcessRunningListItem[]>] [-MacChecksAntivirusIsEnabled]
  [-MacChecksDiskEncryptedIsEncrypted]
  [-MacChecksOsVersionBuildOSVersionsList <IMacPostureChecksOSVersionBuildOsversionsListItem[]>]
  [-WindowCheckCertificateExistsList <IWindowsPostureChecksCertificateExistsListItem[]>]
- [-WindowCheckDomainJoinedList <IWindowsPostureChecksDomainJoinedListItem[]>]
  [-WindowCheckFileExistsList <IWindowsPostureChecksFileExistsListItem[]>]
  [-WindowCheckProcessRunningList <IWindowsPostureChecksProcessRunningListItem[]>]
  [-WindowCheckRegistryKeyValueDataExistsList <IWindowsPostureChecksRegistryKeyValueDataExistsListItem[]>]
@@ -109,11 +108,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -MacCheckCertificateExistsList
+### -DomainJoinedDomainList
 .
 
 ```yaml
-Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.IMacPostureChecksCertificateExistsListItem[]
+Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -124,11 +123,26 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -MacCheckDomainJoinedList
+### -DomainJoinedDomainsList
 .
 
 ```yaml
-Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.IMacPostureChecksDomainJoinedListItem[]
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MacCheckCertificateExistsList
+.
+
+```yaml
+Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.IMacPostureChecksCertificateExistsListItem[]
 Parameter Sets: (All)
 Aliases:
 
@@ -234,21 +248,6 @@ Accept wildcard characters: False
 
 ```yaml
 Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.IWindowsPostureChecksCertificateExistsListItem[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -WindowCheckDomainJoinedList
-.
-
-```yaml
-Type: ZeroNetworks.PowerShell.Cmdlets.Api.Models.IWindowsPostureChecksDomainJoinedListItem[]
 Parameter Sets: (All)
 Aliases:
 
@@ -399,16 +398,13 @@ To create the parameters described below, construct a hash table containing the 
 
 
 `MACCHECKCERTIFICATEEXISTSLIST <IMacPostureChecksCertificateExistsListItem[]>`: .
-  - `SubjectNameList <List<String>>`: 
-
-`MACCHECKDOMAINJOINEDLIST <IMacPostureChecksDomainJoinedListItem[]>`: .
-  - `DomainList <List<String>>`: 
+  - `SubjectsNamesList <List<String>>`: 
 
 `MACCHECKFILEEXISTSLIST <IMacPostureChecksFileExistsListItem[]>`: .
-  - `[FilesPathsList <List<String>>]`: 
+  - `FilesPathsList <List<String>>`: 
 
 `MACCHECKPROCESSRUNNINGLIST <IMacPostureChecksProcessRunningListItem[]>`: .
-  - `ProcessPathList <List<String>>`: 
+  - `ProcessesPathsList <List<String>>`: 
 
 `MACCHECKSOSVERSIONBUILDOSVERSIONSLIST <IMacPostureChecksOSVersionBuildOsversionsListItem[]>`: .
   - `AllowNewer <Boolean>`: 
@@ -416,16 +412,13 @@ To create the parameters described below, construct a hash table containing the 
   - `Version <String>`: 
 
 `WINDOWCHECKCERTIFICATEEXISTSLIST <IWindowsPostureChecksCertificateExistsListItem[]>`: .
-  - `SubjectNameList <List<String>>`: 
-
-`WINDOWCHECKDOMAINJOINEDLIST <IWindowsPostureChecksDomainJoinedListItem[]>`: .
-  - `DomainList <List<String>>`: 
+  - `SubjectsNamesList <List<String>>`: 
 
 `WINDOWCHECKFILEEXISTSLIST <IWindowsPostureChecksFileExistsListItem[]>`: .
   - `FilesPathsList <List<String>>`: 
 
 `WINDOWCHECKPROCESSRUNNINGLIST <IWindowsPostureChecksProcessRunningListItem[]>`: .
-  - `ProcessPathList <List<String>>`: 
+  - `ProcessesPathsList <List<String>>`: 
 
 `WINDOWCHECKREGISTRYKEYVALUEDATAEXISTSLIST <IWindowsPostureChecksRegistryKeyValueDataExistsListItem[]>`: .
   - `EntriesList <List<IWindowsPostureChecksRegistryKeyValueDataExistsListPropertiesItemsItem>>`: 

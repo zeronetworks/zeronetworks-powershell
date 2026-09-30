@@ -49,9 +49,9 @@ function Update-ZNConnectPostureProfile {
         
         [Parameter(ParameterSetName = 'UpdateExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
-        [ZeroNetworks.PowerShell.Cmdlets.Api.Models.MacPostureChecksDomainJoinedListItem[]]
-        # Mac domain joined check
-        ${MacCheckDomainJoinedList},
+        [string[]]
+        # Mac domain joined check - list of domains
+        ${MacCheckDomainJoinedDomainList},
         
         [Parameter(ParameterSetName = 'UpdateExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
@@ -97,9 +97,9 @@ function Update-ZNConnectPostureProfile {
 
         [Parameter(ParameterSetName = 'UpdateExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
-        [ZeroNetworks.PowerShell.Cmdlets.Api.Models.WindowsPostureChecksDomainJoinedListItem[]]
-        # Windows domain joined check
-        ${WindowCheckDomainJoinedList},
+        [string[]]
+        # Windows domain joined check - list of domains
+        ${WindowCheckDomainJoinedDomainsList},
 
         [Parameter(ParameterSetName = 'UpdateExpanded')]
         [ZeroNetworks.PowerShell.Cmdlets.Api.Category('Body')]
@@ -234,13 +234,13 @@ function Update-ZNConnectPostureProfile {
                 $null = $PSBoundParameters.Remove('MacCheckCertificateExistsList')
             }
 
-            if($PSBoundParameters['MacCheckDomainJoinedList']){
-                $updatedPostureProfile.MacCheckDomainJoinedList = $PSBoundParameters['MacCheckDomainJoinedList']
-                $null = $PSBoundParameters.Remove('MacCheckDomainJoinedList')
+            if($PSBoundParameters['MacCheckDomainJoinedDomainList']){
+                $updatedPostureProfile.DomainJoinedDomainList = $PSBoundParameters['MacCheckDomainJoinedDomainList']
+                $null = $PSBoundParameters.Remove('MacCheckDomainJoinedDomainList')
             }
-            else{
-                $updatedPostureProfile.MacCheckDomainJoinedList = $postureProfile.MacCheckDomainJoinedList
-                $null = $PSBoundParameters.Remove('MacCheckDomainJoinedList')
+            elseif($postureProfile.DomainJoinedDomainList){
+                # only copy when present - setting it creates domainJoined, which requires domainList
+                $updatedPostureProfile.DomainJoinedDomainList = $postureProfile.DomainJoinedDomainList
             }
             if($PSBoundParameters['MacCheckFileExistsList']){
                 $updatedPostureProfile.MacCheckFileExistsList = $PSBoundParameters['MacCheckFileExistsList']
@@ -305,13 +305,13 @@ function Update-ZNConnectPostureProfile {
                 $null = $PSBoundParameters.Remove('WindowCheckCertificateExistsList')
             }
 
-            if($PSBoundParameters['WindowCheckDomainJoinedList']){
-                $updatedPostureProfile.WindowCheckDomainJoinedList = $PSBoundParameters['WindowCheckDomainJoinedList']
-                $null = $PSBoundParameters.Remove('WindowCheckDomainJoinedList')
+            if($PSBoundParameters['WindowCheckDomainJoinedDomainsList']){
+                $updatedPostureProfile.DomainJoinedDomainsList = $PSBoundParameters['WindowCheckDomainJoinedDomainsList']
+                $null = $PSBoundParameters.Remove('WindowCheckDomainJoinedDomainsList')
             }
-            else{
-                $updatedPostureProfile.WindowCheckDomainJoinedList = $postureProfile.WindowCheckDomainJoinedList
-                $null = $PSBoundParameters.Remove('WindowCheckDomainJoinedList')
+            elseif($postureProfile.DomainJoinedDomainsList){
+                # only copy when present - setting it creates domainJoined, which requires domainsList
+                $updatedPostureProfile.DomainJoinedDomainsList = $postureProfile.DomainJoinedDomainsList
             }
 
             if($PSBoundParameters['WindowCheckFileExistsList']){
