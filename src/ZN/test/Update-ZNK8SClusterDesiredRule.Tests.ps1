@@ -16,10 +16,24 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNK8SClusterDesiredRul
 
 Describe 'Update-ZNK8SClusterDesiredRule' {
     It 'UpdateExpanded' {
-        $random = Get-Random -Minimum 1 -Maximum 100
-        $k8scluster = (Get-ZNK8SCluster).Items | where {$_.Name -eq "rke"} |Select-Object -First 1
-        $rule = (Get-ZNK8SClusterRule -K8SClusterId $k8scluster.id).Items | where {$_.IsDesired -eq $true} | where {$_.Description -like "*powershell"}
-        $updatedRule = Update-ZNK8SClusterDesiredRule -K8SClusterId $k8scluster.Id -RuleId $rule.id -Description "powershell$random"
-        $updatedRule.Description | Should -Be "powershell$random"
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $newpolicy = $null
+        $k8scluster = $null
+        try {
+            $k8scluster = (Get-ZNK8SCluster).Items | Where-Object {$_.Name -eq "rke"} | Select-Object -First 1
+            $k8scluster | Should -Not -BeNullOrEmpty
+            $rule = New-ZNK8SDesiredRuleBody -Action Allow -Direction Inbound -NamespaceName "powershell" -NetworkPolicyName "rulepolicy-$sfx" -Description "powershell"
+            $newpolicy = New-ZNK8SClusterDesiredPolicy -K8SClusterId $k8scluster.Id -IsEgressPolicy -IsIngressPolicy -Name "rulepolicy-$sfx" -NamespaceName "powershell" -DesiredRules @($rule)
+            $newpolicy.ItemId | Should -Not -BeNullOrEmpty
+            $existing = (Get-ZNK8SClusterRule -K8SClusterId $k8scluster.Id -Limit 400).Items | Where-Object {$_.NetworkPolicyId -eq $newpolicy.ItemId} | Select-Object -First 1
+            $existing | Should -Not -BeNullOrEmpty
+            $existing.Id | Should -Not -BeNullOrEmpty
+            $random = Get-Random -Minimum 1 -Maximum 100
+            $updatedRule = Update-ZNK8SClusterDesiredRule -K8SClusterId $k8scluster.Id -RuleId $existing.Id -Description "powershell$random"
+            $updatedRule.ItemDescription | Should -Be "powershell$random"
+        }
+        finally {
+            if ($newpolicy -and $newpolicy.ItemId -and $k8scluster) { Remove-ZNK8SClusterDesiredPolicy -K8SClusterId $k8scluster.Id -PolicyIds @($newpolicy.ItemId) -ErrorAction SilentlyContinue }
+        }
     }
 }

@@ -16,7 +16,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNK8SWorkloadLabel'))
 
 Describe 'Get-ZNK8SWorkloadLabel' {
     It 'Get' {
-        $k8sWorkload = (Get-ZNK8SWorkload -Limit 400).Items | Where {$_.Name -eq "znk8s-visibility"}
-        (Get-ZNK8SWorkloadLabel -K8SWorkloadId $k8sWorkload.Id).Items.Count | Should -BeGreaterThan 0
+        $k8sWorkload = (Get-ZNK8SWorkload -Limit 400).Items | Where {$_.Name -eq "znk8s-visibility"} | Select-Object -First 1
+        $k8sWorkload | Should -Not -BeNullOrEmpty
+        (Get-ZNK8SWorkloadLabel -K8SWorkloadId ([string]$k8sWorkload.Id)).Items.Count | Should -BeGreaterThan 0
     }
 }

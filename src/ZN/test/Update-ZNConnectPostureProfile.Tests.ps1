@@ -16,10 +16,19 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNConnectPostureProfil
 
 Describe 'Update-ZNConnectPostureProfile' {
     It 'UpdateExpanded' {
-        $result = New-ZNConnectPostureProfile -Action BLOCK  -CheckIntervalSeconds 900 -Name "UpdatePostureCheckTest" -WindowsChecksAntivirusIsEnabled:$true
-        Update-ZNConnectPostureProfile -ProfileId $result.Replace('"',"") -WindowsChecksDiskEncryptedIsEncrypted:$true
-        $postureProfile = (Get-ZNConnectPostureProfile -Limit 400).Items | where {$_.id -eq $result.Replace('"',"")}
-        $postureProfile.WindowsChecksDiskEncryptedIsEncrypted | Should -Be $true
-        Remove-ZNConnectPostureProfile -ProfileId $result.Replace('"',"")
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $profileId = $null
+        try {
+            $result = New-ZNConnectPostureProfile -Action BLOCK -CheckIntervalSeconds 900 -Name "UpdatePostureCheckTest-$sfx" -WindowsChecksAntivirusIsEnabled:$true
+            $result | Should -BeOfType [string]
+            $profileId = $result.Replace('"',"")
+            $profileId | Should -Not -BeNullOrEmpty
+            Update-ZNConnectPostureProfile -ProfileId $profileId -WindowsChecksDiskEncryptedIsEncrypted:$true
+            $postureProfile = (Get-ZNConnectPostureProfile -Limit 400).Items | where {$_.Id -eq $profileId}
+            $postureProfile.WindowsChecksDiskEncryptedIsEncrypted | Should -Be $true
+        }
+        finally {
+            if ($profileId) { Remove-ZNConnectPostureProfile -ProfileId $profileId -ErrorAction SilentlyContinue }
+        }
     }
 }

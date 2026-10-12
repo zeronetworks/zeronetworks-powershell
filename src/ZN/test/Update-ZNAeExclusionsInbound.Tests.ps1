@@ -16,9 +16,25 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAeExclusionsInbound'
 
 Describe 'Update-ZNAeExclusionsInbound' {
     It 'UpdateExpanded' {
-        $aeExclusion = (Get-ZNAeExclusionsInbound).Items | select -First 1
-        $description = "Updated $(Get-Random -Minimum 1 -Maximum 1000)"
-        $updated = Update-ZNAeExclusionsInbound -RuleId $aeExclusion.Id -Description $description
-        $updated.ItemDescription | Should -Be $description
+        $aeExclusion = $null
+        $ip = "198.18.$(Get-Random -Minimum 1 -Maximum 254).$(Get-Random -Minimum 1 -Maximum 254)"
+        [string]$port = Get-Random -Minimum 1025 -Maximum 65000
+        $portsList = New-ZNPortsList -Protocol TCP -Ports $port
+        $remote = Invoke-ZNEncodeEntityIP -IP $ip
+        $remote | Should -Not -BeNullOrEmpty
+        $entity = (Get-ZNAeExclusionsInboundDestinationCandidate -Search "All segmented Clients").Items | Select-Object -First 1
+        $entity | Should -Not -BeNullOrEmpty
+        try {
+            $aeExclusion = New-ZNAeExclusionsInbound -LocalEntityId $entity.id -LocalProcessesList @("*") -PortsList $portsList -RemoteEntityIdsList @($remote.id) -Action 1
+            $aeExclusion.ItemId | Should -Not -BeNullOrEmpty
+            $description = "Updated $(Get-Random -Minimum 1 -Maximum 1000)"
+            Update-ZNAeExclusionsInbound -RuleId $aeExclusion.ItemId -Description $description
+            $updated = Get-ZNAeExclusionsInbound -RuleId $aeExclusion.ItemId
+            $actual = ($updated.ItemDescription, $updated.Description | where {$_} | Select-Object -First 1)
+            $actual | Should -Be $description
+        }
+        finally {
+            if ($aeExclusion -and $aeExclusion.ItemId) { Remove-ZNAeExclusionsInbound -RuleId $aeExclusion.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

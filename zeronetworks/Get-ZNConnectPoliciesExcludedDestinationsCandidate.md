@@ -1,33 +1,41 @@
 ---
 external help file:
 Module Name: ZeroNetworks
-online version: https://github.com/zeronetworks/zero-powershell/zeronetworks/remove-znswitch
+online version: https://github.com/zeronetworks/zero-powershell/zeronetworks/get-znconnectpoliciesexcludeddestinationscandidate
 schema: 2.0.0
 ---
 
-# Remove-ZNSwitch
+# Get-ZNConnectPoliciesExcludedDestinationsCandidate
 
 ## SYNOPSIS
-Delete a switch
+Returns a list of candidates for Connect Policy excluded destinations.
+Only IPv4 subnets typed as free text are returned.
 
 ## SYNTAX
 
 ```
-Remove-ZNSwitch -SwitchId <String> [-AccountName <String>] [-PassThru] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+Get-ZNConnectPoliciesExcludedDestinationsCandidate [-AccountName <String>] [-Limit <Int32>] [-Offset <Int32>]
+ [-Search <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Delete a switch
+Returns a list of candidates for Connect Policy excluded destinations.
+Only IPv4 subnets typed as free text are returned.
 
 ## EXAMPLES
 
-### Example 1: Delete a switch
+### Example 1: List excluded destination candidates
 ```powershell
-Remove-ZNSwitch -SwitchId w:c:jTb263az
+Get-ZNConnectPoliciesExcludedDestinationsCandidate
 ```
 
-This cmdlet deletes a swtich.
+```output
+Cursor Items ScrollCursor
+------ ----- ------------
+       {} 
+```
+
+This cmdlet lists excluded destination candidates.
 
 ## PARAMETERS
 
@@ -46,59 +54,43 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PassThru
-Returns true when the command succeeds
+### -Limit
+Limit the return results
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: 10
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SwitchId
-switch to delete
+### -Offset
+Used to page through results
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Search
+Test to search for
 
 ```yaml
 Type: System.String
 Parameter Sets: (All)
 Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
 
 Required: False
 Position: Named
@@ -113,6 +105,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ## OUTPUTS
+
+### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IAssetsOrGroupsList
 
 ### ZeroNetworks.PowerShell.Cmdlets.Api.Models.IError
 

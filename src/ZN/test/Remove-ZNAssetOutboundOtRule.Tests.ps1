@@ -16,10 +16,22 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNAssetOutboundOtRule'
 
 Describe 'Remove-ZNAssetOutboundOtRule' {
     It 'Delete' {
-        $asset = (Search-ZNAsset -Fqdn poshotv2.posh.local).AssetId
-        $protocolsList = New-ZNProtocolsList -Protocol tcp -LocalPorts 111
-        $destination = (Get-ZNOutboundOtRulesDestinationCandidate -Search "any asset").items[0]
-        $rule = New-ZNAssetOutboundOtRule -AssetId $asset -Action 1 -Direction 2 -localEntityId $asset -RemoteEntitiesIdList @($destination.id) -protocolsList $protocolsList -state 1 -LocalProcessesList @("*") -ExcludedLocalIdsList @() -ShouldBuildMirrorRules
-        Remove-ZNAssetOutboundOtRule -AssetId $asset -RuleId $rule.ItemId | Should -Not -Throw
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $policy = $null
+        $removed = $false
+        try {
+            $asset = (Search-ZNAsset -Fqdn poshotv2.posh.local | Select-Object -First 1).AssetId
+            $asset | Should -Not -BeNullOrEmpty
+            $protocolsList = New-ZNProtocolsList -Protocol tcp -LocalPorts (Get-Random -Minimum 1000 -Maximum 60000)
+            $destination = (Get-ZNOutboundOtRulesDestinationCandidate -Search "any asset").items | Select-Object -First 1
+            $destination | Should -Not -BeNullOrEmpty
+            $policy = New-ZNAssetOutboundOtRule -AssetId $asset -Action 1 -Direction 2 -localEntityId $asset -RemoteEntitiesIdList @($destination.id) -protocolsList $protocolsList -state 1 -LocalProcessesList @("*") -ExcludedLocalIdsList @() -ShouldBuildMirrorRules
+            $policy.ItemId | Should -Not -BeNullOrEmpty
+            { Remove-ZNAssetOutboundOtRule -AssetId $asset -RuleId $policy.ItemId } | Should -Not -Throw
+            $removed = $true
+        }
+        finally {
+            if (-not $removed -and $policy -and $policy.ItemId) { Remove-ZNAssetOutboundOtRule -AssetId $asset -RuleId $policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

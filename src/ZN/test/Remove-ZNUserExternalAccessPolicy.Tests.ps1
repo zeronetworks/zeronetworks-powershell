@@ -16,10 +16,22 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNUserExternalAccessPo
 
 Describe 'Remove-ZNUserExternalAccessPolicy' {
     It 'Delete' {
-        $userId = ((Get-ZNUser -Search "zero").Items | where {$_.Name -eq "zero"}).Id
-        $portsList = New-ZNPortsList -Protocol TCP -Ports 12
-        $dstAsset = (Search-ZNAsset -Fqdn ml01.posh.local).AssetId
-        $Policy = New-ZNUserExternalAccessPolicy -UserId $userId -DstAssetId $dstAsset -DstPortsList $portsList -DstProcessNamesList @("*") -Name "ExternalDeleteUserTest" -RuleDuration 4 -SrcUserIdsList @($userId) -State 1 -Url "https://external.posh.local"
-        { Remove-ZNUserExternalAccessPolicy -UserId $userId -PolicyId $Policy.ItemId } | Should -Not -Throw
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $policy = $null
+        $removed = $false
+        try {
+            $userId = ((Get-ZNUser -Search "zero").Items | Where-Object {$_.Name -eq "zero"} | Select-Object -First 1).Id
+            $userId | Should -Not -BeNullOrEmpty
+            $portsList = New-ZNPortsList -Protocol TCP -Ports ([string](Get-Random -Minimum 1000 -Maximum 60000))
+            $dstAsset = (Search-ZNAsset -Fqdn ml01.posh.local | Select-Object -First 1).AssetId
+            $dstAsset | Should -Not -BeNullOrEmpty
+            $policy = New-ZNUserExternalAccessPolicy -UserId $userId -DstAssetId $dstAsset -DstPortsList $portsList -DstProcessNamesList @("*") -Name "ExternalDeleteUserTest-$sfx" -RuleDuration 4 -SrcUserIdsList @($userId) -State 1 -Url "https://external-$sfx.posh.local"
+            $policy.ItemId | Should -Not -BeNullOrEmpty
+            { Remove-ZNUserExternalAccessPolicy -UserId $userId -PolicyId $policy.ItemId } | Should -Not -Throw
+            $removed = $true
+        }
+        finally {
+            if (-not $removed -and $policy -and $policy.ItemId) { Remove-ZNUserExternalAccessPolicy -UserId $userId -PolicyId $policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

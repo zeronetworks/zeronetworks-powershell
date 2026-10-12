@@ -16,14 +16,23 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNGroupsIdentityRule')
 
 Describe 'Update-ZNGroupsIdentityRule' {
     It 'UpdateExpanded' {
-        $group = (Get-ZNGroup -Search "domain controllers").Items | where {$_.id -like "g:t:*"}
-        $user = (Get-ZNUser -Search zuser1).Items | select -First 1
-        $description = "updatedtest"
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $group = (Get-ZNGroup -Search "domain controllers").Items | where {$_.id -like "g:t:*"} | Select-Object -First 1
+        $group | Should -Not -BeNullOrEmpty
+        $user = (Get-ZNUser).Items | Select-Object -First 1
+        $user | Should -Not -BeNullOrEmpty
+        $description = "updatedtest-$sfx"
         $expiresAt = [DateTimeOffset]::UtcNow.AddHours(1).ToUnixTimeMilliseconds()
-        $rule = New-ZNGroupsIdentityRule -GroupId $group.id -GroupType tag -Action 1 -AssetId $group.Id -IdentityProtectionCategoryList 1 -State 1 -UserIdsList @($user.Id) -Description "test" -ExpiresAt $expiresAt
-        Update-ZNGroupsIdentityRule -GroupId $group.Id -GroupType tag -RuleId $rule.itemId -Description $description
-        $updatedrule = Get-ZNGroupsIdentityRule -GroupId $group.Id -GroupType tag -RuleId $rule.itemId
-        $updatedRule.ItemDescription | Should -Be $description
-        Remove-ZNGroupsIdentityRule -GroupId $group.Id -GroupType tag -RuleId $rule.itemId
+        $rule = $null
+        try {
+            $rule = New-ZNGroupsIdentityRule -GroupId $group.Id -GroupType tag -Action 1 -AssetId $group.Id -IdentityProtectionCategoryList 1 -State 1 -UserIdsList @($user.Id) -Description "test-$sfx" -ExpiresAt $expiresAt
+            $rule.ItemId | Should -Not -BeNullOrEmpty
+            Update-ZNGroupsIdentityRule -GroupId $group.Id -GroupType tag -RuleId $rule.ItemId -Description $description
+            $updatedRule = Get-ZNGroupsIdentityRule -GroupId $group.Id -GroupType tag -RuleId $rule.ItemId
+            $updatedRule.ItemDescription | Should -Be $description
+        }
+        finally {
+            if ($rule -and $rule.ItemId) { Remove-ZNGroupsIdentityRule -GroupId $group.Id -GroupType tag -RuleId $rule.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

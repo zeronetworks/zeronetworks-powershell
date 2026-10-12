@@ -16,9 +16,14 @@ if(($null -eq $TestName) -or ($TestName -contains 'Search-ZNGroupsExternalId'))
 
 Describe 'Search-ZNGroupsExternalId' {
     It 'Search' {
-        $extId = ((Get-ZNGroup -Search "Information Sharing").Items | select -First 1).externalId
-        $group = Search-ZNGroupsExternalId -ExternalId $extId -GroupType snow
+        # groupType must be one of ad|app|custom|ot|system|tag|inactive
+        $found = $null
+        foreach ($type in @('ad','app','custom','tag','system')) {
+            $found = (Get-ZNGroupsByType -GroupType $type -Limit 100).Items | where {$_.ExternalId} | Select-Object -First 1
+            if ($found) { $groupType = $type; break }
+        }
+        if (-not $found) { Set-ItResult -Skipped -Because 'tenant has no group with an external id'; return }
+        $group = Search-ZNGroupsExternalId -ExternalId $found.ExternalId -GroupType $groupType
         $group.ItemId | Should -Not -BeNullOrEmpty
-
     }
 }

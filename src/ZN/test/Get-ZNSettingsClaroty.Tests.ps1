@@ -14,7 +14,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsClaroty'))
   . ($mockingPath | Select-Object -First 1).FullName
 }
 
-Describe 'Get-ZNSettingsClaroty' -skip {
+Describe 'Get-ZNSettingsClaroty' {
+    It 'Get' -Skip {
         #No easy way to test
     }
 }

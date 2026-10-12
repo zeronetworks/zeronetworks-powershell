@@ -16,14 +16,20 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsAeRuleReview
 
 Describe 'Update-ZNSettingsAeRuleReviewCleanup' {
     It 'UpdateExpanded' {
-        $setting = Get-ZNSettingsAeRuleReviewCleanup
-        if($setting -eq "OFF"){
-            $newSetting = "ON"
-        } else{
-            $newSetting = "ON_REVIEW"
+        $original = (Get-ZNSettingsAeRuleReviewCleanup).UnusedRulesCleanupState
+        $original | Should -Not -BeNullOrEmpty
+        try {
+            if ($original -eq "OFF") {
+                $newSetting = "ON_REVIEW"
+            } else {
+                $newSetting = "OFF"
+            }
+            Update-ZNSettingsAeRuleReviewCleanup -UnusedRulesCleanupState $newSetting
+            $updatedSetting = (Get-ZNSettingsAeRuleReviewCleanup).UnusedRulesCleanupState
+            $updatedSetting | Should -Be $newSetting
         }
-        Update-ZNSettingsAeRuleReviewCleanup -Status $newSetting
-        $updatedSetting = Get-ZNSettingsAeRuleReviewCleanup
-        $updatedSetting | Should -Be $newSetting
+        finally {
+            if ($original) { Update-ZNSettingsAeRuleReviewCleanup -UnusedRulesCleanupState $original -ErrorAction SilentlyContinue }
+        }
     }
 }

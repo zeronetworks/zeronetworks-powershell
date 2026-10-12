@@ -16,9 +16,15 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNSettingsWebhook'))
 
 Describe 'New-ZNSettingsWebhook' {
     It 'CreateExpanded' {
-        $trigger = New-ZNSettingsWebhooksTrigger -MFAPolicies -MFAPoliciesResource inbound -MFAPoliciesTriggerEvent Any
-        $webhook = New-ZNSettingsWebhook -AuthType 1 -IsEnabled:$false -Name "NewWebhook" -Url "https://someurl.com" -ValidateCertificate:$false -Triggers @($trigger)
-        $webhook.WebhookServerId | Should -BeLike "e:w:R*"
-        Remove-ZNSettingsWebhook -WebhookId $webhook.WebhookServerId
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $webhook = $null
+        try {
+            $trigger = New-ZNSettingsWebhooksTrigger -MFAPolicies -MFAPoliciesResource inbound -MFAPoliciesTriggerEvent Any
+            $webhook = New-ZNSettingsWebhook -AuthType 1 -IsEnabled:$false -Name "NewWebhook-$sfx" -Url "https://someurl-$sfx.com" -ValidateCertificate:$false -Triggers @($trigger)
+            $webhook.WebhookServerId | Should -Not -BeNullOrEmpty
+            $webhook.WebhookServerId | Should -BeLike "e:w:*"
+        } finally {
+            if ($webhook -and $webhook.WebhookServerId) { Remove-ZNSettingsWebhook -WebhookId $webhook.WebhookServerId -ErrorAction SilentlyContinue }
+        }
     }
 }

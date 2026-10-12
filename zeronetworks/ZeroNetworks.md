@@ -488,6 +488,10 @@ Returns a list of candidates for Connect Policy destinations.
 ### [Get-ZNConnectPoliciesExcludedAssetsCandidate](Get-ZNConnectPoliciesExcludedAssetsCandidate.md)
 Returns a list of candidates for Connect Policy excluded assets.
 
+### [Get-ZNConnectPoliciesExcludedDestinationsCandidate](Get-ZNConnectPoliciesExcludedDestinationsCandidate.md)
+Returns a list of candidates for Connect Policy excluded destinations.
+Only IPv4 subnets typed as free text are returned.
+
 ### [Get-ZNConnectPoliciesExcludedSourceUsersCandidate](Get-ZNConnectPoliciesExcludedSourceUsersCandidate.md)
 Returns a list of candidates for Connect Policy excluded source users.
 
@@ -1066,9 +1070,6 @@ Get the AD settings in Asset Management
 ### [Get-ZNSettingsAdLinuxMonitoredCandidate](Get-ZNSettingsAdLinuxMonitoredCandidate.md)
 Returns a list of linux monitoring candidates for an AD forest.
 
-### [Get-ZNSettingsAdouCandidate](Get-ZNSettingsAdouCandidate.md)
-Returns a list of OU candidates for an AD forest.
-
 ### [Get-ZNSettingsAdProtectedCandidate](Get-ZNSettingsAdProtectedCandidate.md)
 Returns a list of protection candidates for an AD forest.
 
@@ -1489,6 +1490,12 @@ Returns and empty object.
 
 ### [Invoke-ZNAssetNetworkExtendQueue](Invoke-ZNAssetNetworkExtendQueue.md)
 Extend asset learning
+
+### [Invoke-ZNAssetNetworkOutboundExtendQueue](Invoke-ZNAssetNetworkOutboundExtendQueue.md)
+Extend the outbound learning window of an asset in the given outbound directions
+
+### [Invoke-ZNAssetNetworkOutboundQueue](Invoke-ZNAssetNetworkOutboundQueue.md)
+Open the outbound learning window for an asset in the given outbound directions
 
 ### [Invoke-ZNAssetNetworkQueue](Invoke-ZNAssetNetworkQueue.md)
 Extend asset learning
@@ -2029,9 +2036,6 @@ Returns an empty object.
 ### [Remove-ZNSettingsWebhook](Remove-ZNSettingsWebhook.md)
 Delete Webhooks settings
 
-### [Remove-ZNSwitch](Remove-ZNSwitch.md)
-Delete a switch
-
 ### [Remove-ZNSwitchInboundOtRule](Remove-ZNSwitchInboundOtRule.md)
 Deletes an OT/IoT rule
 
@@ -2198,6 +2202,9 @@ Updates an outbound OT rule.
 
 ### [Update-ZNAssetOutboundRule](Update-ZNAssetOutboundRule.md)
 Updates an outbound  rule.
+
+### [Update-ZNAssetOutboundUnrestrict](Update-ZNAssetOutboundUnrestrict.md)
+Unrestrict an asset outbound in the given outbound directions
 
 ### [Update-ZNAssetRpcRule](Update-ZNAssetRpcRule.md)
 Updates an RPC rule.

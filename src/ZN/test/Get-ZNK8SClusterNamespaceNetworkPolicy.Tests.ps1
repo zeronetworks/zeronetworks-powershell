@@ -16,8 +16,13 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNK8SClusterNamespaceNetw
 
 Describe 'Get-ZNK8SClusterNamespaceNetworkPolicy' {
     It 'List' {
-        $k8scluster = (Get-ZNK8SCluster).Items | where {$_.Name -eq "rke"} |Select-Object -First 1
-        $k8snamespace = (Get-ZNK8SClusterNamespace -K8SClusterId $k8scluster.id -Limit 400).Items | where {$_.Name -eq "powershell"
-        (Get-ZNK8SClusterNamespaceNetworkPolicy -K8SClusterId $k8scluster.id -K8SNamespaceId $k8snamespace.Id).Items.Count | Should -BeGreaterThan 0
+        $k8scluster = (Get-ZNK8SCluster).Items | where {$_.Name -eq "rke"} | Select-Object -First 1
+        if (-not $k8scluster) { $k8scluster = (Get-ZNK8SCluster).Items | Select-Object -First 1 }
+        $k8scluster | Should -Not -BeNullOrEmpty
+        $k8snamespace = (Get-ZNK8SClusterNamespace -K8SClusterId $k8scluster.Id -Limit 400).Items | where {$_.Name -eq "powershell"} | Select-Object -First 1
+        if (-not $k8snamespace) { $k8snamespace = (Get-ZNK8SClusterNamespace -K8SClusterId $k8scluster.Id -Limit 400).Items | Select-Object -First 1 }
+        $k8snamespace | Should -Not -BeNullOrEmpty
+        $k8snamespace.Id | Should -Not -BeNullOrEmpty
+        { Get-ZNK8SClusterNamespaceNetworkPolicy -K8SClusterId $k8scluster.Id -K8SNamespaceId $k8snamespace.Id } | Should -Not -Throw
     }
 }

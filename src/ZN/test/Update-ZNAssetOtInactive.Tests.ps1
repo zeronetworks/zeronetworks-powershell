@@ -16,8 +16,19 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetOtInactive'))
 
 Describe 'Update-ZNAssetOtInactive' {
     It 'SetExpanded' {
-        $assetOT = Get-ZNAssetsOt -ShowInactive -Limit 400 | where {$_.Name -eq "activeOT"}
-        { Update-ZNAssetOtInactive -AssetId $assetOT.Id } | Should -Not -Throw
-        Update-ZNAssetOtActive -AssetId $assetOT.Id -DisplayName $assetOT.Name -Fqdn $assetOT.Fqdn -Ipv4 $assetOT.IPV4Addresses[0] -Type 5
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $name = "otpester$sfx"
+        $ip = "198.18.$(Get-Random -Minimum 1 -Maximum 254).$(Get-Random -Minimum 1 -Maximum 254)"
+        $created = $null
+        $otId = $null
+        try {
+            $created = New-ZNAssetsOt -DisplayName $name -Fqdn "$name.posh.local" -Ipv4 $ip -Type 4
+            $created.AssetId | Should -Not -BeNullOrEmpty
+            $otId = $created.AssetId
+            { Update-ZNAssetOtInactive -AssetId $otId } | Should -Not -Throw
+        }
+        finally {
+            if ($otId) { Update-ZNAssetOtInactive -AssetId $otId -ErrorAction SilentlyContinue }
+        }
     }
 }

@@ -13,33 +13,54 @@ while(-not $mockingPath) {
 
 Describe 'Get-ZNAssetMfaInboundPolicy' {
     It 'List' {
-        $asset= (Search-ZNAsset -Fqdn linux0.posh.local).AssetId
-        $source = (Get-ZNAssetMfaInboundPoliciesSourceCandidate -AssetId $asset -search "Any Asset").Items
+        $asset = (Search-ZNAsset -Fqdn linux0.posh.local | Select-Object -First 1).AssetId
+        $asset | Should -Not -BeNullOrEmpty
+        $source = (Get-ZNAssetMfaInboundPoliciesSourceCandidate -AssetId $asset -search "Any Asset").Items | Select-Object -First 1
+        if (-not $source) { $source = (Get-ZNAssetMfaInboundPoliciesSourceCandidate -AssetId $asset -search "Monitored assets").Items | Select-Object -First 1 }
+        if (-not $source) { $source = (Get-ZNAssetMfaInboundPoliciesSourceCandidate -AssetId $asset).Items | Select-Object -First 1 }
+        $source | Should -Not -BeNullOrEmpty
         $sourceEntity = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.ReactivePolicyInboundBodySrcEntityInfosItem]::new()
         $sourceEntity.Id = $source.Id
-        $sourceUser = (Get-ZNAssetMfaInboundPoliciesSourceUserCandidate -AssetId $asset -search "Any User").Items
+        $sourceUser = (Get-ZNAssetMfaInboundPoliciesSourceUserCandidate -AssetId $asset -search "Any User").Items | Select-Object -First 1
+        $sourceUser | Should -Not -BeNullOrEmpty
         $sourceUserEntity = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.ReactivePolicyInboundBodySrcUserInfosItem]::new()
         $sourceUserEntity.Id = $sourceUser.Id
-        [string]$dstPorts = Get-Random -Minimum 1 -Maximum 65000
+        [string]$dstPorts = Get-Random -Minimum 20000 -Maximum 60000
         $portsList = New-ZNPortsList -Empty
-        $policy = New-ZNAssetMfaInboundPolicy -AssetId $asset -AdditionalPortsList $portsList -DstEntityInfoId $asset -DstPort $dstPorts -DstProcessNames @("*") -FallbackToLoggedOnUser -MfaMethods @(4) -ProtocolType 6 -RuleDuration 6 -SrcEntityInfos @($sourceEntity) -SrcProcessNames @("*") -SrcUserInfos @($sourceUserEntity) -State 1 -OverrideBuiltins:$false -RestrictLoginToOriginatingUser:$false
-        { (Get-ZNAssetMfaInboundPolicy -AssetId $asset).Items } | Should -Not -BeNullOrEmpty
-        Remove-ZNAssetMfaInboundPolicy -AssetId $asset -ReactivePolicyId $policy.Itemid
+        $created = $null
+        try {
+            $created = New-ZNAssetMfaInboundPolicy -AssetId $asset -AdditionalPortsList $portsList -DstEntityInfoId $asset -DstPort $dstPorts -DstProcessNames @("*") -FallbackToLoggedOnUser -MfaMethods @(4) -ProtocolType 6 -RuleDuration 6 -SrcEntityInfos @($sourceEntity) -SrcProcessNames @("*") -SrcUserInfos @($sourceUserEntity) -State 1 -OverrideBuiltins:$false -RestrictLoginToOriginatingUser:$false
+            $created.ItemId | Should -Not -BeNullOrEmpty
+            (Get-ZNAssetMfaInboundPolicy -AssetId $asset).Items | Should -Not -BeNullOrEmpty
+        }
+        finally {
+            if ($created -and $created.ItemId) { Remove-ZNAssetMfaInboundPolicy -AssetId $asset -ReactivePolicyId $created.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 
     It 'Get' {
-        $asset= (Search-ZNAsset -Fqdn linux0.posh.local).AssetId
-        $source = (Get-ZNAssetMfaInboundPoliciesSourceCandidate -AssetId $asset -search "Any Asset").Items
+        $asset = (Search-ZNAsset -Fqdn linux0.posh.local | Select-Object -First 1).AssetId
+        $asset | Should -Not -BeNullOrEmpty
+        $source = (Get-ZNAssetMfaInboundPoliciesSourceCandidate -AssetId $asset -search "Any Asset").Items | Select-Object -First 1
+        if (-not $source) { $source = (Get-ZNAssetMfaInboundPoliciesSourceCandidate -AssetId $asset -search "Monitored assets").Items | Select-Object -First 1 }
+        if (-not $source) { $source = (Get-ZNAssetMfaInboundPoliciesSourceCandidate -AssetId $asset).Items | Select-Object -First 1 }
+        $source | Should -Not -BeNullOrEmpty
         $sourceEntity = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.ReactivePolicyInboundBodySrcEntityInfosItem]::new()
         $sourceEntity.Id = $source.Id
-        $sourceUser = (Get-ZNAssetMfaInboundPoliciesSourceUserCandidate -AssetId $asset -search "Any User").Items
+        $sourceUser = (Get-ZNAssetMfaInboundPoliciesSourceUserCandidate -AssetId $asset -search "Any User").Items | Select-Object -First 1
+        $sourceUser | Should -Not -BeNullOrEmpty
         $sourceUserEntity = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.ReactivePolicyInboundBodySrcUserInfosItem]::new()
         $sourceUserEntity.Id = $sourceUser.Id
-        [string]$dstPorts = Get-Random -Minimum 1 -Maximum 65000
+        [string]$dstPorts = Get-Random -Minimum 20000 -Maximum 60000
         $portsList = New-ZNPortsList -Empty
-        $policy = New-ZNAssetMfaInboundPolicy -AssetId $asset -AdditionalPortsList $portsList -DstEntityInfoId $asset -DstPort $dstPorts -DstProcessNames @("*") -FallbackToLoggedOnUser -MfaMethods @(4) -ProtocolType 6 -RuleDuration 6 -SrcEntityInfos @($sourceEntity) -SrcProcessNames @("*") -SrcUserInfos @($sourceUserEntity) -State 1 -OverrideBuiltins:$false -RestrictLoginToOriginatingUser:$false
-        $policy = Get-ZNAssetMfaInboundPolicy -AssetId $asset | Select-Object -First 1
-        { (Get-ZNAssetMfaInboundPolicy -AssetId $asset -ReactivePolicyId $policy.Id).ItemId } | Should -Not -BeNullOrEmpty
-        Remove-ZNAssetMfaInboundPolicy -AssetId $asset -ReactivePolicyId $policy.id
+        $created = $null
+        try {
+            $created = New-ZNAssetMfaInboundPolicy -AssetId $asset -AdditionalPortsList $portsList -DstEntityInfoId $asset -DstPort $dstPorts -DstProcessNames @("*") -FallbackToLoggedOnUser -MfaMethods @(4) -ProtocolType 6 -RuleDuration 6 -SrcEntityInfos @($sourceEntity) -SrcProcessNames @("*") -SrcUserInfos @($sourceUserEntity) -State 1 -OverrideBuiltins:$false -RestrictLoginToOriginatingUser:$false
+            $created.ItemId | Should -Not -BeNullOrEmpty
+            (Get-ZNAssetMfaInboundPolicy -AssetId $asset -ReactivePolicyId $created.ItemId).ItemId | Should -Be $created.ItemId
+        }
+        finally {
+            if ($created -and $created.ItemId) { Remove-ZNAssetMfaInboundPolicy -AssetId $asset -ReactivePolicyId $created.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

@@ -13,8 +13,8 @@ Returns a list of assignee candidates for the assignee filter, including an \"Un
 ## SYNTAX
 
 ```
-Get-ZNNetworkAlertsAssigneeCandidate [-AccountName <String>] [-Limit <Int32>] [-Search <String>]
- [<CommonParameters>]
+Get-ZNNetworkAlertsAssigneeCandidate [-AccountName <String>] [-Cursor <Int64>] [-Limit <Int32>]
+ [-Search <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -58,6 +58,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Read-ZNJWTtoken $env:ZNApiKey).aud.split(".")[0]
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Cursor
+cursor position to start at
+
+```yaml
+Type: System.Int64
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

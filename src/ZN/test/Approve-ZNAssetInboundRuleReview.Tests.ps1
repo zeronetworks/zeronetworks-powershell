@@ -15,21 +15,41 @@ if(($null -eq $TestName) -or ($TestName -contains 'Approve-ZNAssetInboundRuleRev
 }
 
 Describe 'Approve-ZNAssetInboundRuleReview' {
-    It 'ApproveExpanded' { 
-        $asset= (Search-ZNAsset -Fqdn linux0.posh.local).AssetId
+    It 'ApproveExpanded' {
+        $asset = (Search-ZNAsset -Fqdn linux0.posh.local | Select-Object -First 1).AssetId
+        $asset | Should -Not -BeNullOrEmpty
         $rule = (Get-ZNAssetInboundRule -AssetId $asset).Items | where {$_.SuggestionType -eq 1} | Select-Object -First 1
-        Approve-ZNAssetInboundRuleReview -AssetId $asset -RuleId $rule.id
-        $updatedRule = (Get-ZNAssetInboundRule -AssetId $asset).Items | where {$_.Id -eq $rule.id}
-        $updatedRule.SuggestionType | Should -Be 0
-        Remove-ZNAssetInboundRule -AssetId $asset -RuleId $updatedRule.id
+        $rule | Should -Not -BeNullOrEmpty
+        $rule.Id | Should -Not -BeNullOrEmpty
+        $removed = $false
+        try {
+            Approve-ZNAssetInboundRuleReview -AssetId $asset -RuleId $rule.Id
+            $updatedRule = (Get-ZNAssetInboundRule -AssetId $asset).Items | where {$_.Id -eq $rule.Id}
+            $updatedRule.SuggestionType | Should -Be 0
+            Remove-ZNAssetInboundRule -AssetId $asset -RuleId $updatedRule.Id
+            $removed = $true
+        }
+        finally {
+            if (-not $removed) { Remove-ZNAssetInboundRule -AssetId $asset -RuleId $rule.Id -ErrorAction SilentlyContinue }
+        }
     }
 
     It 'ApproveWithChangesExpanded' {
-        $asset= (Search-ZNAsset -Fqdn linux0.posh.local).AssetId
+        $asset = (Search-ZNAsset -Fqdn linux0.posh.local | Select-Object -First 1).AssetId
+        $asset | Should -Not -BeNullOrEmpty
         $rule = (Get-ZNAssetInboundRule -AssetId $asset).Items | where {$_.SuggestionType -eq 1} | Select-Object -First 1
-        Approve-ZNAssetInboundRuleReview -AssetId $asset -RuleId $rule.id -Description "updatedapproval" -Reason MissingPortOrProcess
-        $updatedRule = (Get-ZNAssetInboundRule -AssetId $asset).Items | where {$_.Id -eq $rule.id}
-        $updatedRule.SuggestionType | Should -Be 0
-        Remove-ZNAssetInboundRule -AssetId $asset -RuleId $updatedRule.id
+        $rule | Should -Not -BeNullOrEmpty
+        $rule.Id | Should -Not -BeNullOrEmpty
+        $removed = $false
+        try {
+            Approve-ZNAssetInboundRuleReview -AssetId $asset -RuleId $rule.Id -Description "updatedapproval" -Reason MissingPortOrProcess
+            $updatedRule = (Get-ZNAssetInboundRule -AssetId $asset).Items | where {$_.Id -eq $rule.Id}
+            $updatedRule.SuggestionType | Should -Be 0
+            Remove-ZNAssetInboundRule -AssetId $asset -RuleId $updatedRule.Id
+            $removed = $true
+        }
+        finally {
+            if (-not $removed) { Remove-ZNAssetInboundRule -AssetId $asset -RuleId $rule.Id -ErrorAction SilentlyContinue }
+        }
     }
 }

@@ -16,7 +16,9 @@ if(($null -eq $TestName) -or ($TestName -contains 'Deny-ZNOutboundRulesCleanup')
 
 Describe 'Deny-ZNOutboundRulesCleanup' {
     It 'Deny' {
-        $rule = (Get-ZNOutboundRule -AssetId $asset.AssetId -AddAncestors -AddBuiltins).Items | where {$_.SuggestionType -eq 2} | Select-Object -First 1
-        { Deny-ZNOutboundRulesCleanup -AssetId $asset.assetId -RuleId $rule.id -Details "powershelltesting" -Reason 7 } | Should -Not -Throw
+        $rule = (Get-ZNOutboundRule -AddAncestors -AddBuiltins).Items | where {$_.SuggestionType -eq 2} | Select-Object -First 1
+        $rule | Should -Not -BeNullOrEmpty
+        $rule.Id | Should -Not -BeNullOrEmpty
+        { Deny-ZNOutboundRulesCleanup -RuleId $rule.Id -Details "powershelltesting" -Reason 7 } | Should -Not -Throw
     }
 }

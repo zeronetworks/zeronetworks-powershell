@@ -212,7 +212,7 @@ function Approve-ZNAssetInboundRuleReview {
             #handle based on paramtersetname
             switch ($PsCmdlet.ParameterSetName) {
                 "ApproveExpanded" {
-                    ZeroNetworks.internal\Approve-ZNAssetInboundRulesReview @PSBoundParameters
+                    ZeroNetworks.internal\Approve-ZNAssetInboundRulesReview @PSBoundParameters 
                 }
                 "ApproveWithChangesExpanded" {
                     #Validate review
@@ -249,11 +249,11 @@ function Approve-ZNAssetInboundRuleReview {
                             'Other' { $intReason = 7 }
                             'WidenRuleScope' { $intReason = 8 }
                         }
-                        $ruleReview.ReviewReason = $intReason
+                        $ruleReview.Reason = $intReason
                     }
 
                     if ($PSBoundParameters.ContainsKey('Details')) {
-                        $ruleReview.ReviewDetails = $PSBoundParameters['Details']
+                        $ruleReview.Details = $PSBoundParameters['Details']
                     }
 
                     # direction is set by the server from the route

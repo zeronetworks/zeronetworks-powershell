@@ -252,11 +252,10 @@ To create the parameters described below, construct a hash table containing the 
   - `[CustomUserId <String>]`: id of the customer user
   - `[DeploymentId <String>]`: id of the deployment
   - `[DeploymentsClusterId <String>]`: 
-  - `[Direction <String>]`: Rules direction
   - `[DomainId <String>]`: The fqdn of the domain
   - `[DomainName <String>]`: The AD domain name
   - `[Dvplatform <String>]`: platform
-  - `[EntityId <String>]`: Azure cloud entity ID
+  - `[EntityId <String>]`: Azure cloud entity ID - a tenant, a subscription or a resource group
   - `[ExportId <String>]`: exportId to download
   - `[ExternalId <String>]`: The external id of the group
   - `[FieldName <String>]`: The field name to filter on
@@ -291,14 +290,14 @@ To create the parameters described below, construct a hash table containing the 
   - `[ReactivePolicyId <String>]`: The id of the MFA policy
   - `[ReceiverType <String>]`: receiver type
   - `[RegionId <String>]`: connect region id
-  - `[ResourceGroupId <String>]`: Azure Resource Group ID
+  - `[ResourceGroupId <String>]`: Azure resource group entity ID
   - `[RoleEntityId <String>]`: The id of the user or group
   - `[RuleId <String>]`: The id of the rule
   - `[SessionId <String>]`: The id of the session
   - `[SiemEventType <String>]`: siem event type for the query
-  - `[SubscriptionId <String>]`: Azure Subscription ID
+  - `[SubscriptionId <String>]`: Azure subscription entity ID
   - `[SwitchId <String>]`: switch to delete
-  - `[TenantId <String>]`: Azure Tenant ID
+  - `[TenantId <String>]`: Azure tenant entity ID
   - `[UserAccessConfigId <String>]`: userAccessConfigId to filter on
   - `[UserId <String>]`: userId to filter on
   - `[WebhookId <String>]`: webhookId to filter on

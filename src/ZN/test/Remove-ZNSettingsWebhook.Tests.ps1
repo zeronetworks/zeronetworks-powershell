@@ -16,8 +16,18 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNSettingsWebhook'))
 
 Describe 'Remove-ZNSettingsWebhook' {
     It 'Delete' {
-        $trigger = New-ZNSettingsWebhooksTrigger -MFAPolicies -MFAPoliciesResource inbound -MFAPoliciesTriggerEvent Any
-        $webhook = New-ZNSettingsWebhook -AuthType 1 -IsEnabled:$false -Name "RemoveWebhook" -Url "https://someurl.com" -ValidateCertificate:$false -Triggers @($trigger)
-        { Remove-ZNSettingsWebhook -WebhookId $webhook.WebhookServerId } | Should -Not -Throw
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $policy = $null
+        $removed = $false
+        try {
+            $trigger = New-ZNSettingsWebhooksTrigger -MFAPolicies -MFAPoliciesResource inbound -MFAPoliciesTriggerEvent Any
+            $policy = New-ZNSettingsWebhook -AuthType 1 -IsEnabled:$false -Name "RemoveWebhook-$sfx" -Url "https://someurl-$sfx.com" -ValidateCertificate:$false -Triggers @($trigger)
+            $policy.WebhookServerId | Should -Not -BeNullOrEmpty
+            { Remove-ZNSettingsWebhook -WebhookId $policy.WebhookServerId } | Should -Not -Throw
+            $removed = $true
+        }
+        finally {
+            if (-not $removed -and $policy -and $policy.WebhookServerId) { Remove-ZNSettingsWebhook -WebhookId $policy.WebhookServerId -ErrorAction SilentlyContinue }
+        }
     }
 }

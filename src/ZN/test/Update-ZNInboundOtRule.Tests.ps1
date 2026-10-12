@@ -16,9 +16,20 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNInboundOtRule'))
 
 Describe 'Update-ZNInboundOtRule' {
     It 'UpdateExpanded' {
-        $rule = (Get-ZNInboundOtrule -AddBuiltins).Items | select -First 1
-        $description = "Updated $(Get-Random -Minimum 1 -Maximum 1000)"
-        $updated = Update-ZNInboundOtrule -RuleId $rule.Id -Description $description
-        $updated.ItemDescription | Should -Be $description
+        $destination = (Get-ZNInboundOtRulesDestinationCandidate -Search "otv2").items | Select-Object -First 1
+        $destination | Should -Not -BeNullOrEmpty
+        $source = Invoke-ZNEncodeEntityip -IP "10.$(Get-Random -Minimum 1 -Maximum 250).$(Get-Random -Minimum 1 -Maximum 250).$(Get-Random -Minimum 1 -Maximum 250)"
+        $protocolsList = New-ZNProtocolsList -Protocol tcp -LocalPorts (Get-Random -Minimum 1025 -Maximum 65000)
+        $description = "Updated $(Get-Random -Minimum 1 -Maximum 100000)"
+        $rule = $null
+        try {
+            $rule = New-ZNInboundOtRule -Action 1 -Direction 1 -LocalEntityId $destination.Id -RemoteEntitiesIdList @($source.id) -ProtocolsList $protocolsList -State 1 -LocalProcessesList @("*") -ExcludedLocalIdsList @() -ShouldBuildMirrorRules
+            $rule.ItemId | Should -Not -BeNullOrEmpty
+            Update-ZNInboundOtRule -RuleId $rule.ItemId -Description $description
+            (Get-ZNInboundOtRule -RuleId $rule.ItemId).ItemDescription | Should -Be $description
+        }
+        finally {
+            if ($rule -and $rule.ItemId) { Remove-ZNInboundOtRule -RuleId $rule.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

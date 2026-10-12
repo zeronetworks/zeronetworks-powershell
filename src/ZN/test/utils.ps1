@@ -73,13 +73,13 @@ function setupEnv() {
     # as default. You could change them if needed.
     #$env.SubscriptionId = (Get-AzContext).Subscription.Id
     #$env.Tenant = (Get-AzContext).Tenant.Id
-    if(Get-Module Az.Accounts){} else {
-        Install-Module Az.Accounts -Force
+    #Constants (git-ignored: tools/constants.json holds the API keys per environment)
+    $constantsPath = Join-Path $PSScriptRoot '../../../tools/constants.json'
+    if (-not (Test-Path $constantsPath)) {
+        Write-Host "Couldnt find $constantsPath"
+        exit
     }
-
-    #Constants
-    $constants = Get-Content ../../tools/constants.json | ConvertFrom-Json
-    #$constants.psobject.Properties | ForEach-Object { $env[$_.Name] = $_.Value }
+    $constants = Get-Content $constantsPath | ConvertFrom-Json
     if($constants.envToTest){
         $envToTest = $constants.envToTest
     } else { 
@@ -87,27 +87,14 @@ function setupEnv() {
         exit
     }
 
-    Connect-AzAccount -UseDeviceAuthentication -Subscription 51a36d38-3b14-471f-8dde-a5867f5e51eb
-    $aztoken = Get-AzAccessToken -ResourceUrl  https://znapikeys.vault.azure.net
-    $aztoken = ConvertFrom-SecureString $aztoken.Token -AsPlainText
-    $azToken = "Bearer "+$azToken
-    $azHeaders = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
-    $azHeaders.Add("Authorization", $azToken)
-    $azHeaders.Add("Content-Type","application/json")
-    if($envToTest -eq "prd"){
-        $poshSecret = (Invoke-Restmethod -Method Get -Uri https://znapikeys.vault.azure.net/secrets/Posh-PRD-ApiKey?api-version=7.4 -Headers $azHeaders).value
-        $teamSecret = (Invoke-Restmethod -Method Get -Uri https://znapikeys.vault.azure.net/secrets/TeamToken?api-version=7.4 -Headers $azHeaders).value
-    } elseif($envToTest -eq "stg"){
-        $poshSecret = (Invoke-Restmethod -Method Get -Uri https://znapikeys.vault.azure.net/secrets/Posh-STG-ApiKey?api-version=7.4 -Headers $azHeaders).value
-        $teamSecret = (Invoke-Restmethod -Method Get -Uri https://znapikeys.vault.azure.net/secrets/TeamToken-Stg?api-version=7.4 -Headers $azHeaders).value
-    } elseif($envToTest -eq "dev"){
-        $poshSecret = (Invoke-Restmethod -Method Get -Uri https://znapikeys.vault.azure.net/secrets/Posh-DEV-ApiKey?api-version=7.4 -Headers $azHeaders).value
-        $teamSecret = (Invoke-Restmethod -Method Get -Uri https://znapikeys.vault.azure.net/secrets/TeamToken-Dev?api-version=7.4 -Headers $azHeaders).value
-    } else {
-        Write-Host "Couldnt find environment to test in constants.json"
+    # An already-set environment variable wins, so keys can also be injected via `docker exec -e`
+    $envConfig = $constants.$envToTest
+    $poshSecret = if ($env:ZNApiKey) { $env:ZNApiKey } else { $envConfig.ZNApiKey }
+    $teamSecret = if ($env:ZNTeamApiKey) { $env:ZNTeamApiKey } else { $envConfig.ZNTeamApiKey }
+    if (-not $poshSecret -or -not $teamSecret) {
+        Write-Host "ZNApiKey/ZNTeamApiKey missing for '$envToTest' in constants.json"
         exit
     }
-
 
     try {
         $decodedToken = Decode-JWTToken $poshSecret
@@ -128,7 +115,7 @@ function setupEnv() {
     
     #Statics for tests
     $env.Add("baseUri", ("https://"+$decodedToken.aud+"/api/v1"))
-    $env.Add("RandomP)", (Generate-RandomPassword))
+    $env.Add("RandomP", (Generate-RandomPassword))
     $env.Add("K8sCluster", "okd")
     $env.Add("K8sNameSpace", "tcp-demo")
     $env.add("K8sWorkloadInbound", "tcp-echo")
@@ -146,7 +133,7 @@ function setupEnv() {
     $znTeamHeader.Add("zn-env-id",$constants.$envToTest.ZNEnvId)
 
 
-    $expiresAt = [DateTimeOffset]::UtcNow.AddHours(1).ToUnixTimeMilliseconds()
+    $expiresAt = [DateTimeOffset]::UtcNow.AddMinutes(30).ToUnixTimeMilliseconds()
 
     #assets
     $asset1 = Invoke-RestMethod ($env.baseUri+"/assets/searchId?fqdn=linux0.posh.local") -method GET -Headers $znTeamHeader
@@ -256,10 +243,11 @@ function setupEnv() {
     $rule = "{""action"":1,""remoteEntityIdsList"":[""b:110001""],""localEntityId"":""b:110002"",""excludedLocalIdsList"":[],""portsList"":[{""ports"":"""+(Get-Random -Minimum 5000 -Maximum 5250)+""",""protocolType"":6}],""expiresAt"":"+($expiresAt)+",""description"":"""",""reviewMode"": 1,""state"":1,""localProcessesList"":[""*""], ""srcUsersList"":[{""id"": """+($user.items[0].id)+"""}]}"
     $pendingDeletes += (Invoke-RestMethod ($env.baseUri+"/protection/rules/outbound") -method POST -Headers $znTeamHeader -Body $rule).item.id
 
+    ../../tools/scripts/Set-ZNRulesProposedDeletes.ps1 -RuleIds $pendingDeletes -ZNApiKey $teamSecret -ZNAccountName $ZNAccountName -ZNEnvId $constants.$envToTest.ZNEnvId
 
     write-Host "Pending Deletes Rule Ids: "+$pendingDeletes
     write-Host "You will need to mark these Ids as proposed deletes."
-    start-sleep -Seconds (60*10) # Sleep for 10 minutes to allow time for manual review
+    #start-sleep -Seconds (60*10) # Sleep for 10 minutes to allow time for manual review
     
 
 

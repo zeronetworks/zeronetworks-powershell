@@ -16,14 +16,23 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNIdentityRule'))
 
 Describe 'Update-ZNIdentityRule' {
     It 'UpdateExpanded' {
-        $group = (Get-ZNGroup -Search "domain controllers").Items | where {$_.id -like "g:t:*"}
-        $user = (Get-ZNUser -Search user1).Items | where {$_.Name -eq "zUser1"}
-        $description = "updatedtest"
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $group = (Get-ZNGroup -Search "domain controllers").Items | where {$_.id -like "g:t:*"} | Select-Object -First 1
+        $group | Should -Not -BeNullOrEmpty
+        $user = (Get-ZNUser).Items | Select-Object -First 1
+        $user | Should -Not -BeNullOrEmpty
+        $description = "updatedtest-$sfx"
         $expiresAt = [DateTimeOffset]::UtcNow.AddHours(1).ToUnixTimeMilliseconds()
-        $rule = New-ZNIdentityRule -Action 1 -AssetId $group.Id -IdentityProtectionCategoryList @(2,3) -State 1 -UserIdsList @($user.Id) -Description "test" -ExpiresAt $expiresAt
-        Update-ZNIdentityRule -RuleId $rule.itemid -Description $description
-        $updatedrule = Get-ZNIdentityRule -RuleId $rule.itemid
-        $updatedRule.ItemDescription | Should -Be $description
-        Remove-ZNIdentityRule -RuleId $rule.itemId
+        $rule = $null
+        try {
+            $rule = New-ZNIdentityRule -Action 1 -AssetId $group.Id -IdentityProtectionCategoryList @(2,3) -State 1 -UserIdsList @($user.Id) -Description "test-$sfx" -ExpiresAt $expiresAt
+            $rule.ItemId | Should -Not -BeNullOrEmpty
+            Update-ZNIdentityRule -RuleId $rule.ItemId -Description $description
+            $updatedRule = Get-ZNIdentityRule -RuleId $rule.ItemId
+            $updatedRule.ItemDescription | Should -Be $description
+        }
+        finally {
+            if ($rule -and $rule.ItemId) { Remove-ZNIdentityRule -RuleId $rule.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

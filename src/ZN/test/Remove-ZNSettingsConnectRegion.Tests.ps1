@@ -13,8 +13,21 @@ while(-not $mockingPath) {
 
 Describe 'Remove-ZNSettingsConnectRegion' {
     It 'Delete' {
-        New-ZNSettingsConnectRegion -DnsServersIPAddressList @("192.168.1.1") -IPAddress "2.3.4.5" -Name NewRegion
-        $region = Get-ZNSettingsConnectRegion | where {$_.Name -eq "NewRegion"}
-        { Remove-ZNSettingsConnectRegion -RegionId $region.Id } | Should -Not -Throw
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $name = "Region-$sfx"
+        $removed = $false
+        $region = $null
+        try {
+            $newId = New-ZNSettingsConnectRegion -DnsServersIPAddressList @("192.168.1.1") -IPAddress "2.$(Get-Random -Minimum 1 -Maximum 254).$(Get-Random -Minimum 1 -Maximum 254).$(Get-Random -Minimum 1 -Maximum 254)" -Name $name
+            $newId.Message | Should -BeNullOrEmpty
+            $region = (Get-ZNSettingsConnectRegion).Items | Where-Object {$_.Name -eq $name} | Select-Object -First 1
+            $region.Id | Should -Not -BeNullOrEmpty
+            { Remove-ZNSettingsConnectRegion -RegionId $region.Id } | Should -Not -Throw
+            $removed = $true
+            (Get-ZNSettingsConnectRegion).Items | Where-Object {$_.Id -eq $region.Id} | Should -BeNullOrEmpty
+        }
+        finally {
+            if (-not $removed -and $region -and $region.Id) { Remove-ZNSettingsConnectRegion -RegionId $region.Id -ErrorAction SilentlyContinue }
+        }
     }
 }

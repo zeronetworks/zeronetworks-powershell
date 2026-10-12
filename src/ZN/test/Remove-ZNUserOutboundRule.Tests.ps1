@@ -16,13 +16,28 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNUserOutboundRule'))
 
 Describe 'Remove-ZNUserOutboundRule' {
     It 'Delete' {
-        $user = (Get-ZNUser -Search zero).Items | where {$_.Name -eq "zero"}
-        $portsList = New-ZNPortsList -Protocol TCP -Ports "44,45"
-        $source = (Get-ZNOutboundRulesSourceCandidate -search "All Segmented Assets").Items
-        $destination = (Get-ZNOutboundRulesDestinationCandidate -Search FS01 -RuleType 3).Items
+        $rule = $null
+        $removed = $false
+        $user = (Get-ZNUser -Search zero).Items | where {$_.Name -eq "zero"} | Select-Object -First 1
+        $user | Should -Not -BeNullOrEmpty
+        [string]$port = Get-Random -Minimum 1025 -Maximum 65000
+        $portsList = New-ZNPortsList -Protocol TCP -Ports $port
+        $source = (Get-ZNOutboundRulesSourceCandidate -search "All Segmented Assets").Items | Select-Object -First 1
+        $source | Should -Not -BeNullOrEmpty
+        $destination = (Get-ZNOutboundRulesDestinationCandidate -Search FS01 -RuleType 3).Items | Select-Object -First 1
+        $destination | Should -Not -BeNullOrEmpty
         $sourceUserEntity = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.SrcUsersListItem]::new()
         $sourceUserEntity.Id = $user.id
-        $rule = New-ZNUserOutboundRule -UserId $user.id -Action 1 -LocalEntityId $source$.Id -LocalProcessesList @("*") -PortsList $portsList -RemoteEntityIdsList @($destination.id) -State 1 -SrcUsersList @($sourceUserEntity)
-        Remove-ZNUserOutboundRule -UserId $user.id -RuleId $rule.ItemId | Should -Not -Throw
+        try {
+            # creating through /users/{id}/protection/rules/outbound is rejected by the API ("localEntityId must be equals to entity in path"),
+            # so create the user-sourced rule with the generic outbound cmdlet and remove it through the user cmdlet under test
+            $rule = New-ZNOutboundRule -Action 1 -LocalEntityId $source.Id -LocalProcessesList @("*") -PortsList $portsList -RemoteEntityIdsList @($destination.id) -State 1 -SrcUsersList @($sourceUserEntity) -Name "RemoveUserOutbound-$port"
+            $rule.ItemId | Should -Not -BeNullOrEmpty -Because "$($rule.Error1) $($rule.Message)"
+            { Remove-ZNUserOutboundRule -UserId $user.id -RuleId $rule.ItemId } | Should -Not -Throw
+            $removed = $true
+        }
+        finally {
+            if (-not $removed -and $rule -and $rule.ItemId) { Remove-ZNUserOutboundRule -UserId $user.id -RuleId $rule.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

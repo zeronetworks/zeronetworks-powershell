@@ -15,21 +15,37 @@ if(($null -eq $TestName) -or ($TestName -contains 'Approve-ZNOutboundRuleReview'
 }
 
 Describe 'Approve-ZNOutboundRuleReview' {
-     It 'ApproveExpanded' {
-        $asset= (Search-ZNAsset -Fqdn linux0.posh.local).AssetId
+    It 'ApproveExpanded' {
         $rule = (Get-ZNOutboundRule -Limit 100).Items | where {$_.SuggestionType -eq 1} | Select-Object -First 1
-        Approve-ZNOutboundRuleReview -RuleId $rule.id
-        $updatedRule = (Get-ZNOutboundRule -Limit 100).Items | where {$_.Id -eq $rule.id}
-        $updatedRule.SuggestionType | Should -Be 0
-        Remove-ZNOutboundRule -RuleId $updatedRule.id
+        $rule | Should -Not -BeNullOrEmpty
+        $rule.Id | Should -Not -BeNullOrEmpty
+        $removed = $false
+        try {
+            Approve-ZNOutboundRuleReview -RuleId $rule.Id
+            $updatedRule = (Get-ZNOutboundRule -Limit 100).Items | where {$_.Id -eq $rule.Id}
+            $updatedRule.SuggestionType | Should -Be 0
+            Remove-ZNOutboundRule -RuleId $updatedRule.Id
+            $removed = $true
+        }
+        finally {
+            if (-not $removed) { Remove-ZNOutboundRule -RuleId $rule.Id -ErrorAction SilentlyContinue }
+        }
     }
 
     It 'ApproveWithChangesExpanded' {
-        $asset= (Search-ZNAsset -Fqdn linux0.posh.local).AssetId
         $rule = (Get-ZNOutboundRule -Limit 100).Items | where {$_.SuggestionType -eq 1} | Select-Object -First 1
-        Approve-ZNOutboundRuleReview -RuleId $rule.id -Description "updatedapproval" -Reason MissingPortOrProcess
-        $updatedRule = (Get-ZNOutboundRule -Limit 100).Items | where {$_.Id -eq $rule.id}
-        $updatedRule.SuggestionType | Should -Be 0
-        Remove-ZNOutboundRule -RuleId $updatedRule.id
+        $rule | Should -Not -BeNullOrEmpty
+        $rule.Id | Should -Not -BeNullOrEmpty
+        $removed = $false
+        try {
+            Approve-ZNOutboundRuleReview -RuleId $rule.Id -Description "updatedapproval" -Reason MissingPortOrProcess
+            $updatedRule = (Get-ZNOutboundRule -Limit 100).Items | where {$_.Id -eq $rule.Id}
+            $updatedRule.SuggestionType | Should -Be 0
+            Remove-ZNOutboundRule -RuleId $updatedRule.Id
+            $removed = $true
+        }
+        finally {
+            if (-not $removed) { Remove-ZNOutboundRule -RuleId $rule.Id -ErrorAction SilentlyContinue }
+        }
     }
 }

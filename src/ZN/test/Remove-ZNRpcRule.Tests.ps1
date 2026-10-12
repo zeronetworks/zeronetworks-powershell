@@ -16,10 +16,25 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNRpcRule'))
 
 Describe 'Remove-ZNRpcRule' {
     It 'Delete' {
-        $asset = (Search-ZNAsset -Fqdn switch03).AssetId
-        $group = (Get-ZNGroup -Search 'domain controllers').Items | where {$_.Id -like 'g:t:*'}
-        $user = (Get-ZNRpcRulesUserCandidate -Search 'Any User').Items[0].Id
-        $rule = New-ZNRpcRule -Action 1 -Description "New RPC Rule" -ExcludedAssetIdsList @() -InterfaceUuidsList @('rpcAnyInterfaceId') -LocalAssetId $group.Id -OpNumbersList @() -ProtocolsList @() -RemoteAssetIdsList @($asset) -State 1 -UserIdsList @($user)
-        { Remove-ZNRpcRule -RuleId $rule.ItemId } | Should -Not -Throw
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $policy = $null
+        $removed = $false
+        try {
+            # preferred asset first, then a domain controller present on the tenant
+            $asset = (Search-ZNAsset -Fqdn switch03 | Select-Object -First 1).AssetId
+            if (-not $asset) { $asset = (Search-ZNAsset -Fqdn dc01.posh.local | Select-Object -First 1).AssetId }
+            $asset | Should -Not -BeNullOrEmpty
+            $group = (Get-ZNGroup -Search 'domain controllers').Items | Where-Object {$_.Id -like 'g:t:*'} | Select-Object -First 1
+            $group | Should -Not -BeNullOrEmpty
+            $user = ((Get-ZNRpcRulesUserCandidate -Search 'Any User').Items | Select-Object -First 1).Id
+            $user | Should -Not -BeNullOrEmpty
+            $policy = New-ZNRpcRule -Action 1 -Description "New RPC Rule $sfx" -ExcludedAssetIdsList @() -InterfaceUuidsList @('rpcAnyInterfaceId') -LocalAssetId $group.Id -OpNumbersList @() -ProtocolsList @() -RemoteAssetIdsList @([string]$asset) -State 1 -UserIdsList @([string]$user)
+            $policy.ItemId | Should -Not -BeNullOrEmpty -Because "$($policy.Error1) $($policy.Message)"
+            { Remove-ZNRpcRule -RuleId $policy.ItemId } | Should -Not -Throw
+            $removed = $true
+        }
+        finally {
+            if (-not $removed -and $policy -and $policy.ItemId) { Remove-ZNRpcRule -RuleId $policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

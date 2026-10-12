@@ -16,11 +16,19 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNExternalAccessPolicy'))
 
 Describe 'New-ZNExternalAccessPolicy' {
     It 'CreateExpanded' {
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
         $srcUser = (Get-ZNExternalAccessPolicySourceUserCandidate -Search "Any user").Items | Select -First 1
-        $portsList = New-ZNPortsList -Protocol TCP -Ports (Get-Random -Minimum 1 -Maximum 1024)
-        $dstAsset = (Search-ZNAsset -Fqdn ml01.posh.local).AssetId
-        $Policy = New-ZNExternalAccessPolicy -DstAssetId $dstAsset -DstPortsList $portsList -DstProcessNamesList @("*") -Name "ExternalNewTest" -RuleDuration 4 -SrcUserIdsList @($srcUser.Id) -State 1 -Url "https://external.posh.local"
-        $Policy.ItemId | Should -Not -BeNullOrEmpty
-        Remove-ZNExternalAccessPolicy -PolicyId $Policy.ItemId
+        $srcUser | Should -Not -BeNullOrEmpty
+        $portsList = New-ZNPortsList -Protocol TCP -Ports (Get-Random -Minimum 1025 -Maximum 60000)
+        $dstAsset = (Search-ZNAsset -Fqdn ml01.posh.local).AssetId | Select-Object -First 1
+        $dstAsset | Should -Not -BeNullOrEmpty
+        $Policy = $null
+        try {
+            $Policy = New-ZNExternalAccessPolicy -DstAssetId $dstAsset -DstPortsList $portsList -DstProcessNamesList @("*") -Name "ExternalNewTest-$sfx" -RuleDuration 4 -SrcUserIdsList @($srcUser.Id) -State 1 -Url "https://external-$sfx.posh.local"
+            $Policy.ItemId | Should -Not -BeNullOrEmpty
+        }
+        finally {
+            if ($Policy -and $Policy.ItemId) { Remove-ZNExternalAccessPolicy -PolicyId $Policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

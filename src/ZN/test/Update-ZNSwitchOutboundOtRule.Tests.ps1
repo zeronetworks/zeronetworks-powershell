@@ -16,10 +16,18 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSwitchOutboundOtRule
 
 Describe 'Update-ZNSwitchOutboundOtRule' {
     It 'UpdateExpanded' {
-        $switch = (Get-ZNSwitch).Items | where {$_.Name -eq 'eve'}
-        $rule = (Get-ZNSwitchOutboundOtRule -SwitchId $switch.Id -AddBuiltins).Items | select -First 1
-        $description = "Updated $(Get-Random -Minimum 1 -Maximum 1000)"
-        $updated = Update-ZNSwitchOutboundOtRule -SwitchId $switch.Id -RuleId $rule.Id -Description $description
-        $updated.ItemDescription | Should -Be $description
+        $switch = (Get-ZNSwitch).Items | Select-Object -First 1
+        $switch | Should -Not -BeNullOrEmpty
+        $rule = (Get-ZNSwitchOutboundOtRule -SwitchId $switch.Id -AddBuiltins).Items | Select-Object -First 1
+        $rule | Should -Not -BeNullOrEmpty
+        $original = (Get-ZNSwitchOutboundOtRule -SwitchId $switch.Id -RuleId $rule.Id).ItemDescription
+        $description = "Updated $(Get-Random -Minimum 1 -Maximum 100000)"
+        try {
+            Update-ZNSwitchOutboundOtRule -SwitchId $switch.Id -RuleId $rule.Id -Description $description
+            $updated = Get-ZNSwitchOutboundOtRule -SwitchId $switch.Id -RuleId $rule.Id
+            $updated.ItemDescription | Should -Be $description
+        } finally {
+            if ($null -ne $original) { Update-ZNSwitchOutboundOtRule -SwitchId $switch.Id -RuleId $rule.Id -Description $original -ErrorAction SilentlyContinue }
+        }
     }
 }

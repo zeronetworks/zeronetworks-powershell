@@ -17,7 +17,13 @@ if(($null -eq $TestName) -or ($TestName -contains 'Initialize-ZNSwitchNetworkBre
 Describe 'Initialize-ZNSwitchNetworkBreakGlass' {
     It 'ActivateExpanded' {
         $switch = (Get-ZNSwitch).Items | Select-Object -First 1
-        { Initialize-ZNSwitchNetworkBreakGlass -SwitchId $switch.Id -MonitoringBreakGlassEnabled } | Should -Not -Throw
-        Initialize-ZNSwitchNetworkBreakGlass -SwitchId $switch.Id -MonitoringBreakGlassEnabled:$false
+        $switch | Should -Not -BeNullOrEmpty
+        $switch.Id | Should -Not -BeNullOrEmpty
+        try {
+            { Initialize-ZNSwitchNetworkBreakGlass -SwitchId $switch.Id -NetworkBreakGlassEnabled } | Should -Not -Throw
+        }
+        finally {
+            Initialize-ZNSwitchNetworkBreakGlass -SwitchId $switch.Id -NetworkBreakGlassEnabled:$false -ErrorAction SilentlyContinue
+        }
     }
 }

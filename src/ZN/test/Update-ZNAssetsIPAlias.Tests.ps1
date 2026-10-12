@@ -16,9 +16,17 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetsIPAlias'))
 
 Describe 'Update-ZNAssetsIPAlias' {
     It 'UpdateExpanded' {
-        $random = Get-Random -Minimum 1 -Maximum 100
-        $ipalias = (Get-ZNAssetsIPAlias).Items | Select-First 1
-        Update-ZNAssetsIPAlias -IPAliasId $ipalias.Id -Alias "updateName$random" -IPAddress $ipalias.IP
-        (Get-ZNAssetsIPAlias -IPAliasId $ipalias.id).ItemAlias | Should -Be "updateName$random"
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $ip = "198.18.$(Get-Random -Minimum 1 -Maximum 250).$(Get-Random -Minimum 1 -Maximum 250)"
+        $created = $null
+        try {
+            $created = New-ZNAssetsIPAlias -Alias "updateAlias-$sfx" -IPAddress $ip
+            $created.ItemId | Should -Not -BeNullOrEmpty
+            Update-ZNAssetsIPAlias -IPAliasId $created.ItemId -Alias "updateName-$sfx" -IPAddress $ip
+            (Get-ZNAssetsIPAlias -IPAliasId $created.ItemId).ItemAlias | Should -Be "updateName-$sfx"
+        }
+        finally {
+            if ($created -and $created.ItemId) { Remove-ZNAssetsIPAlias -IPAliasId $created.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

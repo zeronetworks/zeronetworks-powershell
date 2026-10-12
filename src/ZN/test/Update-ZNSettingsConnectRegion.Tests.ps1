@@ -13,9 +13,20 @@ while(-not $mockingPath) {
 
 Describe 'Update-ZNSettingsConnectRegion' {
     It 'UpdateExpanded' {
-        New-ZNSettingsConnectRegion -DnsServersIPAddressList @("192.168.1.1") -IPAddress "2.3.4.5" -Name NewRegion
-        $region = Get-ZNSettingsConnectRegion | where {$_.Name -eq "NewRegion"}
-        { Update-ZNSettingsConnectRegion -RegionId $region.Id -DnsServersIPAddressList $region.DnsServersIPAddressList -IPAddress $region.IPAddress -Name $region.Name -DnsSuffixesList @("test.local") } | Should -Not -Throw
-        Remove-ZNSettingsConnectRegion -RegionId $region.Id
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $name = "UpdRegion-$sfx"
+        $region = $null
+        try {
+            $ip = "{0}.{1}.{2}.{3}" -f (Get-Random -Minimum 11 -Maximum 99), (Get-Random -Minimum 1 -Maximum 254), (Get-Random -Minimum 1 -Maximum 254), (Get-Random -Minimum 1 -Maximum 254)
+            New-ZNSettingsConnectRegion -DnsServersIPAddressList @("192.168.1.1") -IPAddress $ip -Name $name
+            $region = (Get-ZNSettingsConnectRegion).Items | Where-Object {$_.Name -eq $name} | Select-Object -First 1
+            $region | Should -Not -BeNullOrEmpty
+            $region.Id | Should -Not -BeNullOrEmpty
+            { Update-ZNSettingsConnectRegion -RegionId $region.Id -DnsServersIPAddressList $region.DnsServersIPAddressList -IPAddress $region.IPAddress -Name $region.Name -DnsSuffixesList @("test.local") } | Should -Not -Throw
+        }
+        finally {
+            $cleanup = (Get-ZNSettingsConnectRegion).Items | Where-Object {$_.Name -eq $name} | Select-Object -First 1
+            if ($cleanup -and $cleanup.Id) { Remove-ZNSettingsConnectRegion -RegionId $cleanup.Id -ErrorAction SilentlyContinue }
+        }
     }
 }
