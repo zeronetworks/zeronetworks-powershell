@@ -16,8 +16,15 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNSwitch'))
 
 Describe 'New-ZNSwitch' {
     It 'CreateExpanded' {
-        $switch = New-ZNSwitch -Ip 1.1.1.10 -MonitorInterfaceOnOtAdded -MonitorOnInterfaceDiscovery -Name "new-switch" -Password "test" -Username "test" -Type 1
-        $switch.SwitchId1 | Should -Not -BeNullOrEmpty
-        Remove-ZNSwitch -SwitchId $switch.SwitchId1
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $ip = "10.$(Get-Random -Minimum 1 -Maximum 254).$(Get-Random -Minimum 1 -Maximum 254).$(Get-Random -Minimum 1 -Maximum 254)"
+        $switch = $null
+        try {
+            $switch = New-ZNSwitch -Ip $ip -MonitorInterfaceOnOtAdded -MonitorOnInterfaceDiscovery -Name "new-switch-$sfx" -Password "test" -Username "test" -Type 1
+            $switch.SwitchId1 | Should -Not -BeNullOrEmpty
+        } finally {
+            # Remove-ZNSwitch is not exported by the module anymore; clean up only if it exists
+            if ($switch -and $switch.SwitchId1 -and (Get-Command Remove-ZNSwitch -ErrorAction SilentlyContinue)) { Remove-ZNSwitch -SwitchId $switch.SwitchId1 -ErrorAction SilentlyContinue }
+        }
     }
 }

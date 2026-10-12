@@ -16,7 +16,7 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNDynamicLabel'))
 
 Describe 'New-ZNDynamicLabel' {
     It 'CreateExpanded' -skip {
-        $dynamicLabel = New-ZNDynamicLabel -LabelKey DBServer2 -LabelValue True -ConditionNamePatterns "(.*)DB(.*)"
+        $dynamicLabel = New-ZNDynamicLabel -LabelKey DBServer2 -LabelValue True -IncludeValueNamePatterns "(.*)DB(.*)"
         { throw [System.NotImplementedException] } | Should -Not -Throw
     }
 }

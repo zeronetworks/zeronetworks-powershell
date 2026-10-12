@@ -248,11 +248,11 @@ function Approve-ZNOutboundRuleReview {
                             'Other' { $intReason = 7 }
                             'WidenRuleScope' { $intReason = 8 }
                         }
-                        $ruleReview.ReviewReason = $intReason
+                        $ruleReview.reason = $intReason
                     }
 
                     if ($PSBoundParameters.ContainsKey('Details')) {
-                        $ruleReview.ReviewDetails = $PSBoundParameters['Details']
+                        $ruleReview.Details = $PSBoundParameters['Details']
                     }
 
                     # direction is set by the server from the route

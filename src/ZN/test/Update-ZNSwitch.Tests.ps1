@@ -16,8 +16,16 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSwitch'))
 
 Describe 'Update-ZNSwitch' {
     It 'UpdateExpanded' {
-        $switch = New-ZNSwitch -IP '192.168.250.2' -MonitorInterfaceOnOtAdded -MonitorOnInterfaceDiscovery -Name "test" -Password 'testP@ssw0rd' -Type 1 -Username'zero'
-        { Update-ZNSwitch -SwitchId $switch.SwitchId1 -IP '192.168.250.2' -MonitorInterfaceOnOtAdded -MonitorOnInterfaceDiscovery -Name 'test' -Password 'testP@ssw0rd2' -Type 1 -Username 'zero' } | Should -Not -Throw
-        Remove-ZNSwitch -SwitchId $switch.SwitchId1
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $ip = "10.$(Get-Random -Minimum 100 -Maximum 250).$(Get-Random -Minimum 1 -Maximum 250).$(Get-Random -Minimum 1 -Maximum 250)"
+        $switch = $null
+        try {
+            $switch = New-ZNSwitch -IP $ip -MonitorInterfaceOnOtAdded -MonitorOnInterfaceDiscovery -Name "test-$sfx" -Password 'testP@ssw0rd' -Type 1 -Username 'zero'
+            $switch.SwitchId1 | Should -Not -BeNullOrEmpty
+            { Update-ZNSwitch -SwitchId $switch.SwitchId1 -IP $ip -MonitorInterfaceOnOtAdded -MonitorOnInterfaceDiscovery -Name "test-$sfx" -Password 'testP@ssw0rd2' -Type 1 -Username 'zero' } | Should -Not -Throw
+        } finally {
+            # Remove-ZNSwitch no longer exists in the API; deactivate the test switch instead
+            if ($switch -and $switch.SwitchId1) { Update-ZNSwitchInactive -SwitchIds @($switch.SwitchId1) -ErrorAction SilentlyContinue }
+        }
     }
 }

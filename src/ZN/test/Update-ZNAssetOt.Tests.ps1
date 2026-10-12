@@ -16,10 +16,25 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetOt'))
 
 Describe 'Update-ZNAssetOt' {
     It 'UpdateExpanded' {
-        $otAsset = Get-ZNAssetsOt -Limit 100 | where {$_.ProtectionState -eq 1} | Select-Object -First 1 
-        $name = "ot"+(Get-Random -Minimum 1000 -Maximum 2000)
-        Update-ZNAssetOt -AssetId $otAsset.Id -DisplayName $name -Type $otAsset.AssetType
-        $updatedOtAsset = Get-ZNAssetsOt | where {$_.Id -eq $otAsset.id}
-        $updatedOtAsset.Name | Should -Be $name
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $name = "otpester$sfx"
+        $ip = "198.18.$(Get-Random -Minimum 1 -Maximum 254).$(Get-Random -Minimum 1 -Maximum 254)"
+        $created = $null
+        $otId = $null
+        try {
+            $created = New-ZNAssetsOt -DisplayName $name -Fqdn "$name.posh.local" -Ipv4 $ip -Type 4
+            $created.AssetId | Should -Not -BeNullOrEmpty -Because "$($created.Error1) $($created.Message)"
+            $otId = $created.AssetId
+            $newName = "$name-upd"
+            # the API requires ipv4 on every update, not only the changed fields
+            $result = Update-ZNAssetOt -AssetId $otId -DisplayName $newName -Ipv4 $ip -Fqdn "$name.posh.local" -Type 4
+            $result.Error1 | Should -BeNullOrEmpty -Because "$($result.Message)"
+            $updatedOtAsset = (Get-ZNAssetsOt -Limit 400 -ShowInactive).Items | where {$_.Id -eq $otId} | Select-Object -First 1
+            $updatedOtAsset | Should -Not -BeNullOrEmpty
+            $updatedOtAsset.Name | Should -Be $newName
+        }
+        finally {
+            if ($otId) { Update-ZNAssetOtInactive -AssetId $otId -ErrorAction SilentlyContinue }
+        }
     }
 }

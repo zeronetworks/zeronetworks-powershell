@@ -16,13 +16,18 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNUserMfaInboundPolicy'))
 
 Describe 'Get-ZNUserMfaInboundPolicy' {
     It 'List' {
-        $user = (Get-ZNUser -Search zero).Items | where {$_.Name -eq "zero"}
+        $user = (Get-ZNUser -Search zero).Items | where {$_.Name -eq "zero"} | Select-Object -First 1
+        $user | Should -Not -BeNullOrEmpty
         (Get-ZNUserMfaInboundPolicy -UserId $user.Id -AddBuiltins).Count | Should -BeGreaterThan 0
     }
 
     It 'Get' {
-        $user = (Get-ZNUser -Search zero).Items | where {$_.Name -eq "zero"}
-        $policy = Get-ZNUserMfaInboundPolicy -UserId $user.Id -AddBuiltins | select -First 1
-        (Get-ZNUserMfaInboundPolicy -UserId $user.Id -reactivePolicyId $policy.Id).ItemId | Should -Not -BeNullOrEmpty
+        $user = (Get-ZNUser -Search zero).Items | where {$_.Name -eq "zero"} | Select-Object -First 1
+        $user | Should -Not -BeNullOrEmpty
+        $list = Get-ZNUserMfaInboundPolicy -UserId $user.Id -AddBuiltins
+        $policy = if ($list.Items) { $list.Items | Select-Object -First 1 } else { $list | Select-Object -First 1 }
+        $policy | Should -Not -BeNullOrEmpty
+        $policy.Id | Should -Not -BeNullOrEmpty
+        (Get-ZNUserMfaInboundPolicy -UserId $user.Id -ReactivePolicyId $policy.Id).ItemId | Should -Not -BeNullOrEmpty
     }
 }

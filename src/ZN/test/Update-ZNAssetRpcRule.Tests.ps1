@@ -16,13 +16,22 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetRpcRule'))
 
 Describe 'Update-ZNAssetRpcRule' {
     It 'UpdateExpanded' {
-        $asset = (Search-ZNAsset -Fqdn as01.posh.local).AssetId
-        $group = (Get-ZNGroup -Search 'domain controllers').Items | where {$_.Id -like 'g:t:*'}
-        $user = (Get-ZNAssetRpcRulesUserCandidate -AssetId $asset -Search 'Any User').Id
-        $rule = New-ZNAssetRpcRule -AssetId $asset -Action 1 -Description "New RPC Rule" -ExcludedAssetIdsList @() -InterfaceUuidsList @('rpcAnyInterfaceId') -LocalAssetId $group.Id -OpNumbersList @() -ProtocolsList @() -RemoteAssetIdsList @($asset) -State 1 -UserIdsList @($user)
-        $description = "description" + (Get-Random -Minimum 1 -Maximum 50)
-        $updatedRule = Update-ZNAssetRpcRule -AssetId $asset -RuleId $rule.ItemId -Description $description
-        $updatedRule.ItemDescription | Should -Be $description
-        Remove-ZNAssetRpcRule -AssetId $asset -RuleId $rule.ItemId 
+        $asset = (Search-ZNAsset -Fqdn as01.posh.local).AssetId | Select-Object -First 1
+        $asset | Should -Not -BeNullOrEmpty
+        $group = (Get-ZNGroup -Search 'domain controllers').Items | where {$_.Id -like 'g:t:*'} | Select-Object -First 1
+        $group | Should -Not -BeNullOrEmpty
+        $user = (Get-ZNAssetRpcRulesUserCandidate -AssetId $asset -Search 'Any User').Items | Select-Object -First 1
+        $user | Should -Not -BeNullOrEmpty
+        $rule = $null
+        try {
+            $rule = New-ZNAssetRpcRule -AssetId $asset -Action 1 -Description "New RPC Rule $(Get-Random)" -ExcludedAssetIdsList @() -InterfaceUuidsList @('rpcAnyInterfaceId') -LocalAssetId $group.Id -OpNumbersList @() -ProtocolsList @() -RemoteAssetIdsList @($asset) -State 1 -UserIdsList @($user.Id)
+            $rule.ItemId | Should -Not -BeNullOrEmpty
+            $description = "description" + (Get-Random -Minimum 1 -Maximum 100000)
+            $updatedRule = Update-ZNAssetRpcRule -AssetId $asset -RuleId $rule.ItemId -Description $description
+            $updatedRule.ItemDescription | Should -Be $description
+        }
+        finally {
+            if ($rule -and $rule.ItemId) { Remove-ZNAssetRpcRule -AssetId $asset -RuleId $rule.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

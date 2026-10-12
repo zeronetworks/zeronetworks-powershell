@@ -169,7 +169,7 @@ Accept wildcard characters: False
 ```
 
 ### -InterfaceUuidsList
-one of the following: * "rpcAnyInterface" for any interface * List of interface uuids for explicit interfaces
+one of the following:* "rpcAnyInterfaceId" for any interface* List of interface uuids for explicit interfaces
 
 ```yaml
 Type: System.String[]

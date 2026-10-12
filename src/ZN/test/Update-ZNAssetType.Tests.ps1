@@ -16,15 +16,20 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetType'))
 
 Describe 'Update-ZNAssetType' {
     It 'SetExpanded' {
-        $asset = (Search-ZNAsset -Fqdn linux0.posh.local).AssetId
-        $assetProperties = Get-ZNAsset -AssetId $asset
-        if($assetProperties.EntityAssetType -eq 1){
-            $newvalue = 2
-        } else {
-            $newvalue = 1
+        $asset = (Search-ZNAsset -Fqdn linux0.posh.local).AssetId | Select-Object -First 1
+        $asset | Should -Not -BeNullOrEmpty
+        $originalType = (Get-ZNAsset -AssetId $asset).EntityAssetType
+        $originalType | Should -Not -BeNullOrEmpty
+        $newvalue = if ($originalType -eq 1) { 2 } else { 1 }
+        $changed = $false
+        try {
+            Update-ZNAssetType -AssetId $asset -Type $newvalue
+            $changed = $true
+            $updatedAssetProperties = Get-ZNAsset -AssetId $asset
+            $updatedAssetProperties.EntityAssetType | Should -Be $newvalue
         }
-        Update-ZNAssetType -AssetId $asset -Type $newvalue
-        $updatedAssetProperties = Get-ZNAsset -AssetId $asset
-        $updatedAssetProperties.Entity.AssetType | Should -Be $newvalue
+        finally {
+            if ($changed) { Update-ZNAssetType -AssetId $asset -Type $originalType -ErrorAction SilentlyContinue }
+        }
     }
 }

@@ -16,10 +16,20 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNNetworkOnboardingPol
 
 Describe 'Update-ZNNetworkOnboardingPolicy' {
     It 'UpdateExpanded' {
-        $group = (Get-ZNNetworkOnboardingPoliciesGroupCandidate -Search "Account Operators").Items | select -First 1
-        $policy = New-ZNNetworkOnboardingPolicy -ExistingMembersLearningDays 30 -GroupId $group.id -NewMembersLearningDays 30 -Description "Powershell test"  -Enabled:$false
-        $updatedPolicy = Update-ZNNetworkOnboardingPolicy -OnboardingPolicyId $policy.ItemId -ExistingMembersLearningDays 60 -NewMembersLearningDays 60
-        $updatedPolicy.ItemExistingMembersLearningDays | Should -Be 60
-        Remove-ZNNetworkOnboardingPolicy -OnboardingPolicyId $policy.ItemId
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $policy = $null
+        try {
+            # candidates exclude groups that already have a policy; pick a random one to avoid collisions
+            $group = (Get-ZNNetworkOnboardingPoliciesGroupCandidate).Items | Get-Random
+            $group | Should -Not -BeNullOrEmpty
+            $group.Id | Should -Not -BeNullOrEmpty
+            $policy = New-ZNNetworkOnboardingPolicy -ExistingMembersLearningDays 30 -GroupId $group.Id -NewMembersLearningDays 30 -Description "Powershell test $sfx" -Enabled:$false
+            $policy.ItemId | Should -Not -BeNullOrEmpty
+            $updatedPolicy = Update-ZNNetworkOnboardingPolicy -ProtectionPolicyId $policy.ItemId -ExistingMembersLearningDays 60 -NewMembersLearningDays 60 -EnforceBlocks:$false
+            $updatedPolicy.ItemExistingMembersLearningDays | Should -Be 60
+        }
+        finally {
+            if ($policy -and $policy.ItemId) { Remove-ZNNetworkOnboardingPolicy -ProtectionPolicyId $policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

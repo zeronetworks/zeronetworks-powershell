@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Zero Networks
-  version: 1.26.8
+  version: 1.26.9
   description: APIs for Zero Networks
   contact:
     name: Support
@@ -2436,11 +2436,7 @@ paths:
       summary: Unrestrict an asset outbound
       description: Unrestrict an asset outbound in the given outbound directions
       parameters:
-        - name: assetId
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/assetIdParameter'
       requestBody:
         description: Outbound directions and the assets to apply them to
         required: true
@@ -2465,15 +2461,11 @@ paths:
         - Assets
   /assets/{assetId}/outbound-actions/queue:
     post:
-      operationId: AssetOutboundQueue_Update
+      operationId: AssetNetworkOutbound_Queue
       summary: Queue an asset for outbound restriction
       description: Open the outbound learning window for an asset in the given outbound directions
       parameters:
-        - name: assetId
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/assetIdParameter'
       requestBody:
         description: Outbound directions and the assets to apply them to
         required: true
@@ -2497,15 +2489,11 @@ paths:
       tags:
         - Assets
     put:
-      operationId: AssetOutboundExtendQueue_Update
+      operationId: AssetNetworkOutboundExtend_Queue
       summary: Extend an asset outbound learning window
       description: Extend the outbound learning window of an asset in the given outbound directions
       parameters:
-        - name: assetId
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/assetIdParameter'
       requestBody:
         description: Outbound directions and the assets to apply them to
         required: true
@@ -3551,6 +3539,37 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Asset activities
+  /assets/{assetId}/activities/network/firewall-candidates:
+    get:
+      operationId: AssetNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/assetIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -11848,7 +11867,7 @@ paths:
         - Assets
   /assets/outbound-actions/queue:
     post:
-      operationId: AssetsOutboundQueue_Create
+      operationId: AssetsNetworkOutbound_Queue
       summary: Queue assets for outbound restriction
       description: Open the outbound learning window for multiple assets in the given outbound directions
       requestBody:
@@ -11874,7 +11893,7 @@ paths:
       tags:
         - Assets
     put:
-      operationId: AssetsOutboundExtendQueue_Update
+      operationId: AssetsNetworkOutboundExtend_Queue
       summary: Extend assets outbound learning window
       description: Extend the outbound learning window of multiple assets in the given outbound directions
       requestBody:
@@ -13564,12 +13583,7 @@ paths:
       description: Returns the AD add-user script for the specified forest and domain as application/octet-stream.
       parameters:
         - $ref: '#/components/parameters/forestIdParameter'
-        - name: domainName
-          in: path
-          description: The AD domain name
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/domainNameParameter'
       responses:
         '200':
           description: OK
@@ -15023,6 +15037,37 @@ paths:
         - api_key: []
       tags:
         - Asset OT/IoT activities
+  /assets/ot/{assetId}/activities/network/firewall-candidates:
+    get:
+      operationId: AssetOtNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/assetIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Asset OT/IoT Activities
   /assets/ot/{assetId}/activities/network/internet-categories-candidates:
     get:
       operationId: AssetOtNetworkActivitiesInternetCategoriesCandidates_List
@@ -24411,27 +24456,6 @@ paths:
         - api_key: []
       tags:
         - Assets Switches
-    delete:
-      operationId: Switch_Delete
-      summary: Delete a switch
-      description: delete a switch
-      parameters:
-        - $ref: '#/components/parameters/switchIdParameter'
-      responses:
-        '200':
-          description: OK
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-      security:
-        - api_key: []
-      tags:
-        - Assets Switches
     put:
       operationId: Switch_Update
       summary: Update a switch
@@ -25116,6 +25140,37 @@ paths:
         - api_key: []
       tags:
         - Switch activities
+  /assets/switches/{switchId}/activities/network/firewall-candidates:
+    get:
+      operationId: SwitchNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/switchIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Switch Activities
   /assets/switches/{switchId}/activities/network/internet-categories-candidates:
     get:
       operationId: SwitchNetworkActivitiesInternetCategoriesCandidates_List
@@ -27481,19 +27536,65 @@ paths:
         - api_key: []
       tags:
         - Auth
+  /cloud/azure/tenants:
+    get:
+      operationId: CloudAzureTenants_List
+      summary: List Azure Tenants
+      description: List the onboarded Azure tenants
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/azureTenantsList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/tenants/{tenantId}:
+    get:
+      operationId: CloudAzureTenants_Get
+      summary: Get Azure Tenant
+      description: Get Azure tenant details
+      parameters:
+        - $ref: '#/components/parameters/azureTenantIdParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/azureTenantResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
   /cloud/azure/{tenantId}/subscriptions:
     get:
-      operationId: CloudAzure_SearchSubscriptions
+      operationId: CloudAzureTenantSubscriptions_List
       summary: Search Azure Subscriptions
       description: Search Azure subscriptions for a tenant
       parameters:
-        - name: tenantId
-          in: path
-          description: Azure Tenant ID
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/azureTenantIdParameter'
         - $ref: '#/components/parameters/limitParameter'
         - $ref: '#/components/parameters/offsetParameter'
         - $ref: '#/components/parameters/withCountParameter'
@@ -27519,7 +27620,7 @@ paths:
         - Cloud Azure
   /cloud/azure/subscriptions/filters:
     get:
-      operationId: CloudAzure_GetSubscriptionsFilters
+      operationId: CloudAzureSubscriptionsFilters_List
       summary: Get Azure Subscriptions Filters
       description: Get available filters for Azure subscriptions
       responses:
@@ -27543,17 +27644,11 @@ paths:
         - Cloud Azure
   /cloud/azure/subscriptions/{subscriptionId}:
     get:
-      operationId: CloudAzure_GetSubscription
+      operationId: CloudAzureSubscriptions_Get
       summary: Get Azure Subscription
       description: Get Azure subscription details
       parameters:
-        - name: subscriptionId
-          in: path
-          description: Azure Subscription ID
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/azureSubscriptionIdParameter'
       responses:
         '200':
           description: OK
@@ -27576,8 +27671,31 @@ paths:
       tags:
         - Cloud Azure
   /cloud/azure/subscriptions:
+    get:
+      operationId: CloudAzureSubscriptions_List
+      summary: List Azure Subscriptions Id Name Pairs
+      description: Returns the id and name of every onboarded Azure subscription
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
     put:
-      operationId: CloudAzure_UpdateSubscriptionsSyncConfig
+      operationId: CloudAzureSubscriptionsSyncConfig_Update
       summary: Update Subscriptions Sync Config
       description: Update sync configuration for Azure subscriptions
       requestBody:
@@ -27605,17 +27723,11 @@ paths:
         - Cloud Azure
   /cloud/azure/{tenantId}/resource-groups:
     get:
-      operationId: CloudAzure_SearchResourceGroups
+      operationId: CloudAzureTenantResourceGroups_List
       summary: Search Azure Resource Groups
       description: Search Azure resource groups for a tenant
       parameters:
-        - name: tenantId
-          in: path
-          description: Azure Tenant ID
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/azureTenantIdParameter'
         - $ref: '#/components/parameters/limitParameter'
         - $ref: '#/components/parameters/offsetParameter'
         - $ref: '#/components/parameters/withCountParameter'
@@ -27639,9 +27751,33 @@ paths:
         - api_key: []
       tags:
         - Cloud Azure
+  /cloud/azure/resource-groups:
+    get:
+      operationId: CloudAzureResourceGroups_List
+      summary: List Azure Resource Groups Id Name Pairs
+      description: Returns the id and name of every onboarded Azure resource group
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
   /cloud/azure/resource-groups/filters:
     get:
-      operationId: CloudAzure_GetResourceGroupsFilters
+      operationId: CloudAzureResourceGroupsFilters_List
       summary: Get Azure Resource Groups Filters
       description: Get available filters for Azure resource groups
       responses:
@@ -27665,17 +27801,11 @@ paths:
         - Cloud Azure
   /cloud/azure/resource-groups/{resourceGroupId}:
     get:
-      operationId: CloudAzure_GetResourceGroup
+      operationId: CloudAzureResourceGroups_Get
       summary: Get Azure Resource Group
       description: Get Azure resource group details
       parameters:
-        - name: resourceGroupId
-          in: path
-          description: Azure Resource Group ID
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/azureResourceGroupIdParameter'
       responses:
         '200':
           description: OK
@@ -27699,17 +27829,11 @@ paths:
         - Cloud Azure
   /cloud/azure/{tenantId}/resources:
     get:
-      operationId: CloudAzure_SearchResources
+      operationId: CloudAzureTenantResources_List
       summary: Search Azure Resources
       description: Search Azure resources for a tenant
       parameters:
-        - name: tenantId
-          in: path
-          description: Azure Tenant ID
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/azureTenantIdParameter'
         - $ref: '#/components/parameters/limitParameter'
         - $ref: '#/components/parameters/offsetParameter'
         - $ref: '#/components/parameters/cursorParameter'
@@ -27718,11 +27842,7 @@ paths:
         - $ref: '#/components/parameters/searchParameter'
         - $ref: '#/components/parameters/orderParameter'
         - $ref: '#/components/parameters/orderColumnParameter'
-        - name: showInactive
-          in: query
-          description: Include inactive resources
-          schema:
-            type: boolean
+        - $ref: '#/components/parameters/showInactiveParameter'
       responses:
         '200':
           description: OK
@@ -27744,7 +27864,7 @@ paths:
         - Cloud Azure
   /cloud/azure/resources/filters:
     get:
-      operationId: CloudAzure_GetResourcesFilters
+      operationId: CloudAzureResourcesFilters_List
       summary: Get Azure Resources Filters
       description: Get available filters for Azure resources
       responses:
@@ -27772,21 +27892,8 @@ paths:
       summary: Cloud Entity List Rules
       description: Returns a list of rules affecting assets within the Azure cloud entity - a tenant, a subscription or a resource group, identified by its entity ID.
       parameters:
-        - name: entityId
-          in: path
-          description: Azure cloud entity ID
-          required: true
-          schema:
-            type: string
-        - name: direction
-          in: path
-          description: Rules direction
-          required: true
-          schema:
-            type: string
-            enum:
-              - inbound
-              - outbound
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/ruleDirectionPathParameter'
         - $ref: '#/components/parameters/limitParameter'
         - $ref: '#/components/parameters/offsetParameter'
         - $ref: '#/components/parameters/withCountParameter'
@@ -27812,18 +27919,13 @@ paths:
         - api_key: []
       tags:
         - Cloud Azure
-  /cloud/azure/entities/{entityId}/activities:
+  /cloud/azure/entities/{entityId}/activities/network:
     get:
-      operationId: CloudAzureEntityActivities_List
+      operationId: CloudAzureEntityNetworkActivities_List
       summary: Cloud Entity List Activities
       description: Returns a list of network activities reported for an Azure resource within the cloud entity - a tenant, a subscription or a resource group - on either the source or the destination side.
       parameters:
-        - name: entityId
-          in: path
-          description: Azure cloud entity ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
         - $ref: '#/components/parameters/limitParameter'
         - $ref: '#/components/parameters/cursorParameter'
         - $ref: '#/components/parameters/searchParameter'
@@ -27850,18 +27952,615 @@ paths:
         - api_key: []
       tags:
         - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/aggregation/global-map:
+    post:
+      operationId: CloudAzureEntityNetworkActivitiesGlobalMap_Get
+      summary: Get Network Activities Global Map
+      description: Returns the aggregated global map entities and the connections between them.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+      requestBody:
+        description: Layer hierarchy, time range and traffic filters to aggregate the map by
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/globalMapBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/globalMapResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/aggregation/global-map/entity-details:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesGlobalMapEntityDetails_Get
+      summary: Get Network Activities Global Map Entity Details
+      description: Returns the extended asset details of a single global map entity.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/assetIdQueryParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/globalMapEntityDetailsResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/distinctField/{fieldName}:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesDistinctValues_List
+      summary: List Network Activities Distinct Value
+      description: Returns a list of distinct values for a field in network activities.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/networkFieldNameParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/fromParameter'
+        - $ref: '#/components/parameters/additionalFieldParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/activitiesDistictValuesList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/distinctField/{fieldName}/export:
+    post:
+      operationId: CloudAzureEntityNetworkActivitiesDistinctValues_Export
+      summary: Export network activities distinct values
+      description: Returns an exportId to pass into the download API.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/networkFieldNameParameter'
+      requestBody:
+        description: From, to, search, filters, column name and date time format for export
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/exportBodyDistinctValues'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/exportId'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/distinctField/{fieldName}/export/csv/{exportId}:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesDistinctValuesExport_Get
+      summary: Download network activities distinct values export
+      description: Returns a csv file to be downloaded.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/networkFieldNameParameter'
+        - $ref: '#/components/parameters/exportIdParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/csv:
+              schema:
+                type: object
+                format: file
+        '401':
+          $ref: '#/components/responses/401'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/export:
+    post:
+      operationId: CloudAzureEntityNetworkActivities_Export
+      summary: Export network activities for an Azure cloud entity
+      description: Returns an exportId to pass into the download API.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+      requestBody:
+        description: EntityId, from, to, search, filter or date time format for export
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/exportBodyActivities'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/exportId'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/export/csv/{exportId}:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesExport_Get
+      summary: Download network activities export for an Azure cloud entity
+      description: Returns a csv file to be downloaded.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/exportIdParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/csv:
+              schema:
+                type: object
+                format: file
+        '401':
+          $ref: '#/components/responses/401'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/filters:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesFilters_List
+      summary: Get network activity filters for an Azure cloud entity
+      description: Returns the filters that can be used for network activities for an Azure cloud entity.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/filtersList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/filters/user-filters:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesSavedFilters_List
+      summary: List Saved Filters for Network Activities
+      description: Returns a list of saved filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/searchParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/savedFiltersList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+    post:
+      operationId: CloudAzureEntityNetworkActivitiesSavedFilters_Create
+      summary: Create a Saved Filter for Network Activities
+      description: Returns the filter id.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+      requestBody:
+        description: Name, filters, and description for the saved filter
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/savedFilterBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/savedFilterId'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/filters/user-filters/{filterId}:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesSavedFilters_Get
+      summary: Get a Saved Filter for Network Activities
+      description: Returns a saved filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/filterIdParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/savedFilterObject'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+    put:
+      operationId: CloudAzureEntityNetworkActivitiesSavedFilters_Update
+      summary: update a Saved Filter for Network Activities
+      description: Returns an empty object.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/filterIdParameter'
+      requestBody:
+        description: Name, filters, and description for the saved filter
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/savedFilterUpdateBody'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+    delete:
+      operationId: CloudAzureEntityNetworkActivitiesSavedFilters_Delete
+      summary: Delete a Saved Filter for Network Activities
+      description: Returns an empty object.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/filterIdParameter'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/firewall-candidates:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/internet-categories-candidates:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesInternetCategoriesCandidates_List
+      summary: List Network Internet Categories Candidates
+      description: Returns a list of network internet categories candidates.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/offsetParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/internet-hierarchy:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesInternetHierarchy_Get
+      summary: Get Network Internet Hierarchy
+      description: Returns a list of network internet hierarchy items.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/fromRequiredParameter'
+        - $ref: '#/components/parameters/toParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internetHierarchyResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/internet-sub-categories-candidates:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesInternetSubCategoriesCandidates_List
+      summary: List Network Internet Sub-Categories Candidates
+      description: Returns a list of network internet sub-categories candidates.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/offsetParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/process-categories-candidates:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesProcessCategoriesCandidates_List
+      summary: Get process category candidates
+      description: Returns a list of process categories that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/offsetParameter'
+        - $ref: '#/components/parameters/searchParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/process-hierarchy:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesProcessHierarchy_Get
+      summary: Get Network Process Hierarchy
+      description: Returns a list of network process hierarchy items.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/fromRequiredParameter'
+        - $ref: '#/components/parameters/toParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/processHierarchyResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/activities/network/process-sub-categories-candidates:
+    get:
+      operationId: CloudAzureEntityNetworkActivitiesProcessSubCategoriesCandidates_List
+      summary: Get process sub-category candidates
+      description: Returns a list of process sub-categories that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/offsetParameter'
+        - $ref: '#/components/parameters/searchParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
   /cloud/azure/entities/{entityId}/audit:
     get:
       operationId: CloudAzureEntityAudit_Get
       summary: Get Azure cloud entity audits
       description: Returns a list of audits for the Azure cloud entity - a tenant, a subscription or a resource group, identified by its entity ID.
       parameters:
-        - name: entityId
-          in: path
-          description: Azure cloud entity ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
         - $ref: '#/components/parameters/limitParameter'
         - $ref: '#/components/parameters/cursorParameter'
         - $ref: '#/components/parameters/searchParameter'
@@ -27896,12 +28595,7 @@ paths:
       summary: Export Azure cloud entity audits
       description: Returns an exportId to pass into the download API.
       parameters:
-        - name: entityId
-          in: path
-          description: Azure cloud entity ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
       requestBody:
         description: EntityId, from, to, search, filter or date time format for export
         required: true
@@ -27936,12 +28630,7 @@ paths:
       summary: Download Azure cloud entity audit export
       description: Returns a csv file to be downloaded.
       parameters:
-        - name: entityId
-          in: path
-          description: Azure cloud entity ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
         - $ref: '#/components/parameters/exportIdParameter'
       responses:
         '200':
@@ -27963,12 +28652,7 @@ paths:
       summary: List Audit Filters for an Azure cloud entity
       description: Returns a list of filters for Audit events for an Azure cloud entity.
       parameters:
-        - name: entityId
-          in: path
-          description: Azure cloud entity ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/azureCloudEntityIdParameter'
       responses:
         '200':
           description: OK
@@ -27984,6 +28668,171 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/subscriptions/export:
+    post:
+      operationId: CloudAzureSubscriptions_Export
+      summary: Export Azure subscriptions
+      description: Returns an exportId to pass into the download API.
+      parameters:
+        - $ref: '#/components/parameters/azureTenantEntityIdParameter'
+      requestBody:
+        description: Filters or date time format for export
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/exportBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/exportId'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/subscriptions/export/csv/{exportId}:
+    get:
+      operationId: CloudAzureSubscriptionsExport_Get
+      summary: Download Azure subscriptions export
+      description: Returns a csv file to be downloaded.
+      parameters:
+        - $ref: '#/components/parameters/azureTenantEntityIdParameter'
+        - $ref: '#/components/parameters/exportIdParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/401'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/resource-groups/export:
+    post:
+      operationId: CloudAzureResourceGroups_Export
+      summary: Export Azure resource groups
+      description: Returns an exportId to pass into the download API.
+      parameters:
+        - $ref: '#/components/parameters/azureTenantEntityIdParameter'
+      requestBody:
+        description: Filters or date time format for export
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/exportBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/exportId'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/resource-groups/export/csv/{exportId}:
+    get:
+      operationId: CloudAzureResourceGroupsExport_Get
+      summary: Download Azure resource groups export
+      description: Returns a csv file to be downloaded.
+      parameters:
+        - $ref: '#/components/parameters/azureTenantEntityIdParameter'
+        - $ref: '#/components/parameters/exportIdParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/401'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/resources/export:
+    post:
+      operationId: CloudAzureResources_Export
+      summary: Export Azure resources
+      description: Returns an exportId to pass into the download API.
+      parameters:
+        - $ref: '#/components/parameters/azureTenantEntityIdParameter'
+      requestBody:
+        description: Filters or date time format for export
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/exportBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/exportId'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Cloud Azure
+  /cloud/azure/entities/{entityId}/resources/export/csv/{exportId}:
+    get:
+      operationId: CloudAzureResourcesExport_Get
+      summary: Download Azure resources export
+      description: Returns a csv file to be downloaded.
+      parameters:
+        - $ref: '#/components/parameters/azureTenantEntityIdParameter'
+        - $ref: '#/components/parameters/exportIdParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - api_key: []
       tags:
@@ -28068,11 +28917,7 @@ paths:
       summary: Download the Segment server
       description: Returns a temporary url to the Segment server zip.
       parameters:
-        - schema:
-            type: string
-          in: query
-          name: clusterId
-          description: Optional cluster ID. When the cluster is the pilot group and a pilot rollout is active, the link points to the pilot version instead of the GA version.
+        - $ref: '#/components/parameters/segmentServerDownloadClusterIdParameter'
       responses:
         '200':
           description: OK
@@ -28424,11 +29269,7 @@ paths:
       operationId: SettingsAzureConnectorInstances_Get
       summary: List Azure Connector instances
       parameters:
-        - name: clusterId
-          in: query
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/clusterIdQueryParameter'
       responses:
         '200':
           description: OK
@@ -28545,11 +29386,7 @@ paths:
       operationId: SettingsAzureConnectorDataSources_Get
       summary: List Azure Connector data sources
       parameters:
-        - name: clusterId
-          in: query
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/clusterIdQueryParameter'
       responses:
         '200':
           description: OK
@@ -28786,13 +29623,7 @@ paths:
       summary: Check if deployment has preferred assets
       description: Returns whether the deployment has preferred assets.
       parameters:
-        - name: deploymentId
-          in: path
-          required: true
-          description: id of the deployment
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/deploymentIdParameter'
       responses:
         '200':
           description: OK
@@ -28959,56 +29790,6 @@ paths:
       description: Delete segment server freeze period
       parameters:
         - $ref: '#/components/parameters/freezePeriodIdPathParameter'
-      responses:
-        '200':
-          description: OK
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-      security:
-        - api_key: []
-      tags:
-        - Settings Segment Servers
-  /deployments/selinux-policy-install-timeout:
-    get:
-      description: Get SELinux Policy Install Timeout.
-      operationId: SeLinuxPolicyInstallTimeout_Get
-      summary: Get SELinux Policy Install Timeout.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/settingsSegmentServerSeLinuxPolicyInstallTimeoutBody'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-      security:
-        - api_key: []
-      tags:
-        - Settings Segment Servers
-    post:
-      description: Create SELinux Policy Install Timeout Configuration.
-      operationId: SeLinuxPolicyInstallTimeout_Post
-      summary: Create SELinux Policy Install Timeout Configuration
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/settingsSegmentServerSeLinuxPolicyInstallTimeoutBody'
       responses:
         '200':
           description: OK
@@ -29207,6 +29988,56 @@ paths:
         - api_key: []
       tags:
         - Settings Licenses
+  /global-map/preset:
+    get:
+      operationId: SettingsGlobalMapPreset_Get
+      summary: Get global map layer presets
+      description: Returns the configured global map layer presets.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/globalMapLayerPresetsResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Settings Global Map
+    put:
+      operationId: SettingsGlobalMapPreset_Update
+      summary: Set global map layer presets
+      description: Sets the global map layer presets.
+      requestBody:
+        description: Global map layer presets by asset type
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/globalMapLayerPresetsBody'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Settings Global Map
   /groups:
     get:
       operationId: Groups_List
@@ -30400,6 +31231,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internetHierarchyResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Group Activities
+  /groups/{groupType}/{groupId}/activities/network/firewall-candidates:
+    get:
+      operationId: GroupsNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/groupTypeParameter'
+        - $ref: '#/components/parameters/groupIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -38788,58 +39651,16 @@ paths:
       summary: Get k8s access matrix
       description: Returns the access matrix between K8s entities (namespaces or workloads), showing the allowed access between sources and destinations based on network policy rules. The ruleStateFilter parameter scopes returned rules to those that are currently deployed or those that represent the desired (planned) state.
       parameters:
-        - name: clusterId
-          in: query
-          required: true
-          schema:
-            type: string
-          example: k:c:ASHpu3tF
-        - name: level
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/k8sAccessMatrixLevel'
-        - name: namespaceId
-          in: query
-          description: Required when level=workload, forbidden otherwise.
-          schema:
-            type: string
-        - name: limit
-          in: query
-          schema:
-            type: integer
-            minimum: 1
-        - name: src
-          in: query
-          schema:
-            type: array
-            items:
-              type: string
-        - name: dst
-          in: query
-          schema:
-            type: array
-            items:
-              type: string
-        - name: filterOutDefaultEntities
-          in: query
-          schema:
-            type: boolean
-            default: false
-        - name: showPodlessNamespaces
-          in: query
-          schema:
-            type: boolean
-            default: false
-        - name: policyType
-          in: query
-          schema:
-            $ref: '#/components/schemas/k8sAccessType'
-        - name: ruleStateFilter
-          in: query
-          description: Scopes returned rules by deployment state. Defaults to 'deployed' when omitted.
-          schema:
-            $ref: '#/components/schemas/k8sRuleStateFilter'
+        - $ref: '#/components/parameters/k8sAccessMatrixClusterIdParameter'
+        - $ref: '#/components/parameters/k8sAccessMatrixLevelParameter'
+        - $ref: '#/components/parameters/k8sAccessMatrixNamespaceIdParameter'
+        - $ref: '#/components/parameters/k8sAccessMatrixLimitParameter'
+        - $ref: '#/components/parameters/k8sAccessMatrixSrcParameter'
+        - $ref: '#/components/parameters/k8sAccessMatrixDstParameter'
+        - $ref: '#/components/parameters/k8sAccessMatrixFilterOutDefaultEntitiesParameter'
+        - $ref: '#/components/parameters/k8sAccessMatrixShowPodlessNamespacesParameter'
+        - $ref: '#/components/parameters/k8sAccessMatrixPolicyTypeParameter'
+        - $ref: '#/components/parameters/k8sRuleStateFilterParameter'
       responses:
         '200':
           description: OK
@@ -39354,6 +40175,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internetHierarchyResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - K8s Activities
+  /k8s/clusters/{k8sClusterId}/activities/network/firewall-candidates:
+    get:
+      operationId: K8sClusterNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/k8sClusterIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -40845,6 +41697,34 @@ paths:
         - api_key: []
       tags:
         - K8s labels
+  /k8s/clusters/{k8sClusterId}/labels/{label}/services/{k8sServiceId}:
+    get:
+      operationId: K8sClusterLabelService_Get
+      summary: Get a k8s cluster label service
+      description: Returns a service for a label in the k8s cluster.
+      parameters:
+        - $ref: '#/components/parameters/k8sClusterIdParameter'
+        - $ref: '#/components/parameters/k8sLabelParameter'
+        - $ref: '#/components/parameters/k8sServiceIdParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/k8sServiceEntity'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - K8s services
   /k8s/clusters/{k8sClusterId}/labels/{label}/services/export:
     post:
       operationId: K8sClusterLabelsServices_Export
@@ -41458,6 +42338,38 @@ paths:
         - api_key: []
       tags:
         - K8s namespaces
+  /k8s/clusters/{k8sClusterId}/namespaces/{k8sNamespaceId}/activities/network/firewall-candidates:
+    get:
+      operationId: K8sClusterNamespaceNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/k8sClusterIdParameter'
+        - $ref: '#/components/parameters/k8sNamespaceIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - K8s Namespace Activities
   /k8s/clusters/{k8sClusterId}/namespaces/{k8sNamespaceId}/activities/network/internet-categories-candidates:
     get:
       operationId: K8sClusterNamespaceNetworkActivitiesInternetCategoriesCandidates_List
@@ -44335,6 +45247,38 @@ paths:
         - api_key: []
       tags:
         - K8s Workload Activities
+  /k8s/clusters/{k8sClusterId}/workloads/{k8sWorkloadId}/activities/network/firewall-candidates:
+    get:
+      operationId: K8sClusterWorkloadNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/k8sClusterIdParameter'
+        - $ref: '#/components/parameters/k8sWorkloadIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - K8s Workload Activities
   /k8s/clusters/{k8sClusterId}/workloads/{k8sWorkloadId}/activities/network/internet-categories-candidates:
     get:
       operationId: K8sClusterWorkloadNetworkActivitiesInternetCategoriesCandidates_List
@@ -45690,6 +46634,37 @@ paths:
         - api_key: []
       tags:
         - K8s namespaces
+  /k8s/namespaces/{k8sNamespaceId}/activities/network/firewall-candidates:
+    get:
+      operationId: K8sNamespaceNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/k8sNamespaceIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - K8s Namespace Activities
   /k8s/namespaces/{k8sNamespaceId}/activities/network/internet-categories-candidates:
     get:
       operationId: K8sNamespaceNetworkActivitiesInternetCategoriesCandidates_List
@@ -47404,6 +48379,38 @@ paths:
         - api_key: []
       tags:
         - K8s namespaces
+  /k8s/namespaces/{k8sNamespaceId}/workloads/{k8sWorkloadId}/activities/network/firewall-candidates:
+    get:
+      operationId: K8sNamespaceWorkloadNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/k8sNamespaceIdParameter'
+        - $ref: '#/components/parameters/k8sWorkloadIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - K8s Workload Activities
   /k8s/namespaces/{k8sNamespaceId}/workloads/{k8sWorkloadId}/activities/network/internet-categories-candidates:
     get:
       operationId: K8sNamespaceWorkloadNetworkActivitiesInternetCategoriesCandidates_List
@@ -48823,6 +49830,37 @@ paths:
         - api_key: []
       tags:
         - K8s workloads
+  /k8s/workloads/{k8sWorkloadId}/activities/network/firewall-candidates:
+    get:
+      operationId: K8sWorkloadNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/k8sWorkloadIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - K8s Workload Activities
   /k8s/workloads/{k8sWorkloadId}/activities/network/internet-categories-candidates:
     get:
       operationId: K8sWorkloadNetworkActivitiesInternetCategoriesCandidates_List
@@ -49624,13 +50662,7 @@ paths:
       summary: Get a maintenance window
       description: Returns the maintenance window properties
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: id of the maintenance window
-          schema:
-            type: string
-            pattern: ^[e]:[m]:[a-zA-Z0-9]{8}$
+        - $ref: '#/components/parameters/maintenanceWindowExternalIdParameter'
       responses:
         '200':
           description: OK
@@ -49802,6 +50834,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limitParameter'
         - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/entityCursorParameter'
       responses:
         '200':
           description: OK
@@ -50547,7 +51580,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/protectionPolicyBody'
+              $ref: '#/components/schemas/networkProtectionPolicyBody'
       responses:
         '200':
           description: OK
@@ -50605,7 +51638,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/protectionPolicyUpdateBody'
+              $ref: '#/components/schemas/networkProtectionPolicyUpdateBody'
       responses:
         '200':
           description: OK
@@ -57248,7 +58281,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ruleReviewAReject'
+              $ref: '#/components/schemas/ruleReviewReason'
       responses:
         '200':
           description: OK
@@ -59288,6 +60321,90 @@ paths:
         - api_key: []
       tags:
         - Settings Asset Management
+  /settings/asset-management/active-directory/{domainId}/ou-cluster-configs:
+    get:
+      operationId: SettingsADOuClusterConfigs_Get
+      summary: Get ou cluster configs
+      description: Get the segment server cluster assigned to each OU of the domain.
+      parameters:
+        - $ref: '#/components/parameters/domainIdParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOuClusterConfigs'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Settings Asset Management
+    put:
+      operationId: SettingsADOuClusterConfig_Set
+      summary: Set ou cluster configs
+      description: Assign segment server clusters to OUs of the domain.
+      parameters:
+        - $ref: '#/components/parameters/domainIdParameter'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/setOuClusterConfigs'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Settings Asset Management
+    delete:
+      operationId: SettingsADOuClusterConfig_Delete
+      summary: Delete ou cluster config
+      description: Remove the segment server cluster assignment from an OU of the domain.
+      parameters:
+        - $ref: '#/components/parameters/domainIdParameter'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteOuClusterConfigs'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Settings Asset Management
   /settings/asset-management/active-directory/{forestId}/groups/linux:
     put:
       operationId: SettingsADLinuxAutomationGroups_Update
@@ -60487,9 +61604,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/awsAccountInfo'
+                $ref: '#/components/schemas/awsAccountsList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -60560,12 +61675,7 @@ paths:
       summary: Get AWS Account Info
       description: Get AWS Account information for cloud deployments
       parameters:
-        - name: accountId
-          in: path
-          description: AWS Account ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/awsAccountIdParameter'
       responses:
         '200':
           description: OK
@@ -60592,12 +61702,7 @@ paths:
       summary: Delete AWS Account
       description: Delete AWS Account from cloud deployments
       parameters:
-        - name: accountId
-          in: path
-          description: AWS Account ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/awsAccountIdParameter'
       responses:
         '200':
           $ref: '#/components/responses/200_empty'
@@ -60617,16 +61722,11 @@ paths:
         - Settings Cloud Deployments
   /settings/cloud-deployments/aws/{accountId}/sync:
     post:
-      operationId: SettingsCloudDeploymentsAws_TriggerSync
+      operationId: SettingsCloudDeploymentsAwsSync_Start
       summary: Trigger AWS Account Sync
       description: Trigger sync for AWS Account
       parameters:
-        - name: accountId
-          in: path
-          description: AWS Account ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/awsAccountIdParameter'
       responses:
         '200':
           $ref: '#/components/responses/200_empty'
@@ -60655,9 +61755,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/azureTenantInfo'
+                $ref: '#/components/schemas/azureTenantsList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -60701,16 +61799,11 @@ paths:
         - Settings Cloud Deployments
   /settings/cloud-deployments/azure/{tenantId}/credentials:
     put:
-      operationId: SettingsCloudDeploymentsAzure_UpdateCredentials
+      operationId: SettingsCloudDeploymentsAzureCredentials_Update
       summary: Update Azure Tenant Credentials
       description: Rename an onboarded Azure tenant and replace its app registration credentials, re-authenticating against Azure
       parameters:
-        - name: tenantId
-          in: path
-          description: Azure Tenant entity ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/azureTenantIdParameter'
       requestBody:
         required: true
         content:
@@ -60740,16 +61833,11 @@ paths:
         - Settings Cloud Deployments
   /settings/cloud-deployments/azure/{tenantId}:
     put:
-      operationId: SettingsCloudDeploymentsAzure_UpdateConfiguration
+      operationId: SettingsCloudDeploymentsAzureConfiguration_Update
       summary: Update Azure Tenant Configuration
       description: Update the management scope and subscription auto-onboarding of an Azure tenant without touching its credentials
       parameters:
-        - name: tenantId
-          in: path
-          description: Azure Tenant entity ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/azureTenantIdParameter'
       requestBody:
         required: true
         content:
@@ -60782,12 +61870,7 @@ paths:
       summary: Get Azure Tenant Info
       description: Get Azure Tenant information for cloud deployments
       parameters:
-        - name: tenantId
-          in: path
-          description: Azure Tenant ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/azureTenantIdParameter'
       responses:
         '200':
           description: OK
@@ -60809,18 +61892,36 @@ paths:
         - api_key: []
       tags:
         - Settings Cloud Deployments
+    delete:
+      operationId: SettingsCloudDeploymentsAzure_Delete
+      summary: Delete Azure Tenant
+      description: Delete Azure Tenant from cloud deployments
+      parameters:
+        - $ref: '#/components/parameters/azureTenantIdParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/200_empty'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Settings Cloud Deployments
   /settings/cloud-deployments/azure/{tenantId}/sync:
     post:
-      operationId: SettingsCloudDeploymentsAzure_TriggerSync
+      operationId: SettingsCloudDeploymentsAzureSync_Start
       summary: Trigger Azure Tenant Sync
       description: Trigger sync for Azure Tenant
       parameters:
-        - name: tenantId
-          in: path
-          description: Azure Tenant ID
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/azureTenantIdParameter'
       responses:
         '200':
           $ref: '#/components/responses/200_empty'
@@ -62857,6 +63958,32 @@ paths:
         - api_key: []
       tags:
         - Settings Events Receiver
+  /settings/events-receiver/configuration/export/{receiverType}/data-structure:
+    get:
+      operationId: SettingsReceiverDataStructure_Get
+      summary: Get Events Receiver Data Structure
+      description: Get the data structure configuration for receivers that do not take an event type (every receiver except Sentinel)
+      parameters:
+        - $ref: '#/components/parameters/receiverTypeParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/downloadUrl'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - Settings Events Receiver
   /settings/events-receiver/configuration/export/{receiverType}/data-structure/{siemEventType}:
     get:
       operationId: SettingsSIEMDataStructure_Get
@@ -63346,56 +64473,6 @@ paths:
         - api_key: []
       tags:
         - Settings Firewall
-  /settings/global-map/preset:
-    get:
-      operationId: SettingsGlobalMapPreset_Get
-      summary: Get global map layer presets
-      description: Returns the configured global map layer presets.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/globalMapLayerPresetsResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-      security:
-        - api_key: []
-      tags:
-        - Settings Global Map
-    put:
-      operationId: SettingsGlobalMapPreset_Update
-      summary: Set global map layer presets
-      description: Sets the global map layer presets.
-      requestBody:
-        description: Global map layer presets by asset type
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/globalMapLayerPresetsBody'
-      responses:
-        '200':
-          description: OK
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-      security:
-        - api_key: []
-      tags:
-        - Settings Global Map
   /settings/webhooks/export/data-structure:
     get:
       operationId: SettingsWebhooksExportDataStructure_Get
@@ -66637,6 +67714,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internetHierarchyResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - api_key: []
+      tags:
+        - User Activities
+  /users/{userId}/activities/network/firewall-candidates:
+    get:
+      operationId: UserNetworkActivitiesFirewallCandidates_List
+      summary: List Network Firewall Candidates
+      description: Returns a list of firewalls that can be used as filters for network activities.
+      parameters:
+        - $ref: '#/components/parameters/userIdParameter'
+        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/searchParameter'
+        - $ref: '#/components/parameters/cursorParameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idNamePairList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -70601,35 +71709,6 @@ paths:
         - api_key: []
       tags:
         - User protection
-  /users/{userId}/protection/rules/inbound/filters/firewall-candidates:
-    get:
-      operationId: UserInboundRulesFirewallCandidatesFilters_List
-      summary: User List Inbound Rules Firewall Candidates Filters
-      description: Returns a list of filters for firewall candidates for Inbound rules.
-      parameters:
-        - $ref: '#/components/parameters/userIdParameter'
-        - $ref: '#/components/parameters/limitParameter'
-        - $ref: '#/components/parameters/cursorParameter'
-        - $ref: '#/components/parameters/searchParameter'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/idNamePairList'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-      security:
-        - api_key: []
-      tags:
-        - User protection
   /users/{userId}/protection/rules/outbound/filters/firewall-candidates:
     get:
       operationId: UserOutboundRulesFirewallCandidatesFilters_List
@@ -73128,7 +74207,7 @@ components:
       required: true
       schema:
         type: string
-        pattern: ^ad$|^custom$|^ot$|^snow$|^system$|^tag$|^inactive$
+        pattern: ^ad$|^app$|^custom$|^ot$|^system$|^tag$|^inactive$
         default: tag
     hypervisorIdParameter:
       name: hypervisorId
@@ -73213,6 +74292,147 @@ components:
       schema:
         type: string
         pattern: '^C:d:'
+    domainNameParameter:
+      name: domainName
+      in: path
+      description: The AD domain name
+      required: true
+      schema:
+        type: string
+    azureSubscriptionIdParameter:
+      name: subscriptionId
+      in: path
+      description: Azure subscription entity ID
+      required: true
+      schema:
+        type: string
+    azureResourceGroupIdParameter:
+      name: resourceGroupId
+      in: path
+      description: Azure resource group entity ID
+      required: true
+      schema:
+        type: string
+    segmentServerDownloadClusterIdParameter:
+      name: clusterId
+      in: query
+      description: Optional cluster ID. When the cluster is the pilot group and a pilot rollout is active, the link points to the pilot version instead of the GA version.
+      schema:
+        type: string
+    clusterIdQueryParameter:
+      name: clusterId
+      in: query
+      description: The cluster ID
+      required: true
+      schema:
+        type: string
+    deploymentIdParameter:
+      name: deploymentId
+      in: path
+      description: id of the deployment
+      required: true
+      schema:
+        type: string
+        format: uuid
+    k8sAccessMatrixClusterIdParameter:
+      name: clusterId
+      in: query
+      description: The k8s cluster ID
+      required: true
+      schema:
+        type: string
+      example: k:c:ASHpu3tF
+    k8sAccessMatrixLevelParameter:
+      name: level
+      in: query
+      required: true
+      schema:
+        $ref: '#/components/schemas/k8sAccessMatrixLevel'
+    k8sAccessMatrixNamespaceIdParameter:
+      name: namespaceId
+      in: query
+      description: Required when level=workload, forbidden otherwise.
+      schema:
+        type: string
+    k8sAccessMatrixLimitParameter:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+    k8sAccessMatrixSrcParameter:
+      name: src
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+    k8sAccessMatrixDstParameter:
+      name: dst
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+    k8sAccessMatrixFilterOutDefaultEntitiesParameter:
+      name: filterOutDefaultEntities
+      in: query
+      schema:
+        type: boolean
+        default: false
+    k8sAccessMatrixShowPodlessNamespacesParameter:
+      name: showPodlessNamespaces
+      in: query
+      schema:
+        type: boolean
+        default: false
+    k8sAccessMatrixPolicyTypeParameter:
+      name: policyType
+      in: query
+      schema:
+        $ref: '#/components/schemas/k8sAccessType'
+    k8sRuleStateFilterParameter:
+      name: ruleStateFilter
+      in: query
+      description: Scopes returned rules by deployment state. Defaults to 'deployed' when omitted.
+      schema:
+        $ref: '#/components/schemas/k8sRuleStateFilter'
+    maintenanceWindowExternalIdParameter:
+      name: id
+      in: path
+      description: id of the maintenance window
+      required: true
+      schema:
+        type: string
+        pattern: ^[e]:[m]:[a-zA-Z0-9]{8}$
+    awsAccountIdParameter:
+      name: accountId
+      in: path
+      description: AWS Account ID
+      required: true
+      schema:
+        type: string
+    azureCloudEntityIdParameter:
+      name: entityId
+      in: path
+      description: Azure cloud entity ID - a tenant, a subscription or a resource group
+      required: true
+      schema:
+        type: string
+    azureTenantEntityIdParameter:
+      name: entityId
+      in: path
+      description: Azure tenant entity ID
+      required: true
+      schema:
+        type: string
+    azureTenantIdParameter:
+      name: tenantId
+      in: path
+      description: Azure tenant entity ID
+      required: true
+      schema:
+        type: string
     azureConnectorDataSourceIdParameter:
       name: id
       in: path
@@ -73655,6 +74875,16 @@ components:
         enum:
           - 1
           - 2
+    ruleDirectionPathParameter:
+      name: direction
+      in: path
+      description: direction of the rules
+      required: true
+      schema:
+        type: string
+        enum:
+          - inbound
+          - outbound
     ruleIdParameter:
       name: ruleId
       in: path
@@ -76165,6 +77395,12 @@ components:
         * 444 - Asset is back in outbound learning
         * 445 - Asset outbound restriction date postponed
         * 446 - Segment server version change
+        * 447 - Cloud environment added
+        * 448 - Cloud environment updated
+        * 449 - Cloud environment removed
+        * 450 - Azure subscription started syncing
+        * 451 - Azure subscription stopped syncing
+        * 452 - AIX asset created
       type: integer
       format: int32
       enum:
@@ -76600,6 +77836,12 @@ components:
         - 444
         - 445
         - 446
+        - 447
+        - 448
+        - 449
+        - 450
+        - 451
+        - 452
     authenticationPackageSummary:
       type: object
       properties:
@@ -76646,6 +77888,13 @@ components:
         accessKeyId:
           type: string
           description: AWS Access Key ID
+    awsAccountsList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/awsAccountInfo'
     azureTenantCredentialsBody:
       type: object
       required:
@@ -76740,6 +77989,18 @@ components:
         lastErrorTime:
           type: integer
           description: Last error timestamp
+    azureTenantsList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/azureTenantInfo'
+    azureTenantResponse:
+      type: object
+      properties:
+        tenantInfo:
+          $ref: '#/components/schemas/azureTenantInfo'
     azureSubscriptionInfo:
       type: object
       properties:
@@ -77517,9 +78778,9 @@ components:
         domainJoined:
           type: object
           required:
-            - domainList
+            - domainsList
           properties:
-            domainList:
+            domainsList:
               type: array
               items:
                 type: string
@@ -80513,10 +81774,9 @@ components:
       type: array
       items:
         type: string
-        format: uuid
       description: |
-        one of the following: 
-        * "rpcAnyInterface" for any interface 
+        one of the following:
+        * "rpcAnyInterfaceId" for any interface
         * List of interface uuids for explicit interfaces
     internalAccessPolicy:
       type: object
@@ -81220,6 +82480,11 @@ components:
           type: array
           items:
             type: string
+        excludedCidrDisplayNames:
+          description: Excluded CIDRs in the same order, shown as "alias (ip)" when an IP alias exists.
+          type: array
+          items:
+            type: string
         id:
           type: string
         isDeployed:
@@ -81520,6 +82785,9 @@ components:
           items:
             $ref: '#/components/schemas/keyValuePair'
         subnet:
+          type: string
+        subnetDisplayName:
+          description: The subnet shown as "alias (ip)" when an IP alias exists.
           type: string
         type:
           $ref: '#/components/schemas/k8sTranslatedEntityType'
@@ -82835,6 +84103,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/networkAlertAssigneeCandidate'
+        scrollCursor:
+          type: string
     networkAlertCategoryCount:
       type: object
       properties:
@@ -83235,6 +84505,115 @@ components:
           type: string
         switchId:
           type: string
+    outboundProtectionPolicy:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        existingMembersLearningDays:
+          type: integer
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+        initialProtectAt:
+          $ref: '#/components/schemas/epochMillis'
+        newMembersLearningDays:
+          type: integer
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+    outboundInternalProtectionPolicy:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        existingMembersLearningDays:
+          type: integer
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+        initialProtectAt:
+          $ref: '#/components/schemas/epochMillis'
+        newMembersLearningDays:
+          type: integer
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+        internalSharedMachine:
+          type: boolean
+    outboundProtectionPolicyBody:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        existingMembersLearningDays:
+          type: integer
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+        newMembersLearningDays:
+          type: integer
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+      required:
+        - enabled
+        - existingMembersLearningDays
+        - newMembersLearningDays
+    outboundInternalProtectionPolicyBody:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        existingMembersLearningDays:
+          type: integer
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+        newMembersLearningDays:
+          type: integer
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+        internalSharedMachine:
+          type: boolean
+          default: false
+      required:
+        - enabled
+        - existingMembersLearningDays
+        - newMembersLearningDays
     outboundRestrictionMode:
       description: |
         * '1' - No restrictions
@@ -83458,6 +84837,10 @@ components:
             - 30
             - 60
             - 90
+        outboundExternal:
+          $ref: '#/components/schemas/outboundProtectionPolicy'
+        outboundInternal:
+          $ref: '#/components/schemas/outboundInternalProtectionPolicy'
         policyType:
           type: integer
         updatedAt:
@@ -83499,6 +84882,47 @@ components:
         - groupId
         - existingMembersLearningDays
         - newMembersLearningDays
+    networkProtectionPolicyBody:
+      type: object
+      properties:
+        description:
+          type: string
+        enabled:
+          type: boolean
+        enforceBlocks:
+          type: boolean
+        existingMembersLearningDays:
+          type: integer
+          default: 30
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+        groupId:
+          type: string
+        maintenanceWindowId:
+          type: string
+        newMembersLearningDays:
+          type: integer
+          default: 30
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+        outboundExternal:
+          $ref: '#/components/schemas/outboundProtectionPolicyBody'
+        outboundInternal:
+          $ref: '#/components/schemas/outboundInternalProtectionPolicyBody'
+      required:
+        - groupId
+        - existingMembersLearningDays
+        - newMembersLearningDays
     protectionPolicyResponse:
       type: object
       properties:
@@ -83536,6 +84960,46 @@ components:
             - 30
             - 60
             - 90
+      required:
+        - existingMembersLearningDays
+        - newMembersLearningDays
+        - enforceBlocks
+    networkProtectionPolicyUpdateBody:
+      type: object
+      properties:
+        description:
+          type: string
+        enabled:
+          type: boolean
+        enforceBlocks:
+          type: boolean
+          default: false
+        existingMembersLearningDays:
+          type: integer
+          default: 30
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+        id:
+          type: string
+        newMembersLearningDays:
+          type: integer
+          default: 30
+          enum:
+            - -1
+            - 0
+            - 14
+            - 30
+            - 60
+            - 90
+        outboundExternal:
+          $ref: '#/components/schemas/outboundProtectionPolicyBody'
+        outboundInternal:
+          $ref: '#/components/schemas/outboundInternalProtectionPolicyBody'
       required:
         - existingMembersLearningDays
         - newMembersLearningDays
@@ -85486,6 +86950,8 @@ components:
     ruleReviewBody:
       type: object
       properties:
+        aeOverridden:
+          type: boolean
         action:
           $ref: '#/components/schemas/ruleAction'
         changeTicket:
@@ -85512,20 +86978,22 @@ components:
           type: array
           items:
             type: string
+        name:
+          type: string
+        servicesList:
+          type: array
+          items:
+            type: string
         portsList:
           $ref: '#/components/schemas/portsList'
         remoteEntityIdsList:
           type: array
           items:
             type: string
+        review:
+          $ref: '#/components/schemas/ruleReviewReason'
         ruleCategory:
-          description: 1=IT, 2=CLOUD_NSG, 3=CLOUD_RANGE, 4=CLOUD_FQDN, 5=CLOUD_S2S
           type: integer
-          format: int32
-        servicesList:
-          type: array
-          items:
-            type: string
         srcUsersList:
           $ref: '#/components/schemas/srcUsersList'
         state:
@@ -86293,6 +87761,48 @@ components:
       required:
         - ouConfigs
     deleteOuConfigs:
+      type: object
+      properties:
+        ouNames:
+          type: array
+          items:
+            type: string
+      required:
+        - ouNames
+    getOuClusterConfigs:
+      type: object
+      properties:
+        ouClusterInfo:
+          type: object
+          properties:
+            ouClusterConfigs:
+              type: array
+              items:
+                $ref: '#/components/schemas/ouClusterConfig'
+          required:
+            - ouClusterConfigs
+      required:
+        - ouClusterInfo
+    ouClusterConfig:
+      type: object
+      properties:
+        ouName:
+          type: string
+        assetsClusterId:
+          type: string
+      required:
+        - ouName
+        - assetsClusterId
+    setOuClusterConfigs:
+      type: object
+      properties:
+        ouClusterConfigs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ouClusterConfig'
+      required:
+        - ouClusterConfigs
+    deleteOuClusterConfigs:
       type: object
       properties:
         ouNames:
@@ -88278,16 +89788,6 @@ components:
             portsToMfaUdp:
               type: string
               pattern: ^((\d{1,5}-\d{1,5})|\d{1,5})(,(\d{1,5}-\d{1,5})|,\d{1,5})*$
-    settingsSegmentServerSeLinuxPolicyInstallTimeoutBody:
-      type: object
-      properties:
-        timeoutMinutes:
-          type: integer
-        timeoutSeconds:
-          type: integer
-      required:
-        - timeoutMinutes
-        - timeoutSeconds
     settingsZpaBody:
       type: object
       required:

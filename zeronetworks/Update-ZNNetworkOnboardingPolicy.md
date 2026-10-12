@@ -15,7 +15,11 @@ Returns the updated settings for the network onboarding policy.
 ```
 Update-ZNNetworkOnboardingPolicy -ProtectionPolicyId <String> -EnforceBlocks
  -ExistingMembersLearningDays <Int32> -NewMembersLearningDays <Int32> [-AccountName <String>]
- [-Description <String>] [-Enabled] [-Id <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-Description <String>] [-Enabled] [-Id <String>] [-OutboundExternalEnabled]
+ [-OutboundExternalExistingMembersLearningDays <Int32>] [-OutboundExternalNewMembersLearningDays <Int32>]
+ [-OutboundInternalEnabled] [-OutboundInternalExistingMembersLearningDays <Int32>]
+ [-OutboundInternalNewMembersLearningDays <Int32>] [-OutboundInternalSharedMachine] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -156,6 +160,111 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutboundExternalEnabled
+.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutboundExternalExistingMembersLearningDays
+.
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutboundExternalNewMembersLearningDays
+.
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutboundInternalEnabled
+.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutboundInternalExistingMembersLearningDays
+.
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutboundInternalNewMembersLearningDays
+.
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutboundInternalSharedMachine
+.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

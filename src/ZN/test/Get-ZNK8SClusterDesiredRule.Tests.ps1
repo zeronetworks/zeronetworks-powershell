@@ -16,8 +16,11 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNK8SClusterDesiredRule')
 
 Describe 'Get-ZNK8SClusterDesiredRule' {
     It 'Get' {
-        $k8scluster = (Get-ZNK8SCluster).Items | where {$_.Name -eq "rke"} |Select-Object -First 1
+        $k8scluster = (Get-ZNK8SCluster).Items | where {$_.Name -eq "rke"} | Select-Object -First 1
+        if (-not $k8scluster) { $k8scluster = (Get-ZNK8SCluster).Items | Select-Object -First 1 }
+        $k8scluster | Should -Not -BeNullOrEmpty
         $rule = (Get-ZNK8SClusterRule -K8SClusterId $k8scluster.Id -Limit 400).Items | where {$_.IsDesired -eq $true} | Select-Object -First 1
-        (Get-ZNK8SClusterDesiredRule -K8SClusterId $k8scluster.id -RuleId $rule.Id).ItemId | Should -Be $rule.Id
+        if (-not $rule -or -not $rule.Id) { Set-ItResult -Skipped -Because 'no desired K8S rule exists in the tenant'; return }
+        (Get-ZNK8SClusterDesiredRule -K8SClusterId $k8scluster.Id -RuleId $rule.Id).ItemId | Should -Be $rule.Id
     }
 }

@@ -16,13 +16,18 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNUserMfaOutboundPolicy')
 
 Describe 'Get-ZNUserMfaOutboundPolicy' {
     It 'List' {
-        $user = (Get-ZNUser -Search zero).Items | where {$_.Name -eq "zero"}
+        $user = (Get-ZNUser -Search zero).Items | where {$_.Name -eq "zero"} | Select-Object -First 1
+        $user | Should -Not -BeNullOrEmpty
         (Get-ZNUserMfaOutboundPolicy -UserId $user.Id).Count | Should -BeGreaterThan 0
     }
 
     It 'Get' {
-        $user = (Get-ZNUser -Search zero).Items | where {$_.Name -eq "zero"}
-        $policy = Get-ZNUserMfaOutboundPolicy -UserId $user.Id | select -First 1
-        (Get-ZNUserMfaOutboundPolicy -UserId $user.Id -reactivePolicyId $policy.Id).ItemId | Should -Not -BeNullOrEmpty
+        $user = (Get-ZNUser -Search zero).Items | where {$_.Name -eq "zero"} | Select-Object -First 1
+        $user | Should -Not -BeNullOrEmpty
+        $list = Get-ZNUserMfaOutboundPolicy -UserId $user.Id
+        $policy = if ($list.Items) { $list.Items | Select-Object -First 1 } else { $list | Select-Object -First 1 }
+        $policy | Should -Not -BeNullOrEmpty
+        $policy.Id | Should -Not -BeNullOrEmpty
+        (Get-ZNUserMfaOutboundPolicy -UserId $user.Id -ReactivePolicyId $policy.Id).ItemId | Should -Not -BeNullOrEmpty
     }
 }

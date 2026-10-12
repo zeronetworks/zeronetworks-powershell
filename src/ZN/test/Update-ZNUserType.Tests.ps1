@@ -16,23 +16,33 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNUserType'))
 
 Describe 'Update-ZNUserType' {
     It 'Update' {
-        $user = (Get-ZNUser -Search user1).Items | where {$_.Name -eq "zUser1"}
-        if($user.UserType -ne 1){
-            $newType = 2
-        } else {
-            $newType = 1
+        # preferred test user first, then a user named 'test'; skip if the tenant has neither
+        $user = (Get-ZNUser -Search user1).Items | Select-Object -First 1
+        if (-not $user) { $user = (Get-ZNUser -Search test).Items | Where-Object {$_.Name -eq 'test'} | Select-Object -First 1 }
+        if (-not $user -or -not $user.Id) { Set-ItResult -Skipped -Because "no suitable test user (user1 / test) on this tenant"; return }
+        $origType = $user.UserType
+        $origType | Should -Not -BeNullOrEmpty
+        $newType = if ($origType -ne 1) { 1 } else { 2 }
+        try {
+            { Update-ZNUserType -Comment "fix" -UserType $newType -UserIds @($user.Id) } | Should -Not -Throw
+            (Get-ZNUser -Search $user.Name).Items | Where-Object {$_.Id -eq $user.Id} | ForEach-Object { $_.UserType | Should -Be $newType }
+        } finally {
+            Update-ZNUserType -Comment "fix" -UserType $origType -UserIds @($user.Id) -ErrorAction SilentlyContinue
         }
-        { Update-ZNUserType -Comment "fix" -UserType $newType -UserIds @($user.Id) } | Should -Not -Throw
-        Update-ZNUserType -Comment "fix" -UserType $user.UserType -UserIds @($user.Id)
     }
     It 'UpdateExpanded' {
-        $user = (Get-ZNUser -Search user1).Items | where {$_.Name -eq "zUser1"}
-        if($user.UserType -ne 1){
-            $newType = 2
-        } else {
-            $newType = 1
+        # preferred test user first, then a user named 'test'; skip if the tenant has neither
+        $user = (Get-ZNUser -Search user1).Items | Select-Object -First 1
+        if (-not $user) { $user = (Get-ZNUser -Search test).Items | Where-Object {$_.Name -eq 'test'} | Select-Object -First 1 }
+        if (-not $user -or -not $user.Id) { Set-ItResult -Skipped -Because "no suitable test user (user1 / test) on this tenant"; return }
+        $origType = $user.UserType
+        $origType | Should -Not -BeNullOrEmpty
+        $newType = if ($origType -ne 1) { 1 } else { 2 }
+        try {
+            { Update-ZNUserType -Comment "Fix" -UserType $newType -UserId $user.Id } | Should -Not -Throw
+            (Get-ZNUser -Search $user.Name).Items | Where-Object {$_.Id -eq $user.Id} | ForEach-Object { $_.UserType | Should -Be $newType }
+        } finally {
+            Update-ZNUserType -Comment "fix" -UserType $origType -UserId $user.Id -ErrorAction SilentlyContinue
         }
-        { Update-ZNUserType -Comment "Fix" -UserType $newType -UserId $user.Id } | Should -Not -Throw
-        Update-ZNUserType -Comment "fix" -UserType $user.UserType -UserId $user.Id
     }
 }

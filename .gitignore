@@ -1,6 +1,7 @@
 .devcontainer
 .DS_Store
 tools/constants.json
+tools/scripts/*
 openapi.yaml
 openapi-flattened.yaml
 openapi.old.yaml

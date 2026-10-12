@@ -16,12 +16,18 @@ if(($null -eq $TestName) -or ($TestName -contains 'Test-ZNAssetOtNetworkSegmentU
 
 Describe 'Test-ZNAssetOtNetworkSegmentUnprotect' {
     It 'Validate' {
-        $asset = search-ZNAsset -Fqdn "poshotv2.posh.local"
-        (Test-ZNAssetOtNetworkSegmentUnprotect -AssetId $asset.AssetId).AffectedAssetsCount | Should -Not -BeNullOrEmpty
+        $asset = Search-ZNAsset -Fqdn "poshotv2.posh.local" | Select-Object -First 1
+        $asset.AssetId | Should -Not -BeNullOrEmpty
+        # with AssetId in the path the API rejects an 'items' body, so validate with an empty body
+        $body = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.AssetsProtectBody]::new()
+        $result = Test-ZNAssetOtNetworkSegmentUnprotect -AssetId $asset.AssetId -Body $body
+        $result.Error1 | Should -BeNullOrEmpty -Because "$($result.Message)"
+        $result.AffectedAssetsCount | Should -Not -BeNullOrEmpty
     }
 
     It 'ValidateExpanded' {
-        $asset = search-ZNAsset -Fqdn "poshotv2.posh.local"
+        $asset = Search-ZNAsset -Fqdn "poshotv2.posh.local" | Select-Object -First 1
+        $asset.AssetId | Should -Not -BeNullOrEmpty
         (Test-ZNAssetOtNetworkSegmentUnprotect -Items @($asset.AssetId)).AffectedAssetsCount | Should -Not -BeNullOrEmpty
     }
 }

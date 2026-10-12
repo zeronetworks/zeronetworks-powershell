@@ -16,7 +16,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetOtLabel'))
 
 Describe 'Update-ZNAssetOtLabel' {
     It 'SetExpanded' {
-        $asset = (Search-ZNAsset -Fqdn otv1.posh.local).AssetId
+        $asset = ((Get-ZNAssetsOt -Limit 400).Items | where {$_.Fqdn -eq "poshotv2.posh.local"} | Select-Object -First 1).Id
+        $asset | Should -Not -BeNullOrEmpty
         { Update-ZNAssetOtLabel -AssetId $asset -Labels @(@{"key"="keytest"; "value"="test"})  } | Should -Not -Throw
     }
 }

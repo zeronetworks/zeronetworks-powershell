@@ -16,10 +16,23 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetOtInboundOtrule
 
 Describe 'Update-ZNAssetOtInboundOtrule' {
     It 'UpdateExpanded' {
-        $assetOT = Get-ZNAssetsOt -Limit 400 | where {$_.Name -like "otv2"}
-        $rule = (Get-ZNAssetOtInboundOtrule -AssetId $assetOT.Id -AddBuiltins).Items | select -First 1
-        $description = "Updated $(Get-Random -Minimum 1 -Maximum 1000)"
-        $updated = Update-ZNAssetOtInboundOtrule -AssetId $assetOT.Id -RuleId $rule.Id -Description $description
-        $updated.ItemDescription | Should -Be $description
+        $assetOT = (Get-ZNAssetsOt -Limit 400).Items | where {$_.Fqdn -eq "poshotv2.posh.local"} | Select-Object -First 1
+        $assetOT | Should -Not -BeNullOrEmpty
+        $destination = (Get-ZNInboundOtRulesDestinationCandidate -Search "poshotv2").items | Select-Object -First 1
+        $remote = Invoke-ZNEncodeEntityip -IP "10.$(Get-Random -Minimum 1 -Maximum 250).$(Get-Random -Minimum 1 -Maximum 250).$(Get-Random -Minimum 1 -Maximum 250)"
+        $destination | Should -Not -BeNullOrEmpty
+        $protocolsList = New-ZNProtocolsList -Protocol tcp -LocalPorts (Get-Random -Minimum 1025 -Maximum 65000)
+        $created = $null
+        try {
+            $created = New-ZNAssetOtInboundOtrule -AssetId $assetOT.Id -Action 1 -Direction 1 -LocalEntityId $destination.Id -RemoteEntitiesIdList @($remote.id) -ProtocolsList $protocolsList -State 1 -LocalProcessesList @("*") -ExcludedLocalIdsList @() -ShouldBuildMirrorRules
+            $created.ItemId | Should -Not -BeNullOrEmpty
+            $description = "Updated $(Get-Random -Minimum 1 -Maximum 100000)"
+            Update-ZNAssetOtInboundOtrule -AssetId $assetOT.Id -RuleId $created.ItemId -Description $description
+            $updated = Get-ZNAssetOtInboundOtrule -AssetId $assetOT.Id -RuleId $created.ItemId
+            $updated.ItemDescription | Should -Be $description
+        }
+        finally {
+            if ($created -and $created.ItemId) { Remove-ZNAssetOtInboundOtrule -AssetId $assetOT.Id -RuleId $created.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

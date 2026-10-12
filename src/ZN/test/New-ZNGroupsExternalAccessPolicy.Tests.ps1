@@ -16,11 +16,21 @@ if(($null -eq $TestName) -or ($TestName -contains 'New-ZNGroupsExternalAccessPol
 
 Describe 'New-ZNGroupsExternalAccessPolicy' {
     It 'CreateExpanded' {
-        $groupId = (Get-ZNGroup -Search "Externally Facing Servers").Items | Select -First 1
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $group = (Get-ZNGroup -Search "Externally Facing Servers").Items | Select -First 1
+        $group | Should -Not -BeNullOrEmpty
+        $groupId = [string]$group.Id
+        $groupId | Should -Not -BeNullOrEmpty
         $srcUser = (Get-ZNExternalAccessPolicySourceUserCandidate -Search "Any user").Items | Select -First 1
-        $portsList = New-ZNPortsList -Protocol TCP -Ports 12
-        $Policy = New-ZNGroupsExternalAccessPolicy -GroupId $groupId -GroupType tag -DstAssetId $groupId -DstPortsList $portsList -DstProcessNamesList @("*") -Name "ExternalNewGroupTest" -RuleDuration 4 -SrcUserIdsList @($srcUser.Id) -State 1 -Url "https://external.posh.local"
-        $Policy.ItemId | Should -Not -BeNullOrEmpty
-        Remove-ZNGroupsExternalAccessPolicy -GroupId $groupId -GroupType tag -PolicyId $Policy.ItemId
+        $srcUser | Should -Not -BeNullOrEmpty
+        $portsList = New-ZNPortsList -Protocol TCP -Ports (Get-Random -Minimum 1025 -Maximum 60000)
+        $Policy = $null
+        try {
+            $Policy = New-ZNGroupsExternalAccessPolicy -GroupId $groupId -GroupType tag -DstAssetId $groupId -DstPortsList $portsList -DstProcessNamesList @("*") -Name "ExternalNewGroupTest-$sfx" -RuleDuration 4 -SrcUserIdsList @($srcUser.Id) -State 1 -Url "https://external-$sfx.posh.local"
+            $Policy.ItemId | Should -Not -BeNullOrEmpty
+        }
+        finally {
+            if ($Policy -and $Policy.ItemId) { Remove-ZNGroupsExternalAccessPolicy -GroupId $groupId -GroupType tag -PolicyId $Policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

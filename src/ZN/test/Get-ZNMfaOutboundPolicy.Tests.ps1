@@ -16,34 +16,50 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNMfaOutboundPolicy'))
 
 Describe 'Get-ZNMfaOutboundPolicy' {
     It 'List' {
-        $destination = (Get-ZNMfaOutboundPoliciesDestinationCandidate -Search "Segmented OT/IoT devices").Items
-        $source = (Get-ZNMfaOutboundPoliciesSourceCandidate -search "All segmented Assets").Items
+        $destination = (Get-ZNMfaOutboundPoliciesDestinationCandidate -Search "Segmented OT/IoT devices").Items | Select-Object -First 1
+        $destination | Should -Not -BeNullOrEmpty
+        $source = (Get-ZNMfaOutboundPoliciesSourceCandidate -search "All segmented Assets").Items | Select-Object -First 1
+        $source | Should -Not -BeNullOrEmpty
         $sourceEntity = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.ReactivePolicyOutboundBodySrcEntityInfosItem]::new()
         $sourceEntity.Id = $source.Id
-        $sourceUser = (Get-ZNMfaInboundPoliciesSourceUserCandidate -search "Any User").Items
+        $sourceUser = (Get-ZNMfaInboundPoliciesSourceUserCandidate -search "Any User").Items | Select-Object -First 1
+        $sourceUser | Should -Not -BeNullOrEmpty
         $sourceUserEntity = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.ReactivePolicyOutboundBodySrcUserInfosItem]::new()
         $sourceUserEntity.Id = $sourceUser.Id
-        [string]$dstPort = Get-Random -Minimum 1 -Maximum 65000
+        [string]$dstPorts = Get-Random -Minimum 20000 -Maximum 65000
         $portsList = New-ZNPortsList -Empty
-        $policy = New-ZNMfaOutboundPolicy -AdditionalPortsList $portsList -DstEntityInfoId $destination.Id -DstPort $dstPort -FallbackToLoggedOnUser -MfaMethods @(4) -ProtocolType 6 -RuleDuration 6 -SrcEntityInfos @($sourceEntity) -SrcProcessNames @("*") -SrcUserInfos @($sourceUserEntity) -State 1 -OverrideBuiltins:$false -RestrictLoginToOriginatingUser:$false
-        { (Get-ZNMfaOutboundPolicy).Items } | Should -Not -BeNullOrEmpty
-        Remove-ZNMfaOutboundPolicy -ReactivePolicyId $policy.ItemId
-        
+        $policy = $null
+        try {
+            $policy = New-ZNMfaOutboundPolicy -AdditionalPortsList $portsList -DstEntityInfoId $destination.Id -DstPort $dstPorts -FallbackToLoggedOnUser -MfaMethods @(4) -ProtocolType 6 -RuleDuration 6 -SrcEntityInfos @($sourceEntity) -SrcProcessNames @("*") -SrcUserInfos @($sourceUserEntity) -State 1 -OverrideBuiltins:$false -RestrictLoginToOriginatingUser:$false
+            $policy.ItemId | Should -Not -BeNullOrEmpty
+            (Get-ZNMfaOutboundPolicy).Items | Should -Not -BeNullOrEmpty
+        }
+        finally {
+            if ($policy -and $policy.ItemId) { Remove-ZNMfaOutboundPolicy -ReactivePolicyId $policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 
     It 'Get' {
-        $destination = (Get-ZNMfaOutboundPoliciesDestinationCandidate -Search "Segmented OT/IoT devices").Items
-        $source = (Get-ZNMfaOutboundPoliciesSourceCandidate -search "All segmented Assets").Items
+        $destination = (Get-ZNMfaOutboundPoliciesDestinationCandidate -Search "Segmented OT/IoT devices").Items | Select-Object -First 1
+        $destination | Should -Not -BeNullOrEmpty
+        $source = (Get-ZNMfaOutboundPoliciesSourceCandidate -search "All segmented Assets").Items | Select-Object -First 1
+        $source | Should -Not -BeNullOrEmpty
         $sourceEntity = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.ReactivePolicyOutboundBodySrcEntityInfosItem]::new()
         $sourceEntity.Id = $source.Id
-        $sourceUser = (Get-ZNMfaInboundPoliciesSourceUserCandidate -search "Any User").Items
+        $sourceUser = (Get-ZNMfaInboundPoliciesSourceUserCandidate -search "Any User").Items | Select-Object -First 1
+        $sourceUser | Should -Not -BeNullOrEmpty
         $sourceUserEntity = [ZeroNetworks.PowerShell.Cmdlets.Api.Models.ReactivePolicyOutboundBodySrcUserInfosItem]::new()
         $sourceUserEntity.Id = $sourceUser.Id
-        [string]$dstPort = Get-Random -Minimum 1 -Maximum 65000
+        [string]$dstPorts = Get-Random -Minimum 20000 -Maximum 65000
         $portsList = New-ZNPortsList -Empty
-        $policy = New-ZNMfaOutboundPolicy -AdditionalPortsList $portsList -DstEntityInfoId $destination.Id -DstPort $dstPort -FallbackToLoggedOnUser -MfaMethods @(4) -ProtocolType 6 -RuleDuration 6 -SrcEntityInfos @($sourceEntity) -SrcProcessNames @("*") -SrcUserInfos @($sourceUserEntity) -State 1 -OverrideBuiltins:$false -RestrictLoginToOriginatingUser:$false
-        $policy = Get-ZNMfaOutboundPolicy | Select-Object -First 1
-        { (Get-ZNMfaOutboundPolicy -ReactivePolicyId $policy.Id).ItemId } | Should -Not -BeNullOrEmpty
-        Remove-ZNMfaOutboundPolicy -ReactivePolicyId $policy.Id
+        $policy = $null
+        try {
+            $policy = New-ZNMfaOutboundPolicy -AdditionalPortsList $portsList -DstEntityInfoId $destination.Id -DstPort $dstPorts -FallbackToLoggedOnUser -MfaMethods @(4) -ProtocolType 6 -RuleDuration 6 -SrcEntityInfos @($sourceEntity) -SrcProcessNames @("*") -SrcUserInfos @($sourceUserEntity) -State 1 -OverrideBuiltins:$false -RestrictLoginToOriginatingUser:$false
+            $policy.ItemId | Should -Not -BeNullOrEmpty
+            (Get-ZNMfaOutboundPolicy -ReactivePolicyId $policy.ItemId).ItemId | Should -Be $policy.ItemId
+        }
+        finally {
+            if ($policy -and $policy.ItemId) { Remove-ZNMfaOutboundPolicy -ReactivePolicyId $policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

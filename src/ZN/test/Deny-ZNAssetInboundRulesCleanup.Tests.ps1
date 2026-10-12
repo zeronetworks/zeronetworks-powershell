@@ -16,8 +16,11 @@ if(($null -eq $TestName) -or ($TestName -contains 'Deny-ZNAssetInboundRulesClean
 
 Describe 'Deny-ZNAssetInboundRulesCleanup' {
     It 'Deny' {
-        $asset = Search-ZNAsset -Fqdn linux0.posh.local
+        $asset = Search-ZNAsset -Fqdn linux0.posh.local | Select-Object -First 1
+        $asset | Should -Not -BeNullOrEmpty
         $rule = (Get-ZNAssetInboundRule -AssetId $asset.AssetId -AddAncestors -AddBuiltins).Items | where {$_.SuggestionType -eq 2} | Select-Object -First 1
-        { Deny-ZNAssetInboundRulesCleanup -AssetId $asset.assetId -RuleId $rule.id -Details "powershelltesting" -Reason 7} | Should -Not -Throw
+        $rule | Should -Not -BeNullOrEmpty
+        $rule.Id | Should -Not -BeNullOrEmpty
+        { Deny-ZNAssetInboundRulesCleanup -AssetId $asset.AssetId -RuleId $rule.Id -Details "powershelltesting" -Reason 7 } | Should -Not -Throw
     }
 }

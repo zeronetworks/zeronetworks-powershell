@@ -16,13 +16,30 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetOtAssetManager'
 
 Describe 'Update-ZNAssetOtAssetManager' {
     It 'UpdateExpanded' {
-        $asset = Get-ZNAssetsOt -Limit 400 | where {$_.Name -eq 'switch01'}
-        $user = (get-znuser).Items | select -First 1
-        Add-ZNAssetOtAssetManager -AssetId $asset.id -ManagerIds @($user.Id) -Permission 3
-
-        Update-ZNAssetOtAssetManager -AssetId $asset.id -ManagerId $user.id -Permission 2
-        $assetManager = Get-ZNAssetOtAssetManager -AssetId $asset.id
-        $assetManager.Permission | Should -Be 2
-        Remove-ZNAssetOtAssetManager -AssetId $asset.id -GroupOrUserId $user.Id
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $name = "otpester$sfx"
+        $ip = "198.18.$(Get-Random -Minimum 1 -Maximum 254).$(Get-Random -Minimum 1 -Maximum 254)"
+        $created = $null
+        $otId = $null
+        $added = $false
+        $user = (Get-ZNUser).Items | Select-Object -First 1
+        $user | Should -Not -BeNullOrEmpty
+        try {
+            $created = New-ZNAssetsOt -DisplayName $name -Fqdn "$name.posh.local" -Ipv4 $ip -Type 4
+            $created.AssetId | Should -Not -BeNullOrEmpty
+            $otId = $created.AssetId
+            Add-ZNAssetOtAssetManager -AssetId $otId -ManagerIds @($user.Id) -Permission 3
+            $added = $true
+            Update-ZNAssetOtAssetManager -AssetId $otId -ManagerId $user.Id -Permission 2
+            $assetManager = Get-ZNAssetOtAssetManager -AssetId $otId | where {$_.Id -eq $user.Id -or $_.ManagerId -eq $user.Id} | Select-Object -First 1
+            if (-not $assetManager) { $assetManager = Get-ZNAssetOtAssetManager -AssetId $otId | Select-Object -First 1 }
+            $assetManager.Permission | Should -Be 2
+        }
+        finally {
+            if ($otId) {
+                if ($added) { Remove-ZNAssetOtAssetManager -AssetId $otId -GroupOrUserId $user.Id -ErrorAction SilentlyContinue }
+                Update-ZNAssetOtInactive -AssetId $otId -ErrorAction SilentlyContinue
+            }
+        }
     }
 }

@@ -14,18 +14,18 @@ Create a Connect Posture Profile
 
 ```
 New-ZNConnectPostureProfile -Action <String> -CheckIntervalSeconds <Int32> -Name <String>
- [-AccountName <String>] [-Description <String>] [-DomainJoinedDomainList <String[]>]
- [-DomainJoinedDomainsList <String[]>]
+ [-AccountName <String>] [-Description <String>]
  [-MacCheckCertificateExistsList <IMacPostureChecksCertificateExistsListItem[]>]
  [-MacCheckFileExistsList <IMacPostureChecksFileExistsListItem[]>]
  [-MacCheckProcessRunningList <IMacPostureChecksProcessRunningListItem[]>] [-MacChecksAntivirusIsEnabled]
- [-MacChecksDiskEncryptedIsEncrypted]
+ [-MacChecksDiskEncryptedIsEncrypted] [-MacChecksDomainJoinedDomainsList <String[]>]
  [-MacChecksOsVersionBuildOSVersionsList <IMacPostureChecksOSVersionBuildOsversionsListItem[]>]
  [-WindowCheckCertificateExistsList <IWindowsPostureChecksCertificateExistsListItem[]>]
  [-WindowCheckFileExistsList <IWindowsPostureChecksFileExistsListItem[]>]
  [-WindowCheckProcessRunningList <IWindowsPostureChecksProcessRunningListItem[]>]
  [-WindowCheckRegistryKeyValueDataExistsList <IWindowsPostureChecksRegistryKeyValueDataExistsListItem[]>]
  [-WindowsChecksAntivirusIsEnabled] [-WindowsChecksDiskEncryptedIsEncrypted]
+ [-WindowsChecksDomainJoinedDomainsList <String[]>]
  [-WindowsChecksOsVersionBuildOSVersionsList <IWindowsPostureChecksOSVersionBuildOsversionsListItem[]>]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
@@ -108,36 +108,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DomainJoinedDomainList
-.
-
-```yaml
-Type: System.String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DomainJoinedDomainsList
-.
-
-```yaml
-Type: System.String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -MacCheckCertificateExistsList
 .
 
@@ -203,6 +173,21 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MacChecksDomainJoinedDomainsList
+.
+
+```yaml
+Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -323,6 +308,21 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WindowsChecksDomainJoinedDomainsList
+.
+
+```yaml
+Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 

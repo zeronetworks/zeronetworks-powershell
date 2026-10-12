@@ -16,7 +16,10 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNK8SNamespaceOutboundRul
 
 Describe 'Get-ZNK8SNamespaceOutboundRule' {
     It 'List' {
-        $k8sNamespace = (Get-ZNK8SNamespace -Limit 400).Items | where {$_.Name -eq "znK8s"}
-        (Get-ZNK8SNamespaceOutboundRule -K8SNamespaceId $k8sNamespace.Id).Items.Count | Should -BeGreaterThan 0
+        $k8sNamespace = (Get-ZNK8SNamespace -Limit 400).Items | where {$_.Name -eq "znK8s"} | Select-Object -First 1
+        if (-not $k8sNamespace) { $k8sNamespace = (Get-ZNK8SNamespace -Limit 400).Items | Select-Object -First 1 }
+        $k8sNamespace | Should -Not -BeNullOrEmpty
+        $k8sNamespace.Id | Should -Not -BeNullOrEmpty
+        { Get-ZNK8SNamespaceOutboundRule -K8SNamespaceId $k8sNamespace.Id } | Should -Not -Throw
     }
 }

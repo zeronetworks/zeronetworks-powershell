@@ -29,7 +29,7 @@ require:
 input-file:
   - $(this-folder)/../openapi-flattened.yaml
 
-module-version: 0.26.82-preview
+module-version: 0.26.9-preview
 title: Api
   
 inlining-threshold: 200
@@ -57,7 +57,7 @@ directive:
     hide: true
   # Better in UX
   - where:
-      subject: SettingsAdOuConfig|^AccessMatrix$
+      subject: SettingsAdOu(.*)|^AccessMatrix$
     hide: true
   # Remove Update Recovery
   - where:
@@ -206,6 +206,18 @@ directive:
       subject: QueueAssetsExtendRpc
     set:
       subject: AssetRpcExtendQueue
+  - where:
+      subject: ^QueueAssetNetworkOutbound$|^QueueAssetsNetworkOutbound$
+    set:
+      subject: AssetNetworkOutboundQueue
+  - where:
+      subject: ^QueueAssetNetworkOutboundExtend$|^QueueAssetsNetworkOutboundExtend$
+    set:
+      subject: AssetNetworkOutboundExtendQueue
+  - where:
+      subject: ^AssetsOutboundUnrestrict$
+    set:
+      subject: AssetOutboundUnrestrict 
   # rename asset/ot/user queue/protect/unprotect commands
   - where:
       subject: AssetsOtNetworkSegment
@@ -626,7 +638,7 @@ directive:
     remove: true
   # Remove commands not useful
   - where:
-      subject: ^SimulateSegmentation$|^activitiesAnalysisWidget$|^SwitchBindingDirection$|^MaintenanceWindowExternal$|^SeLinuxPolicyInstallTimeout$|^SettingsAssetManagersAssetCandidate$|^SettingsAssetManagersManagerCandidate$|^SwitchInterfacesLegacy$|^SwitchVlansLegacy$|^QueueSwitchOtExtendNetwork$|^QueueSwitchOtNetwork$|^NlpQuery$|^SwitchOt$|^SwitchOtNetworkSegment$|^SegmentServerDeploymentPreferred$|^SwitchOtNetworkSegmentUnprotect$|^AssetOtOverrideLocation$|^AssetOtRevive$|^SwitchOtActive$|^SwitchOtInactive$|^SwitchOtOverrideLocation$|^Label$|^NetworkAlertsAssetCandidate$|^NetworkAlertsIPCandidate$|^K8sClusterLabelService$|^AssetsOutboundRestrict$|^AssetOutboundRestrict$|^AssetsOutboundUnrestrict$|^AssetOutboundUnrestrict$|^AssetOutboundRestriction$
+      subject: ^SimulateSegmentation$|^activitiesAnalysisWidget$|^SwitchBindingDirection$|^MaintenanceWindowExternal$|^SeLinuxPolicyInstallTimeout$|^SettingsAssetManagersAssetCandidate$|^SettingsAssetManagersManagerCandidate$|^SwitchInterfacesLegacy$|^SwitchVlansLegacy$|^QueueSwitchOtExtendNetwork$|^QueueSwitchOtNetwork$|^NlpQuery$|^SwitchOt$|^SwitchOtNetworkSegment$|^SegmentServerDeploymentPreferred$|^SwitchOtNetworkSegmentUnprotect$|^AssetOtOverrideLocation$|^AssetOtRevive$|^SwitchOtActive$|^SwitchOtInactive$|^SwitchOtOverrideLocation$|^Label$|^NetworkAlertsAssetCandidate$|^NetworkAlertsIPCandidate$|^K8sClusterLabelService$|^AssetsOutboundRestrict$|^AssetOutboundRestrict$|^AssetOutboundRestriction$
     remove: true
   - where:
       subject: SettingsLicense$
@@ -645,7 +657,7 @@ directive:
     hide: true
   # cloud
   - where:
-      subject: ^CloudAzureResource$|^CloudAzureResourceGroup$|^CloudAzureSubscription$|^SettingsCloudDeployments(.*)$|^SettingsCloudDeploymentsAzureSync$|^CloudAzureSubscriptionSyncConfig$|SettingsAzureConnector(.*)$|CloudAzureEntity(.*)$
+      subject: ^CloudAzure(.*)|^SettingsCloudDeployments(.*)|^SettingsAzureConnector(.*)
     remove: true
   # Firewall
   - where:
@@ -671,7 +683,7 @@ directive:
     remove: true
   # Remove Download cmdlets
   - where:
-      subject: ^SettingsSiemDataStructure$|^SettingsWebhooksExportDataStructure$
+      subject: ^SettingsSiemDataStructure$|^SettingsWebhooksExportDataStructure$|^SettingsReceiverDataStructure$
     remove: true
   - where:
       subject: Download(.*)
@@ -679,9 +691,6 @@ directive:
   - where:
       subject: ^SettingsPilotGroupPilotRollout$|^SettingsPilotGroupActivePilotRollout$|^SettingsWindowsPerfSensitiveProcess$
     remove: true
-  - where:
-      subject: ^ConnectPoliciesExcludedDestinationsCandidate$|(.*)OutboundQueue$|(.*)OutboundExtendQueue$
-    hide: true
   # format Responses
   - where:
       model-name: Asset

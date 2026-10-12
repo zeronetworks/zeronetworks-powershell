@@ -16,11 +16,24 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNSwitchOutboundOtRule
 
 Describe 'Remove-ZNSwitchOutboundOtRule' {
     It 'Delete' {
-        $switch = (Get-ZNSwitch).Items | Select -First 1
-        $protocolsList = New-ZNProtocolsList -Protocol tcp -LocalPorts 45
-        $destination = Invoke-ZNEncodeEntityIp -Ip 1.1.1.100
-        $source = (Get-ZNInboundOtRulesSourceCandidate -Search "otv2").items
-        $rule = New-ZNSwitchOutboundOtRule -SwitchId $switch.id -Action 1 -Direction 2 -localEntityId $source.Id -RemoteEntitiesIdList @($destination.id) -protocolsList $protocolsList -state 1 -LocalProcessesList @("*") -ExcludedLocalIdsList @() -ShouldBuildMirrorRules
-        { Remove-ZNOutboundOtRule -RuleId $rule.ItemId } | Should -Not -Throw
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $policy = $null
+        $removed = $false
+        try {
+            $switch = (Get-ZNSwitch).Items | Select-Object -First 1
+            $switch | Should -Not -BeNullOrEmpty
+            $protocolsList = New-ZNProtocolsList -Protocol tcp -LocalPorts (Get-Random -Minimum 1000 -Maximum 60000)
+            $destination = Invoke-ZNEncodeEntityIp -Ip "10.$(Get-Random -Minimum 1 -Maximum 254).$(Get-Random -Minimum 1 -Maximum 254).$(Get-Random -Minimum 1 -Maximum 254)"
+            $destination | Should -Not -BeNullOrEmpty
+            $source = (Get-ZNInboundOtRulesSourceCandidate -Search "otv2").items | Select-Object -First 1
+            $source | Should -Not -BeNullOrEmpty
+            $policy = New-ZNSwitchOutboundOtRule -SwitchId $switch.id -Action 1 -Direction 2 -localEntityId $source.Id -RemoteEntitiesIdList @($destination.id) -protocolsList $protocolsList -state 1 -LocalProcessesList @("*") -ExcludedLocalIdsList @() -ShouldBuildMirrorRules
+            $policy.ItemId | Should -Not -BeNullOrEmpty
+            { Remove-ZNSwitchOutboundOtRule -SwitchId $switch.id -RuleId $policy.ItemId } | Should -Not -Throw
+            $removed = $true
+        }
+        finally {
+            if (-not $removed -and $policy -and $policy.ItemId) { Remove-ZNSwitchOutboundOtRule -SwitchId $switch.id -RuleId $policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

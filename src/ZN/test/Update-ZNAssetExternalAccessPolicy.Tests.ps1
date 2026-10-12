@@ -16,15 +16,22 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNAssetExternalAccessP
 
 Describe 'Update-ZNAssetExternalAccessPolicy' {
     It 'UpdateExpanded' {
-        $assetId = (Search-ZNAsset -Fqdn ml01.posh.local).AssetId
-        $srcUser = Get-ZNExternalAccessPolicySourceUserCandidate -Search "Any user"
-        $portsList = New-ZNPortsList -Protocol TCP -Ports 12
-        $dstAsset = (Search-ZNAsset -Fqdn ml01.posh.local).AssetId
-        $Policy = New-ZNAssetExternalAccessPolicy -AssetId $assetId -DstAssetId $dstAsset -DstPortsList $portsList -DstProcessNamesList @("*") -Name "ExternalUpdateAssetTest" -RuleDuration 4 -SrcUserIdsList @($srcUser.Id) -State 1 -Url "https://external.posh.local"
-        
-        $updatedPolicy = Update-ZNAssetExternalAccessPolicy -AssetId $assetId -PolicyId $Policy.ItemId -Name "ExternalTestUpdateAsset" -Url "https://external.posh.local/updated"
-        
-        $updatedPolicy.ItemUrl | Should -Be "https://external.posh.local/updated"
-        Remove-ZNAssetExternalAccessPolicy -AssetId $assetId -PolicyId $Policy.ItemId
+        $Policy = $null
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $assetId = (Search-ZNAsset -Fqdn ml01.posh.local | Select-Object -First 1).AssetId
+        $assetId | Should -Not -BeNullOrEmpty
+        $srcUser = (Get-ZNExternalAccessPolicySourceUserCandidate -Search "Any user").Items | Select-Object -First 1
+        $srcUser | Should -Not -BeNullOrEmpty
+        $portsList = New-ZNPortsList -Protocol TCP -Ports (Get-Random -Minimum 1025 -Maximum 65000)
+        try {
+            $Policy = New-ZNAssetExternalAccessPolicy -AssetId $assetId -DstAssetId $assetId -DstPortsList $portsList -DstProcessNamesList @("*") -Name "ExternalUpdateAssetTest-$sfx" -RuleDuration 4 -SrcUserIdsList @($srcUser.Id) -State 1 -Url "https://external-$sfx.posh.local"
+            $Policy.ItemId | Should -Not -BeNullOrEmpty
+
+            $updatedPolicy = Update-ZNAssetExternalAccessPolicy -AssetId $assetId -PolicyId $Policy.ItemId -Name "ExternalTestUpdateAsset-$sfx" -Url "https://external-$sfx.posh.local/updated"
+            $updatedPolicy.ItemUrl | Should -Be "https://external-$sfx.posh.local/updated"
+        }
+        finally {
+            if ($Policy -and $Policy.ItemId) { Remove-ZNAssetExternalAccessPolicy -AssetId $assetId -PolicyId $Policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

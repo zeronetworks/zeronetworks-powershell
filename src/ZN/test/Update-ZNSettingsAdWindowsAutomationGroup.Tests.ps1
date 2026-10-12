@@ -18,3 +18,5 @@ Describe 'Update-ZNSettingsAdWindowsAutomationGroup' {
     It 'UpdateExpanded' -skip {
         #No easy way to test
     }
+
+}

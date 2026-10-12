@@ -16,11 +16,20 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNK8SClusterDesiredPol
 
 Describe 'Update-ZNK8SClusterDesiredPolicy' {
     It 'UpdateExpanded' {
-        $k8scluster = (Get-ZNK8SCluster).Items | where {$_.Name -eq "rke"} |Select-Object -First 1
-        $rule = New-ZNK8SDesiredRuleBody -Action Allow -Direction Inbound -NamespaceName "powershell" -NetworkPolicyName "wewpolicy"
-        $newpolicy = New-ZNK8SClusterDesiredPolicy -K8SClusterId $k8scluster.Id -IsEgressPolicy -IsIngressPolicy -Name "wewpolicy" -NamespaceName "powershell" -DesiredRules @($rule)
-        $updatedPolicy = Update-znK8SClusterDesiredPolicy -K8SClusterId $k8scluster.id -PolicyId $newpolicy.ItemId -ChangeTicket "Test"
-        $updatedPolicy.ChangeTicket | Should -Be "Test"
-        Remove-ZNK8SClusterDesiredPolicy -K8SClusterId $k8scluster.Id -PolicyId $newpolicy.ItemId
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $newpolicy = $null
+        $k8scluster = $null
+        try {
+            $k8scluster = (Get-ZNK8SCluster).Items | Where-Object {$_.Name -eq "rke"} | Select-Object -First 1
+            $k8scluster | Should -Not -BeNullOrEmpty
+            $rule = New-ZNK8SDesiredRuleBody -Action Allow -Direction Inbound -NamespaceName "powershell" -NetworkPolicyName "wewpolicy-$sfx"
+            $newpolicy = New-ZNK8SClusterDesiredPolicy -K8SClusterId $k8scluster.Id -IsEgressPolicy -IsIngressPolicy -Name "wewpolicy-$sfx" -NamespaceName "powershell" -DesiredRules @($rule)
+            $newpolicy.ItemId | Should -Not -BeNullOrEmpty
+            $updatedPolicy = Update-ZNK8SClusterDesiredPolicy -K8SClusterId $k8scluster.Id -PolicyId $newpolicy.ItemId -ChangeTicket "Test"
+            $updatedPolicy.ItemChangeTicket | Should -Be "Test"
+        }
+        finally {
+            if ($newpolicy -and $newpolicy.ItemId -and $k8scluster) { Remove-ZNK8SClusterDesiredPolicy -K8SClusterId $k8scluster.Id -PolicyIds @($newpolicy.ItemId) -ErrorAction SilentlyContinue }
+        }
     }
 }

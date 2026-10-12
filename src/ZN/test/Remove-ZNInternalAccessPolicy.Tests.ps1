@@ -16,10 +16,22 @@ if(($null -eq $TestName) -or ($TestName -contains 'Remove-ZNInternalAccessPolicy
 
 Describe 'Remove-ZNInternalAccessPolicy' {
     It 'Delete' {
-        $dest = (Get-ZNInternalAccessPolicyDestinationAssetsCandidate).Items | select -First 1
-        $portsList = New-ZNPortsList -Protocol TCP -Ports 22
-        $sourceuser = (Get-ZNInternalAccessPolicySourceUserCandidate -Search "any user").Items
-        $intPolicy = New-ZNInternalAccessPolicy -DstAssetId $dest.id -DstPortsList @($portsList) -DstProcessNamesList @(*) -Name ManLinux -RuleDuration 6 -SrcUserIdsList @($sourceUser.id) -State 1
-        { Remove-ZNInternalAccessPolicy -PolicyId $intPolicy.ItemId} | Should -Not -Throw
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $policy = $null
+        $removed = $false
+        try {
+            $dest = (Get-ZNInternalAccessPolicyDestinationAssetsCandidate).Items | Select-Object -First 1
+            $dest | Should -Not -BeNullOrEmpty
+            $portsList = New-ZNPortsList -Protocol TCP -Ports ([string](Get-Random -Minimum 1000 -Maximum 60000))
+            $sourceUser = (Get-ZNInternalAccessPolicySourceUserCandidate -Search "any user").Items | Select-Object -First 1
+            $sourceUser | Should -Not -BeNullOrEmpty
+            $policy = New-ZNInternalAccessPolicy -DstAssetId $dest.id -DstPortsList @($portsList) -DstProcessNamesList @("*") -Name "ManLinuxRemove-$sfx" -RuleDuration 6 -SrcUserIdsList @($sourceUser.id) -State 1
+            $policy.ItemId | Should -Not -BeNullOrEmpty
+            { Remove-ZNInternalAccessPolicy -PolicyId $policy.ItemId } | Should -Not -Throw
+            $removed = $true
+        }
+        finally {
+            if (-not $removed -and $policy -and $policy.ItemId) { Remove-ZNInternalAccessPolicy -PolicyId $policy.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

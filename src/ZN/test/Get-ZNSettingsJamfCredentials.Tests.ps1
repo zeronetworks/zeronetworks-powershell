@@ -14,7 +14,8 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsJamfCredentials
   . ($mockingPath | Select-Object -First 1).FullName
 }
 
-Describe 'Get-ZNSettingsJamfCredentials' -skip {
+Describe 'Get-ZNSettingsJamfCredentials' {
+    It 'Get' -Skip {
         #No easy way to test
     }
 }

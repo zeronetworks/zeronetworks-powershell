@@ -16,9 +16,21 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNInternalAccessPolicy
 
 Describe 'Update-ZNInternalAccessPolicy' {
     It 'UpdateExpanded' {
-        $random = Get-Random -Minimum 1 -Maximum 100
-        $iap = (Get-ZNInternalAccessPolicy).Items | select -First 1
-        $updateIap = Update-ZNInternalAccessPolicy -PolicyId $iap.Id -Description "updated$random"
-        $updateIap.Description | Should -Be "updated$random"
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | % {[char]$_})
+        $dest = (Get-ZNInternalAccessPolicyDestinationAssetsCandidate).Items | Select-Object -First 1
+        $dest | Should -Not -BeNullOrEmpty
+        $sourceUser = (Get-ZNInternalAccessPolicySourceUserCandidate -Search "any user").Items | Select-Object -First 1
+        $sourceUser | Should -Not -BeNullOrEmpty
+        $portsList = New-ZNPortsList -Protocol TCP -Ports (Get-Random -Minimum 20000 -Maximum 60000)
+        $iap = $null
+        try {
+            $iap = New-ZNInternalAccessPolicy -DstAssetId $dest.Id -DstPortsList @($portsList) -DstProcessNamesList @("*") -Name "UpdateIap-$sfx" -RuleDuration 6 -SrcUserIdsList @($sourceUser.Id) -State 1
+            $iap.ItemId | Should -Not -BeNullOrEmpty
+            Update-ZNInternalAccessPolicy -PolicyId $iap.ItemId -Description "updated-$sfx"
+            (Get-ZNInternalAccessPolicy -PolicyId $iap.ItemId).ItemDescription | Should -Be "updated-$sfx"
+        }
+        finally {
+            if ($iap -and $iap.ItemId) { Remove-ZNInternalAccessPolicy -PolicyId $iap.ItemId -ErrorAction SilentlyContinue }
+        }
     }
 }

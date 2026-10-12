@@ -16,15 +16,19 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSwitchInterface'))
 
 Describe 'Update-ZNSwitchInterface' {
     It 'UpdateExpanded' {
-        $switch = (Get-ZNSwitch).Items | where {$_.Name -eq 'eve'}
-        $interface = (Get-ZNSwitchInterface -SwitchId $switch.Id).Items | select -Last 1
-        if($interface.IsMonitored -eq $false){
-            $updated = $true
-        } else {
-            $updated = $false
+        $switch = (Get-ZNSwitch).Items | Select-Object -First 1
+        $switch | Should -Not -BeNullOrEmpty
+        $interface = (Get-ZNSwitchInterface -SwitchId $switch.Id).Items | Select-Object -Last 1
+        $interface | Should -Not -BeNullOrEmpty
+        $interfaceName = $interface.Name
+        $originalMonitored = [bool]$interface.IsMonitored
+        $updated = -not $originalMonitored
+        try {
+            Update-ZNSwitchInterface -SwitchId $switch.Id -Interfaces @($interfaceName) -ShouldMonitor:$updated
+            $after = (Get-ZNSwitchInterface -SwitchId $switch.Id).Items | Where-Object { $_.Name -eq $interfaceName } | Select-Object -First 1
+            $after.IsMonitored | Should -Be $updated
+        } finally {
+            Update-ZNSwitchInterface -SwitchId $switch.Id -Interfaces @($interfaceName) -ShouldMonitor:$originalMonitored -ErrorAction SilentlyContinue
         }
-        Update-ZNSwitchInterface -SwitchId $switch.Id -Interfaces @($interface.Name) -ShouldMonitor:$updated
-        $interface = (Get-ZNSwitchInterface -SwitchId $switch.Id).Items | select -Last 1
-        $interface.IsMonitored | Should -Be $updated
     }
 }

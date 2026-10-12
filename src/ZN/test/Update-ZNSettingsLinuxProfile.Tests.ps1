@@ -16,8 +16,15 @@ if(($null -eq $TestName) -or ($TestName -contains 'Update-ZNSettingsLinuxProfile
 
 Describe 'Update-ZNSettingsLinuxProfile' {
     It 'UpdateExpanded' {
-        $linuxProfile = New-ZNSettingsLinuxProfile -Name UpdateLinuxProfile -SshCredentialsUsername zn-admin -SshCredentialsPassword "myPassword" -SshCredentialsPrivateKey "-----BEGIN OPENSSH PRIVATE KEY-----b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAaAAAABNlY2RzYS1zaGEyLW5pc3RwMjU2AAAACG5pc3RwMjU2AAAAQQQbIasl5Gh2GNPIIowEPyJAzZIjgbBZ2uDggWyZI5qnIeWLFa3OjG9bG2CmmGWcVMwkG96Xr9das+bG8/SK5mJQAAAAuAFsZmYBbGZmAAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBshqyXkaHYY08gijAQ/IkDNkiOBsFna4OCBbJkjmqch5YsVrc6Mb1sbYKaYZZxUzCQb3pev11qz5sbz9IrmYlAAAAAhAMYeVSy3xRUDxfhRxbXeuc4SxDKt5teAnnwaNwuCTmP8AAAAGW5pY2hvbGFzQFNlY0plZGlBaXIubG9jYWwBAgMEBQY=-----END OPENSSH PRIVATE KEY-----" -AllowInstallPackages
-        {Update-ZNSettingsLinuxProfile -ProfileId $linuxProfile.ProfileId -AllowInstallPackages:$false } | Should -Not -Throw
-        Remove-ZNSettingsLinuxProfile -ProfileId $linuxProfile.ProfileId
+        $sfx = -join ((48..57)+(97..122) | Get-Random -Count 6 | ForEach-Object {[char]$_})
+        $linuxProfile = $null
+        try {
+            $linuxProfile = New-ZNSettingsLinuxProfile -Name "UpdateLinuxProfile-$sfx" -SshCredentialsUsername zn-admin -SshCredentialsPassword "myPassword" -SshCredentialsPrivateKey "-----BEGIN OPENSSH PRIVATE KEY-----b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAaAAAABNlY2RzYS1zaGEyLW5pc3RwMjU2AAAACG5pc3RwMjU2AAAAQQQbIasl5Gh2GNPIIowEPyJAzZIjgbBZ2uDggWyZI5qnIeWLFa3OjG9bG2CmmGWcVMwkG96Xr9das+bG8/SK5mJQAAAAuAFsZmYBbGZmAAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBshqyXkaHYY08gijAQ/IkDNkiOBsFna4OCBbJkjmqch5YsVrc6Mb1sbYKaYZZxUzCQb3pev11qz5sbz9IrmYlAAAAAhAMYeVSy3xRUDxfhRxbXeuc4SxDKt5teAnnwaNwuCTmP8AAAAGW5pY2hvbGFzQFNlY0plZGlBaXIubG9jYWwBAgMEBQY=-----END OPENSSH PRIVATE KEY-----" -AllowInstallPackages
+            $linuxProfile.ProfileId | Should -Not -BeNullOrEmpty
+            { Update-ZNSettingsLinuxProfile -ProfileId $linuxProfile.ProfileId -AllowInstallPackages:$false } | Should -Not -Throw
+        }
+        finally {
+            if ($linuxProfile -and $linuxProfile.ProfileId) { Remove-ZNSettingsLinuxProfile -ProfileId $linuxProfile.ProfileId -ErrorAction SilentlyContinue }
+        }
     }
 }

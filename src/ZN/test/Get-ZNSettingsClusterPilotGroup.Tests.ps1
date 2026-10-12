@@ -16,8 +16,19 @@ if(($null -eq $TestName) -or ($TestName -contains 'Get-ZNSettingsClusterPilotGro
 
 Describe 'Get-ZNSettingsClusterPilotGroup' {
     It 'Get' {
-        $clusterPilotGroup = (Get-ZNSettingsDeploymentsCluster).Items | where {$_.Name -eq "Pilot"}
-        Update-ZnSettingsClusterPilotGroup -Product segment-server -ClusterId $clusterPilotGroup.Id
-        (Get-ZNSettingsClusterPilotGroup -Product segment-server).ClusterId | Should -Be $clusterPilotGroup.Id
+        # NOTE: static fix, not verified live (changes a tenant-wide setting). Get-ZNSettingsDeploymentsCluster returns a plain array and the tenant has no cluster named 'Pilot'.
+        $cluster = @(Get-ZNSettingsDeploymentsCluster) | Select-Object -First 1
+        if (-not $cluster -or -not $cluster.Id) { Set-ItResult -Skipped -Because 'no deployments cluster available on this tenant'; return }
+        # the Get answers NotFound when no pilot group is set
+        $original = $null
+        try { $original = (Get-ZNSettingsClusterPilotGroup -Product segment-server -ErrorAction Stop).ClusterId } catch { $original = $null }
+        try {
+            Update-ZNSettingsClusterPilotGroup -Product segment-server -ClusterId $cluster.Id
+            (Get-ZNSettingsClusterPilotGroup -Product segment-server).ClusterId | Should -Be $cluster.Id
+        }
+        finally {
+            if ($original) { Update-ZNSettingsClusterPilotGroup -Product segment-server -ClusterId $original -ErrorAction SilentlyContinue }
+            else { Clear-ZNSettingsClusterPilotGroup -Product segment-server -ErrorAction SilentlyContinue }
+        }
     }
 }
