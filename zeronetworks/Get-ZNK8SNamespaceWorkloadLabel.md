@@ -23,7 +23,7 @@ Returns a list of labels for the K8s namespace workload.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: List namespace labels
 ```powershell
 $k8sCluster = (Get-ZNK8SCluster).Items | Select-Object -First 1 
 $k8snamespace = ((Get-ZNK8SClusterNamespace -K8SClusterId $k8sCluster.Id -Limit 400).Items | where {$_.Name -eq "tcp-demo"})
@@ -154,7 +154,7 @@ Accept wildcard characters: False
 what column to order on
 
 ```yaml
-Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
+Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
 Parameter Sets: (All)
 Aliases:
 

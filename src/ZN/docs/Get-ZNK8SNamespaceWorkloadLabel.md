@@ -23,7 +23,7 @@ Returns a list of labels for the K8s namespace workload.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: List namespace labels
 ```powershell
 $k8sCluster = (Get-ZNK8SCluster).Items | Select-Object -First 1 
 $k8snamespace = ((Get-ZNK8SClusterNamespace -K8SClusterId $k8sCluster.Id -Limit 400).Items | where {$_.Name -eq "tcp-demo"})

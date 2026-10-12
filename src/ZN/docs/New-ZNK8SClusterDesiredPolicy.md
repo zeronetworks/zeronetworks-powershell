@@ -25,7 +25,7 @@ Create a desired-state network policy, optionally with an initial set of desired
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Create a desiried network policy
 ```powershell
 $rule = New-ZNK8SDesiredRuleBody -Action Allow -Direction Inbound -NamespaceName "powershell" -NetworkPolicyName "newpolicy"                                                                                      
 $k8scluster = (Get-ZNK8SCluster).Items | where {$_.Name -eq "rke"} |Select-Object -First 1 

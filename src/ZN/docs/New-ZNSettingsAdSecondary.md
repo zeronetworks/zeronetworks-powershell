@@ -24,7 +24,7 @@ Add a secondary AD settings in Asset Management
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Add secondary domain
 ```powershell
 $forest = Get-ZNSettingsAd | where {$_.ActiveDirectoryInfoDomainName -eq "newforest.local"}
 New-ZNSettingsAdSecondary -ForestId $$forest.ForestId -Dc dc.child.newforest.local -Domain child.newforest.local

@@ -1,4 +1,4 @@
-### Example 1: {{ Add title here }}
+### Example 1: Update an RPC rule
 ```powershell
 $group = (Get-ZNGroup -Search 'domain controllers').Items | where {$_.Id -like 'g:t:*'}
 Update-ZNGroupsRpcRule -GroupId $group.Id -GroupType tag -RuleId "114b8846-2594-477f-bf95-f2c57ee964dd" -Description "Updated Description"

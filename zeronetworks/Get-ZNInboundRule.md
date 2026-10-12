@@ -29,11 +29,8 @@ Returns the properties of an Inbound rule.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: List inbound rules
 ```powershell
-{{ Add code here }}
-```
-
 Get-ZNInboundRule
 ```
 
@@ -79,22 +76,6 @@ UpdatedByName              :
 ```
 
 Get a specific inbound rule.
-
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 
@@ -237,7 +218,7 @@ Accept wildcard characters: False
 what column to order on
 
 ```yaml
-Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
+Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
 Parameter Sets: List
 Aliases:
 
