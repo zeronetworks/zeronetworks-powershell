@@ -5,3 +5,4 @@ tools/scripts/*
 openapi.yaml
 openapi-flattened.yaml
 openapi.old.yaml
+release/
