@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -EntityId
-Azure cloud entity ID - a tenant, a subscription or a resource group
+AWS cloud deployment entity ID
 
 ```yaml
 Type: System.String

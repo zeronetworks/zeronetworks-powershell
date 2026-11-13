@@ -10,13 +10,15 @@ schema: 2.0.0
 ## SYNOPSIS
 Create a desired-state rule on an existing network policy.
 networkPolicyUid is enriched server-side from the policy.
+isSystemRule is for Zero Networks internal admins only and returns 403 for any other caller.
+A customer rule in a SYSTEM (Zero Networks managed) policy returns 403, and a system rule in a customer policy returns 400.
 
 ## SYNTAX
 
 ```
 New-ZNK8SClusterDesiredRule -K8SClusterId <String> -Action <Int32> -ClusterId <String> -Direction <Int32>
  -NetworkPolicyId <String> -NetworkPolicyName <String> [-AccountName <String>] [-ChangeTicket <String>]
- [-Description <String>] [-Id <String>] [-NamespaceName <String>] [-Ports <IPortsListItem[]>]
+ [-Description <String>] [-IsSystemRule] [-NamespaceName <String>] [-Ports <IPortsListItem[]>]
  [-RemotePeerSelectors <IK8SPeerSelector[]>] [-RemotePeerSelectorsYaml <String>] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
@@ -24,6 +26,8 @@ New-ZNK8SClusterDesiredRule -K8SClusterId <String> -Action <Int32> -ClusterId <S
 ## DESCRIPTION
 Create a desired-state rule on an existing network policy.
 networkPolicyUid is enriched server-side from the policy.
+isSystemRule is for Zero Networks internal admins only and returns 403 for any other caller.
+A customer rule in a SYSTEM (Zero Networks managed) policy returns 403, and a system rule in a customer policy returns 400.
 
 ## EXAMPLES
 
@@ -169,11 +173,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Id
-.
+### -IsSystemRule
+Creates a SYSTEM (Zero Networks managed) rule.
+Zero Networks internal admins only; any other caller gets 403.
 
 ```yaml
-Type: System.String
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 

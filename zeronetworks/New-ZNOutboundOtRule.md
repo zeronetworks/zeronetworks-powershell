@@ -16,7 +16,7 @@ Create an OT/IoT rule
 New-ZNOutboundOtRule -Action <Int32> -LocalEntityId <String> -ProtocolsList <ISwitchProtocolsListBodyItem[]>
  -RemoteEntitiesIdList <String[]> -ShouldBuildMirrorRules -State <Int32> [-AccountName <String>]
  [-ChangeTicket <String>] [-Description <String>] [-Direction <Int32>] [-ExcludedLocalIdsList <String[]>]
- [-ExpiresAt <Int64>] [-LocalProcessesList <String[]>] [-ServicesList <String[]>]
+ [-ExpiresAt <Int64>] [-LocalProcessesList <String[]>] [-ServicesList <String[]>] [-SkipAudit]
  [-SrcUsersList <ISrcUsersListItem[]>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
@@ -265,6 +265,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SkipAudit
+.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

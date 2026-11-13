@@ -194,7 +194,7 @@ Accept wildcard characters: False
 what column to order on
 
 ```yaml
-Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
+Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
 Parameter Sets: Get
 Aliases:
 
@@ -243,12 +243,13 @@ To create the parameters described below, construct a hash table containing the 
 
 
 `INPUTOBJECT <IApiIdentity>`: Identity Parameter
-  - `[AccountId <String>]`: AWS Account ID
+  - `[AccountId <String>]`: AWS account entity ID
   - `[ActivityType <String>]`: the activity type
   - `[AlertId <String>]`: The id of the network alert
   - `[ApplicationName <String>]`: application name to filter on
   - `[AssetId <String>]`: assetId to filter on
   - `[ClientId <String>]`: clientId to filter on
+  - `[CloudEntityId <String>]`: AWS cloud entity ID - a cloud deployment or an account
   - `[ConnectServerId <String>]`: connect server id
   - `[CustomUserId <String>]`: id of the customer user
   - `[DeploymentId <String>]`: id of the deployment
@@ -256,7 +257,8 @@ To create the parameters described below, construct a hash table containing the 
   - `[DomainId <String>]`: The fqdn of the domain
   - `[DomainName <String>]`: The AD domain name
   - `[Dvplatform <String>]`: platform
-  - `[EntityId <String>]`: Azure cloud entity ID - a tenant, a subscription or a resource group
+  - `[EntityId <String>]`: AWS cloud deployment entity ID
+  - `[ExclusionId <String>]`: The id of the network alert exclusion
   - `[ExportId <String>]`: exportId to download
   - `[ExternalId <String>]`: The external id of the group
   - `[FieldName <String>]`: The field name to filter on

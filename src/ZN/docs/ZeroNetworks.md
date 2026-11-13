@@ -787,8 +787,17 @@ Returns a k8s cluster.
 ### [Get-ZNK8SClusterApplication](Get-ZNK8SClusterApplication.md)
 Returns a list of applications for the K8s.
 
+### [Get-ZNK8SClusterApplicationInboundRule](Get-ZNK8SClusterApplicationInboundRule.md)
+Returns a list of rules in the k8s cluster application.
+
 ### [Get-ZNK8SClusterApplicationNamespace](Get-ZNK8SClusterApplicationNamespace.md)
 Returns a list of namespaces for an application in the k8s cluster.
+
+### [Get-ZNK8SClusterApplicationOutboundRule](Get-ZNK8SClusterApplicationOutboundRule.md)
+Returns a list of rules in the k8s cluster application.
+
+### [Get-ZNK8SClusterApplicationRule](Get-ZNK8SClusterApplicationRule.md)
+Returns a list of rules in the k8s cluster application.
 
 ### [Get-ZNK8SClusterApplicationWorkload](Get-ZNK8SClusterApplicationWorkload.md)
 Returns a list of workloads for a application in the k8s cluster.
@@ -869,6 +878,9 @@ Returns a service for k8s cluster.
 ### [Get-ZNK8SClusterWorkload](Get-ZNK8SClusterWorkload.md)
 Returns a workload for k8s cluster.
 
+### [Get-ZNK8SClusterWorkloadService](Get-ZNK8SClusterWorkloadService.md)
+Returns a service for a k8s cluster workload.
+
 ### [Get-ZNK8SNamespace](Get-ZNK8SNamespace.md)
 Returns a list of namespaces for the k8s.
 
@@ -899,6 +911,9 @@ Returns a workload for k8s namespace.
 ### [Get-ZNK8SNamespaceWorkloadLabel](Get-ZNK8SNamespaceWorkloadLabel.md)
 Returns a list of labels for the K8s namespace workload.
 
+### [Get-ZNK8SNamespaceWorkloadService](Get-ZNK8SNamespaceWorkloadService.md)
+Returns a service for a k8s namespace workload.
+
 ### [Get-ZNK8SNode](Get-ZNK8SNode.md)
 Returns a single K8s node.
 
@@ -907,6 +922,9 @@ Returns a workload for k8s.
 
 ### [Get-ZNK8SWorkloadLabel](Get-ZNK8SWorkloadLabel.md)
 Returns a list of labels for the K8s workload.
+
+### [Get-ZNK8SWorkloadService](Get-ZNK8SWorkloadService.md)
+Returns a service for a k8s workload.
 
 ### [Get-ZNLabelsKeyCandidate](Get-ZNLabelsKeyCandidate.md)
 Returns a list of key candidates for labels
@@ -979,6 +997,18 @@ Returns an object with MFA statistics.
 
 ### [Get-ZNNetworkAlert](Get-ZNNetworkAlert.md)
 Returns a single network alert.
+
+### [Get-ZNNetworkAlertExclusion](Get-ZNNetworkAlertExclusion.md)
+Returns a single network alert exclusion.
+
+### [Get-ZNNetworkAlertExclusionsAlertTypeCandidate](Get-ZNNetworkAlertExclusionsAlertTypeCandidate.md)
+Returns the alert types that already appeared in this environment.
+
+### [Get-ZNNetworkAlertExclusionsInvolvedEntityCandidate](Get-ZNNetworkAlertExclusionsInvolvedEntityCandidate.md)
+Returns a list of asset, group and IP candidates for the involved assets.
+
+### [Get-ZNNetworkAlertExclusionsMainEntityCandidate](Get-ZNNetworkAlertExclusionsMainEntityCandidate.md)
+Returns a list of asset and group candidates for the main entities.
 
 ### [Get-ZNNetworkAlertsAssigneeCandidate](Get-ZNNetworkAlertsAssigneeCandidate.md)
 Returns a list of assignee candidates for the assignee filter, including an \"Unassigned\" pseudo-candidate.
@@ -1156,6 +1186,9 @@ Get Default SSO Application settings in Identity Providers
 
 ### [Get-ZNSettingsDeploymentsCluster](Get-ZNSettingsDeploymentsCluster.md)
 Returns deployments Clusters.
+
+### [Get-ZNSettingsDeploymentsClustersMappingSource](Get-ZNSettingsDeploymentsClustersMappingSource.md)
+Returns the sources by which assets are mapped to the deployments cluster.
 
 ### [Get-ZNSettingsDesiredVersion](Get-ZNSettingsDesiredVersion.md)
 Get desired version
@@ -1658,10 +1691,13 @@ Returns a list of k8s cluster.
 
 ### [New-ZNK8SClusterDesiredPolicy](New-ZNK8SClusterDesiredPolicy.md)
 Create a desired-state network policy, optionally with an initial set of desired rules.
+isSystemPolicy is for Zero Networks internal admins only and returns 403 for any other caller.
 
 ### [New-ZNK8SClusterDesiredRule](New-ZNK8SClusterDesiredRule.md)
 Create a desired-state rule on an existing network policy.
 networkPolicyUid is enriched server-side from the policy.
+isSystemRule is for Zero Networks internal admins only and returns 403 for any other caller.
+A customer rule in a SYSTEM (Zero Networks managed) policy returns 403, and a system rule in a customer policy returns 400.
 
 ### [New-ZNK8SDesiredRuleBody](New-ZNK8SDesiredRuleBody.md)
 Create a in-memory object for K8s desired rule for a new policy
@@ -1686,6 +1722,11 @@ Returns the properties of the inbound MFA policy after creation.
 
 ### [New-ZNMfaOutboundPolicy](New-ZNMfaOutboundPolicy.md)
 Returns a the properties of outbound MFA policy created.
+
+### [New-ZNNetworkAlertExclusion](New-ZNNetworkAlertExclusion.md)
+Create an exclusion.
+When sourceAlertId is set, that alert is closed with closure reason Excluded.
+When applyToExistingAlerts is true, every open alert the exclusion fully covers is closed the same way.
 
 ### [New-ZNNetworkOnboardingPolicy](New-ZNNetworkOnboardingPolicy.md)
 Returns the network onboarding policy that was created.
@@ -1943,11 +1984,13 @@ Returns an empty object.
 
 ### [Remove-ZNK8SClusterDesiredPolicy](Remove-ZNK8SClusterDesiredPolicy.md)
 Deletes desired-state network policies by ID.
+SYSTEM (Zero Networks managed) rows can be changed only by Zero Networks internal admins; any other caller gets 403.
 
 ### [Remove-ZNK8SClusterDesiredRule](Remove-ZNK8SClusterDesiredRule.md)
 Deletes desired-state rules.
 PENDING_DEPLOYMENT rules are hard-deleted; DEPLOYED rules transition to PENDING_DELETION.
 Returns 412 when the request would leave a policy with no active rules.
+SYSTEM (Zero Networks managed) rows can be changed only by Zero Networks internal admins; any other caller gets 403.
 
 ### [Remove-ZNMfaIdentityPolicy](Remove-ZNMfaIdentityPolicy.md)
 Returns an empty object.
@@ -1957,6 +2000,10 @@ Returns an empty object.
 
 ### [Remove-ZNMfaOutboundPolicy](Remove-ZNMfaOutboundPolicy.md)
 Returns an empty object.
+
+### [Remove-ZNNetworkAlertExclusion](Remove-ZNNetworkAlertExclusion.md)
+Deletes the exclusion.
+Matching activity will delete new alerts again.
 
 ### [Remove-ZNNetworkOnboardingPolicy](Remove-ZNNetworkOnboardingPolicy.md)
 Returns and empty object.
@@ -2304,6 +2351,7 @@ Marks a batch of deployed-but-not-desired policies as desired.
 All requested policies must be in (is_deployed=true, is_desired=false); if any is not, the whole batch fails with 412.
 Deployed-but-not-desired child rules are promoted in the same transaction.
 Max 100 IDs per request.
+SYSTEM (Zero Networks managed) policies cannot be approved and return 403.
 
 ### [Update-ZNK8SClusterDesiredPolicy](Update-ZNK8SClusterDesiredPolicy.md)
 Updates a K8s desired policy.
@@ -2316,6 +2364,7 @@ Marks a batch of deployed-but-not-desired rules as desired.
 All requested rules must be in (is_deployed=true, is_desired=false); if any is not, the whole batch fails with 412.
 For rules whose parent network policy is also deployed-but-not-desired, the policy is promoted in the same transaction.
 Max 100 IDs per request.
+Rules that are SYSTEM (Zero Networks managed) or belong to a SYSTEM policy cannot be approved and return 403.
 
 ### [Update-ZNMfaIdentityPolicy](Update-ZNMfaIdentityPolicy.md)
 Updates an identity MFA Policy.
@@ -2329,6 +2378,11 @@ Updates an outbound MFA Policy.
 ### [Update-ZNNetworkAlert](Update-ZNNetworkAlert.md)
 Partially update a network alert (state, classification, assignee, comment, change ticket).
 Requires a privileged role.
+
+### [Update-ZNNetworkAlertExclusion](Update-ZNNetworkAlertExclusion.md)
+Replaces the exclusion fields.
+When applyToExistingAlerts is true, every open alert the edited exclusion fully covers is closed with closure reason Excluded.
+No alert is reopened.
 
 ### [Update-ZNNetworkOnboardingPolicy](Update-ZNNetworkOnboardingPolicy.md)
 Returns the updated settings for the network onboarding policy.

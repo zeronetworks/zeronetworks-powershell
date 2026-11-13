@@ -14,8 +14,8 @@ Returns a list of workloads for a namespaces in the k8s cluster.
 
 ```
 Get-ZNK8SClusterNamespaceWorkload -K8SClusterId <String> -K8SNamespaceId <String> [-AccountName <String>]
- [-Filters <String>] [-Limit <Int32>] [-Offset <Int32>] [-Order <String>] [-OrderColumns <List<String>>]
- [-ShowPodlessWorkloads] [-WithCount] [<CommonParameters>]
+ [-Filters <String>] [-IncludeInboundExposure] [-IncludeServices] [-Limit <Int32>] [-Offset <Int32>]
+ [-Order <String>] [-OrderColumns <List<String>>] [-ShowPodlessWorkloads] [-WithCount] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -63,6 +63,37 @@ JSON string URI encoded set of filters
 
 ```yaml
 Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeInboundExposure
+include the inbound exposure of each workload.
+Requires includeServices to be true.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeServices
+include the services that select each workload
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -152,7 +183,7 @@ Accept wildcard characters: False
 what column to order on
 
 ```yaml
-Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
+Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
 Parameter Sets: (All)
 Aliases:
 

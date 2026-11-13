@@ -12,6 +12,7 @@ Marks a batch of deployed-but-not-desired rules as desired.
 All requested rules must be in (is_deployed=true, is_desired=false); if any is not, the whole batch fails with 412.
 For rules whose parent network policy is also deployed-but-not-desired, the policy is promoted in the same transaction.
 Max 100 IDs per request.
+Rules that are SYSTEM (Zero Networks managed) or belong to a SYSTEM policy cannot be approved and return 403.
 
 ## SYNTAX
 
@@ -25,6 +26,7 @@ Marks a batch of deployed-but-not-desired rules as desired.
 All requested rules must be in (is_deployed=true, is_desired=false); if any is not, the whole batch fails with 412.
 For rules whose parent network policy is also deployed-but-not-desired, the policy is promoted in the same transaction.
 Max 100 IDs per request.
+Rules that are SYSTEM (Zero Networks managed) or belong to a SYSTEM policy cannot be approved and return 403.
 
 ## EXAMPLES
 

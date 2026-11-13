@@ -29,7 +29,7 @@ require:
 input-file:
   - $(this-folder)/../openapi-flattened.yaml
 
-module-version: 0.26.90-preview
+module-version: 0.26.100-preview
 title: Api
   
 inlining-threshold: 200
@@ -40,6 +40,9 @@ directive:
   # 2. For New-* cmdlets, ViaIdentity is not required, so CreateViaIdentityExpanded is removed as well
   - where:
       variant: ^Activate$|^ActivateViaIdentity$|^ActivateViaIdentityExpanded$|^AddViaIdentity$|^AddViaIdentityExpanded$|^ApproveViaIdentity$|^Create$|^CreateViaIdentity$|^CreateViaIdentityExpanded$|^Deactivate$|^DeactivateViaIdentity$|^DeactivateViaIdentityExpanded$|^DeleteViaIdentity$|^DeleteViaIdentityExpanded$|^DenyViaIdentity$|^DenyViaIdentityExpanded$|^Enable$|^EnableViaIdentity$|^EnableViaIdentityExpanded$|^ExpandViaIdentity$|^Extend$|^Extend1$|^ExtendViaIdentity$|^ExtendViaIdentityExpanded$|^Generate$|^GenerateViaIdentity$|^GenerateViaIdentityExpanded$|^GetViaIdentity$|^Learn$|^LearnViaIdentity$|^LearnViaIdentityExpanded$|^Mirror$|^Mirror1$|^MirrorViaIdentity$|^MirrorViaIdentityExpanded$|^Move$|^Notify$|^NotifyViaIdentity$|^ProtectViaIdentity$|^ProtectViaIdentityExpanded$|^Queue$|^Queue1$|^QueueViaIdentity$|^QueueViaIdentityExpanded$|^Remove$|^RemoveViaIdentity$|^RemoveViaIdentityExpanded$|^RevokeViaIdentity$|^SearchViaIdentity$|^Set$|^SetViaIdentity$|^SetViaIdentityExpanded$|^Test$|^TestViaIdentity$|^TestViaIdentityExpanded$|^UnprotectViaIdentity$|^UnprotectViaIdentityExpanded$|^UpdateViaIdentity$|^UpdateViaIdentityExpanded$|^ValidateViaIdentity$|^ValidateViaIdentityExpanded$
+    remove: true
+  - where:
+      subject: EnvironmentsEnvironmentRestricted
     remove: true
   - where:
       subject: ^CustomGroupsMember$|^TagGroupsMember$
@@ -79,7 +82,7 @@ directive:
       subject: (.*)Activity$|(.*)Activities(.*)
     remove: true
   - where:
-      subject: (.*)ActivityMap$|^K8sAccessMatrix$
+      subject: (.*)ActivityMap$|^K8sAccessMatrix$|^K8SClusterNamespaceAudit$|^K8SNamespaceAudit$
     remove: true
   - where:
       subject: (.*)Analysis$
@@ -401,7 +404,7 @@ directive:
     set:
       subject: AssetOtActive
   - where:
-      subject: ^SwitchActive$|^SwitchInactive$
+      subject: ^SwitchActive$|^SwitchInactive$|^SwitchExporterSource$
     remove: true
   - where:
       subject: SwitchesActive
@@ -647,7 +650,7 @@ directive:
   # Hide for Custom Wrappers
   - where:
       verb: Update
-      subject: ^AeExclusionsInbound$|^AeExclusionsOutbound$|^AssetExternalAccessPolicy$|^AssetIdentityRule$|^AssetInboundRule$|^AssetInboundOtRule$|^AssetMfaIdentityPolicy$|^AssetMFAInboundPolicy$|^AssetMFAOutboundPolicy$|^AssetOtInboundOtrule$|^AssetOtOutboundOtrule$|^AssetOutboundRule$|^ConnectPolicy$|^ConnectPostureProfile$|^AssetOutboundOtRule$|^AssetOtMFAOutboundPolicy$|^AssetRpcRule$|^CustomGroup$|^ExternalAccessPolicy$|^GroupsExternalAccessPolicy$|^GroupsIdentityRule$|^GroupsInboundRule$|^GroupsInboundOtRule$|^GroupsMfaIdentityPolicy$|^GroupsMFAInboundPolicy$|^GroupsMFAOutboundPolicy$|^GroupsOutboundRule$|^GroupsOutboundOtRule$|^GroupsRpcRule$|^IdentityRule$|^InboundRule$|^InboundOtRule$|^InternalAccessPolicy$|^K8SClusterDesiredPolicy$|^K8SClusterDesiredRule$|^MfaIdentityPolicy$|^MFAInboundPolicy$|^MFAOutboundPolicy$|^OutboundRule$|^OutboundOtRule$|^RpcRule$|^SettingsPushNotification$|^SwitchInboundOtRule$|^SwitchOutboundOtRule$|^UserExternalAccessPolicy$|^UserIdentityRule$|^UserMfaIdentityPolicy$|^UserMfaInboundPolicy$|^UserMfaOutboundPolicy$|^UserOutboundRule$
+      subject: ^AeExclusionsInbound$|^AeExclusionsOutbound$|^AssetExternalAccessPolicy$|^AssetIdentityRule$|^AssetInboundRule$|^AssetInboundOtRule$|^AssetMfaIdentityPolicy$|^AssetMFAInboundPolicy$|^AssetMFAOutboundPolicy$|^AssetOtInboundOtrule$|^AssetOtOutboundOtrule$|^AssetOutboundRule$|^ConnectPolicy$|^ConnectPostureProfile$|^AssetOutboundOtRule$|^AssetOtMFAOutboundPolicy$|^AssetRpcRule$|^CustomGroup$|^ExternalAccessPolicy$|^GroupsExternalAccessPolicy$|^GroupsIdentityRule$|^GroupsInboundRule$|^GroupsInboundOtRule$|^GroupsMfaIdentityPolicy$|^GroupsMFAInboundPolicy$|^GroupsMFAOutboundPolicy$|^GroupsOutboundRule$|^GroupsOutboundOtRule$|^GroupsRpcRule$|^IdentityRule$|^InboundRule$|^InboundOtRule$|^InternalAccessPolicy$|^K8SClusterDesiredPolicy$|^K8SClusterDesiredRule$|^MfaIdentityPolicy$|^MFAInboundPolicy$|^MFAOutboundPolicy$|^NetworkAlertExclusion$|^OutboundRule$|^OutboundOtRule$|^RpcRule$|^SettingsPushNotification$|^SwitchInboundOtRule$|^SwitchOutboundOtRule$|^UserExternalAccessPolicy$|^UserIdentityRule$|^UserMfaIdentityPolicy$|^UserMfaInboundPolicy$|^UserMfaOutboundPolicy$|^UserOutboundRule$
     hide: true
   - where:
       subject: ^AuthLogin$|^AuthChallenge$|^SettingsFirewallMode$|^SettingsFirewallModeAsset$
@@ -657,7 +660,7 @@ directive:
     hide: true
   # cloud
   - where:
-      subject: ^CloudAzure(.*)|^SettingsCloudDeployments(.*)|^SettingsAzureConnector(.*)
+      subject: ^CloudAzure(.*)|^SettingsCloudDeployments(.*)|^SettingsAzureConnector(.*)|^CloudAws(.*)
     remove: true
   # Firewall
   - where:
@@ -665,7 +668,7 @@ directive:
     remove: true
   # Hyerpvisor
   - where:
-      subject: SettingsHypervisor(.*)|^ResyncHypervisor$
+      subject: SettingsHypervisor(.*)|^ResyncHypervisor$|^DashboardJourneyGraph$
     remove: true
   # Health Center
   - where:

@@ -4,7 +4,9 @@ Get-ZNSettingsFirewall
 ```
 
 ```output
-True
+ImplicitIcmpRuleEnabled
+-----------------------
+                  False
 ```
 
 This cmdlet returns the Create implicit ICMP rules settings.

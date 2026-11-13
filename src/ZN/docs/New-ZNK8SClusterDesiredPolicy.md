@@ -9,19 +9,21 @@ schema: 2.0.0
 
 ## SYNOPSIS
 Create a desired-state network policy, optionally with an initial set of desired rules.
+isSystemPolicy is for Zero Networks internal admins only and returns 403 for any other caller.
 
 ## SYNTAX
 
 ```
 New-ZNK8SClusterDesiredPolicy -K8SClusterId <String> [-AccountName <String>] [-ChangeTicket <String>]
  [-Description <String>] [-DesiredRules <IDesiredK8SRuleBody[]>] [-IsEgressPolicy] [-IsIngressPolicy]
- [-LocalPodSelectorMatchExpressionsList <IK8SMatchExpression[]>] [-LocalPodSelectorMatchLabelsMap <List`1[]>]
- [-LocalPodSelectorYaml <String>] [-Name <String>] [-NamespaceName <String>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-IsSystemPolicy] [-LocalPodSelectorMatchExpressionsList <IK8SMatchExpression[]>]
+ [-LocalPodSelectorMatchLabelsMap <List`1[]>] [-LocalPodSelectorYaml <String>] [-Name <String>]
+ [-NamespaceName <String>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Create a desired-state network policy, optionally with an initial set of desired rules.
+isSystemPolicy is for Zero Networks internal admins only and returns 403 for any other caller.
 
 ## EXAMPLES
 
@@ -163,6 +165,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -IsSystemPolicy
+Creates a SYSTEM (Zero Networks managed) policy and its rules.
+Zero Networks internal admins only; any other caller gets 403.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -K8SClusterId
 cluserId to filter on
 
@@ -197,7 +215,7 @@ Accept wildcard characters: False
 Array of [key, value] tuples.
 
 ```yaml
-Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]][]
+Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]][]
 Parameter Sets: (All)
 Aliases:
 

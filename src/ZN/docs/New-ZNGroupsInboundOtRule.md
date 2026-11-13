@@ -17,7 +17,8 @@ New-ZNGroupsInboundOtRule -GroupId <String> -GroupType <String> -Action <Int32> 
  -ProtocolsList <ISwitchProtocolsListBodyItem[]> -RemoteEntitiesIdList <String[]> -ShouldBuildMirrorRules
  -State <Int32> [-AccountName <String>] [-ChangeTicket <String>] [-Description <String>] [-Direction <Int32>]
  [-ExcludedLocalIdsList <String[]>] [-ExpiresAt <Int64>] [-LocalProcessesList <String[]>]
- [-ServicesList <String[]>] [-SrcUsersList <ISrcUsersListItem[]>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-ServicesList <String[]>] [-SkipAudit] [-SrcUsersList <ISrcUsersListItem[]>] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -297,6 +298,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SkipAudit
+.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
