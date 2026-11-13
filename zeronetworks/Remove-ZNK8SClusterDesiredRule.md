@@ -11,6 +11,7 @@ schema: 2.0.0
 Deletes desired-state rules.
 PENDING_DEPLOYMENT rules are hard-deleted; DEPLOYED rules transition to PENDING_DELETION.
 Returns 412 when the request would leave a policy with no active rules.
+SYSTEM (Zero Networks managed) rows can be changed only by Zero Networks internal admins; any other caller gets 403.
 
 ## SYNTAX
 
@@ -30,6 +31,7 @@ Remove-ZNK8SClusterDesiredRule -K8SClusterId <String> -Body <IDeleteDesiredK8SRu
 Deletes desired-state rules.
 PENDING_DEPLOYMENT rules are hard-deleted; DEPLOYED rules transition to PENDING_DELETION.
 Returns 412 when the request would leave a policy with no active rules.
+SYSTEM (Zero Networks managed) rows can be changed only by Zero Networks internal admins; any other caller gets 403.
 
 ## EXAMPLES
 

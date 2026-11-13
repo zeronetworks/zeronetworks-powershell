@@ -6,7 +6,7 @@ Get-ZNSettingsFirewallProfile
 ```output
 InboundAllowDomain   : True
 InboundAllowPrivate  : True
-InboundAllowPublic   : False
+InboundAllowPublic   : True
 InboundBlockDomain   : True
 InboundBlockPrivate  : True
 InboundBlockPublic   : True

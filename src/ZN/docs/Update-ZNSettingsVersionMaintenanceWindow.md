@@ -141,8 +141,8 @@ To create the parameters described below, construct a hash table containing the 
 
 
 `MAINTENANCEWINDOWS <IVersionMaintenanceWindowBodyMaintenanceWindowsItem[]>`: .
-  - `StartTimeUtc <Int32>`: Start hour of maintenance window (0–24)
-  - `Weekday <Int32>`: Day of week (1 = Sunday, 7 = Saturday)
+  - `StartTimeUtc <Int32>`: Start hour of the maintenance window in UTC, a whole hour. The window always lasts 2 hours from this hour; the server sets the duration
+  - `Weekday <Int32>`: Day of week in UTC (1 = Sunday, 7 = Saturday)
   - `[Description <String>]`: Optional description of the version maintenance window
 
 ## RELATED LINKS

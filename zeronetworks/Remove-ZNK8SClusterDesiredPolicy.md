@@ -9,6 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 Deletes desired-state network policies by ID.
+SYSTEM (Zero Networks managed) rows can be changed only by Zero Networks internal admins; any other caller gets 403.
 
 ## SYNTAX
 
@@ -26,6 +27,7 @@ Remove-ZNK8SClusterDesiredPolicy -K8SClusterId <String> -Body <IDeleteDesiredK8S
 
 ## DESCRIPTION
 Deletes desired-state network policies by ID.
+SYSTEM (Zero Networks managed) rows can be changed only by Zero Networks internal admins; any other caller gets 403.
 
 ## EXAMPLES
 

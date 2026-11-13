@@ -14,13 +14,14 @@ Returns a workload for k8s.
 
 ### List (Default)
 ```
-Get-ZNK8SWorkload [-AccountName <String>] [-Filters <String>] [-Limit <Int32>] [-Offset <Int32>]
- [-Order <String>] [-OrderColumns <List<String>>] [-ShowPodlessWorkloads] [-WithCount] [<CommonParameters>]
+Get-ZNK8SWorkload [-AccountName <String>] [-Filters <String>] [-IncludeInboundExposure] [-IncludeServices]
+ [-Limit <Int32>] [-Offset <Int32>] [-Order <String>] [-OrderColumns <List<String>>] [-ShowPodlessWorkloads]
+ [-WithCount] [<CommonParameters>]
 ```
 
 ### Get
 ```
-Get-ZNK8SWorkload -K8SWorkloadId <String> [-AccountName <String>] [<CommonParameters>]
+Get-ZNK8SWorkload -K8SWorkloadId <String> [-AccountName <String>] [-IncludeServices] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -200,6 +201,37 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -IncludeInboundExposure
+include the inbound exposure of each workload.
+Requires includeServices to be true.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeServices
+include the services that select each workload
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -K8SWorkloadId
 id of the K8s workload
 
@@ -264,7 +296,7 @@ Accept wildcard characters: False
 what column to order on
 
 ```yaml
-Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
+Type: System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
 Parameter Sets: List
 Aliases:
 
