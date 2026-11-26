@@ -29,7 +29,7 @@ require:
 input-file:
   - $(this-folder)/../openapi-flattened.yaml
 
-module-version: 0.26.100-preview
+module-version: 0.26.101-preview
 title: Api
   
 inlining-threshold: 200

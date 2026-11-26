@@ -9,7 +9,8 @@ param(
     [Parameter(Mandatory)][string]$SignedPath,
     [Parameter(Mandatory)][string]$Version,
     [switch]$Confirm,
-    [string]$NuGetApiKey
+    # Defaults to $env:ZN_NUGET_API_KEY so the key never has to appear on the command line.
+    [string]$NuGetApiKey = $env:ZN_NUGET_API_KEY
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'ZNReleaseCommon.ps1')
@@ -54,13 +55,19 @@ if ($unsigned.Count) {
 $how = if ($haveAuthenticode) { 'Get-AuthenticodeSignature = Valid' } else { 'signature block present; full chain validation needs Windows' }
 Write-Host "Signatures OK on $($files.Count) files ($how)" -ForegroundColor Green
 
+# 3b. Smoke test in an isolated pwsh: import the signed module and run real cmdlets through the
+# HTTP pipeline so dependency DLLs (Hyak.Common etc.) actually get loaded. Local only, no API key.
+Write-Host "`nSmoke test (isolated pwsh -NoProfile):" -ForegroundColor Cyan
+& pwsh -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot 'Test-ZNModuleSmoke.ps1') -ModulePath $SignedPath | Write-Host
+if ($LASTEXITCODE -ne 0) { throw 'Smoke test failed - do not publish.' }
+
 # 4. Publish
 if (-not $Confirm) {
     Publish-Module -Path $SignedPath -NuGetApiKey 'dry-run' -Repository PSGallery -WhatIf
     Write-Host "`nDry run complete. Re-run with -Confirm -NuGetApiKey <key> to publish for real." -ForegroundColor Yellow
     return
 }
-if (-not $NuGetApiKey) { throw '-NuGetApiKey is required with -Confirm.' }
+if (-not $NuGetApiKey) { throw 'No API key: export ZN_NUGET_API_KEY in this shell (or pass -NuGetApiKey) and re-run.' }
 
 $typed = Read-Host "About to publish ZeroNetworks $Version to PSGallery (irreversible). Type the version to continue"
 if ($typed -ne $Version) { throw 'Version mismatch - aborted, nothing published.' }

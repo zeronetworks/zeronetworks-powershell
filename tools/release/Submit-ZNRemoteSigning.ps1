@@ -25,10 +25,13 @@ $signed = Join-Path $script:ReleaseRoot "$Version/signed/ZeroNetworks"
 Write-Host "Uploading $StagePath -> $bucket/$name"
 # Clear any leftovers from a previous attempt at this version so nothing stale gets signed/shipped.
 foreach ($p in "$bucket/$name", "$bucket/signed/$name") {
+    # `gsutil ls` exits 1 when nothing matches; that's the normal "doesn't exist" answer here.
+    $PSNativeCommandUseErrorActionPreference = $false
     & gsutil -q ls "$p/**" 2>$null | Out-Null
-    if ($LASTEXITCODE -eq 0) { & gsutil -m -q rm -r $p }
+    $exists = $LASTEXITCODE -eq 0
+    $PSNativeCommandUseErrorActionPreference = $true
+    if ($exists) { Write-Host "Removing leftovers at $p"; & gsutil -m -q rm -r $p }
 }
-$global:LASTEXITCODE = 0
 & gsutil -m -q rsync -r $StagePath "$bucket/$name"
 
 $since = (Get-Date).ToUniversalTime().AddSeconds(-5)
