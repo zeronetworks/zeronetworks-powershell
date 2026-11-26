@@ -90,8 +90,11 @@ First, a dry run (no API key needed, nothing leaves the machine):
 pwsh -File tools/release/Publish-ZNRelease.ps1 -SignedPath $signed -Version <version>
 ```
 
-This validates the manifest, verifies every shipped script/manifest file actually carries a valid
-Authenticode signature (refuses to continue if not - that means the sign step silently skipped
+This validates the manifest, checks `bin/` is complete, runs `tools/release/Test-ZNModuleSmoke.ps1`
+in an isolated `pwsh -NoProfile` (imports the signed module by path and runs `Get-ZNAsset` plus a
+`New-ZNCustomGroup -Debug` POST through a dead local proxy, which forces Hyak.Common to load, and fails on
+any "Could not load file or assembly"; nothing leaves the machine), verifies every shipped
+script/manifest file actually carries a valid Authenticode signature (refuses to continue if not - that means the sign step silently skipped
 something and needs investigating, not forcing through), and runs `Publish-Module -WhatIf`.
 
 Once the user has confirmed they want to actually publish: never ask them to paste the NuGet API
@@ -101,7 +104,7 @@ in a separate sandboxed process). Have the user run the real publish themselves,
 terminal, in whichever shell they set the key in:
 
 ```pwsh
-pwsh -File tools/release/Publish-ZNRelease.ps1 -SignedPath $signed -Version <version> -Confirm -NuGetApiKey $env:ZN_NUGET_API_KEY
+pwsh -File tools/release/Publish-ZNRelease.ps1 -SignedPath $signed -Version <version> -Confirm   # reads $env:ZN_NUGET_API_KEY
 ```
 
 The script itself requires typing the version string back as a second confirmation gate before it
