@@ -272,6 +272,27 @@ def flatten_anyof_oneof_schemas(openapi_spec: Dict[str, Any]) -> Dict[str, Any]:
     return openapi_spec
 
 
+# Property client-name overrides applied to components.schemas on every build.
+# (schema, property) -> x-ms-client-name
+CLIENT_NAME_OVERRIDES = {
+    # `error.error` collides with its own schema name: autorest renames it Error1 in the base
+    # model but not in models that allOf it (staleConflictError), which fails to compile with
+    # CS0535. ErrorMessage matches the public property name shipped in 0.26.100-preview.
+    ('error', 'error'): 'errorMessage',
+}
+
+
+def apply_client_name_overrides(openapi_spec: Dict[str, Any]) -> None:
+    schemas = openapi_spec.get('components', {}).get('schemas', {})
+    for (schema_name, prop_name), client_name in CLIENT_NAME_OVERRIDES.items():
+        prop = schemas.get(schema_name, {}).get('properties', {}).get(prop_name)
+        if prop is None:
+            print(f"Warning: override target {schema_name}.{prop_name} not found; skipping")
+            continue
+        prop['x-ms-client-name'] = client_name
+        print(f"Set x-ms-client-name on {schema_name}.{prop_name} -> {client_name}")
+
+
 def main():
     """Main function to process the OpenAPI YAML file."""
     script_dir = Path(__file__).parent
@@ -296,7 +317,8 @@ def main():
     # Flatten anyOf and oneOf schemas
     print("\nFlattening anyOf and oneOf references...\n")
     flattened_spec = flatten_anyof_oneof_schemas(openapi_spec)
-    
+    apply_client_name_overrides(flattened_spec)
+
     # Write to a separate file, leaving the original spec untouched
     print(f"\nWriting flattened spec to: {output_file}")
     try:

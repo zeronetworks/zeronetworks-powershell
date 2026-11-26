@@ -1,3 +1,5 @@
+set -e
+
 python3 tools/flatten-anyof-schemas.py
 redocly bundle src/openapi-flattened.yaml -o src/openapi-flattened.yaml
 
@@ -8,6 +10,10 @@ dotnet add ZeroNetworks.csproj package Newtonsoft.Json
 dotnet add ZeroNetworks.csproj package Hyak.Common
 
 pwsh build-module.ps1
+if [ ! -f bin/ZeroNetworks.private.dll ]; then
+  echo "Build failed: src/ZN/bin/ZeroNetworks.private.dll was not produced" >&2
+  exit 1
+fi
 
 cd ../../
 rm -rf zeronetworks/

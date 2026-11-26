@@ -21,7 +21,8 @@ before running if anything here seems to disagree with them.
 ## Preconditions - check before doing anything else
 
 1. The module must already be built and tested: `src/ZN/bin/ZeroNetworks.private.dll` must exist
-   and reflect what's about to ship. If the user hasn't just built it, ask whether to build+test
+   and reflect what's about to ship, with all its dependency DLLs next to it (see Phase 1). The
+   normal build is `./tools/BuildModuleWithAutorest.sh` from the repo root. If the user hasn't just built it, ask whether to build+test
    now (that still needs the devcontainer toolchain - `pwsh build-module.ps1 -Release -Test`) or
    whether the existing build is already what they want released.
 2. Tools on PATH: `dotnet` (not actually needed for this flow, but `pwsh` modules may want it),
@@ -41,10 +42,21 @@ before running if anything here seems to disagree with them.
 $stage = pwsh -File tools/release/New-ZNReleaseStage.ps1
 ```
 
-This copies the curated file set (mirroring `src/ZN/ZeroNetworks.nuspec`) into
+This copies the curated file set (`$ReleaseItems` in `tools/release/ZNReleaseCommon.ps1`) into
 `release/<version>/ZeroNetworks/`, independent of the real working tree. Show the user the staged
 file listing the script prints. This is the point to sanity-check nothing unexpected is being
 shipped (no test files, no `.cs` sources, no stray secrets) before anything leaves the machine.
+
+**`bin/` must ship complete.** Do NOT derive the file set from `src/ZN/ZeroNetworks.nuspec`: it
+lists only `bin/ZeroNetworks.private.dll` + `deps.json`, so mirroring it ships a module whose
+cmdlets fail with `Could not load file or assembly 'Hyak.Common, Version=1.0.0.0'`. That is exactly
+what broke 0.26.100-preview (customer case #7809). The staged `bin/` must contain
+`ZeroNetworks.private.dll`, `ZeroNetworks.private.deps.json` and every runtime dependency DLL
+listed in that deps.json: `Hyak.Common.dll`, `Newtonsoft.Json.dll`, `Microsoft.CSharp.dll`,
+`System.Threading.dll`, `System.Management.Automation.dll` (the `.pdb` ships too, as in
+0.26.90). `Assert-ZNBinComplete` enforces this in the stage, sign and publish scripts and again on
+the copy downloaded back from the Gallery. If it fails, stop and fix the build; never edit
+the check or hand-copy files to get past it.
 
 ## Phase 2 - Remote sign
 
@@ -100,7 +112,8 @@ same command themselves.
 
 ## After publishing
 
-- The script's last step already runs `Update-Module ZeroNetworks -AllowPrerelease` itself (waiting
+- The script's last step saves the published package back from the Gallery and re-runs the `bin/`
+  completeness check on it, then runs `Update-Module ZeroNetworks -AllowPrerelease` itself (waiting
   for Gallery indexing first, installing instead if the module isn't already present) and verifies
   the installed version matches - confirming the published package is actually installable, not
   just that the upload succeeded. If it reports the new version isn't indexed yet after ~2 minutes,
